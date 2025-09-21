@@ -1,6 +1,6 @@
 [
     {
-        "name": "Chronicle.MCP",
+        "name": "VerticalSlices",
         "path": "${workspaceFolder}/Source",
-        "outputPath": "${workspaceFolder}/Source/bin/Debug/net9.0/Cratis.Chronicle.Mcp.dll"
+        "outputPath": "${workspaceFolder}/Source/bin/Debug/net9.0/Cratis.VerticalSlices.dll"
     }]

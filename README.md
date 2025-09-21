@@ -1,4 +1,4 @@
-# Chronicle.MCP
+# Vertical Slices MCP
 
 [![Discord](https://img.shields.io/discord/1182595891576717413?label=Discord&logo=discord&color=7289da)](https://discord.gg/kt4AMpV8WV)
 [![Docker](https://img.shields.io/docker/v/cratis/vertical-slices-mcp?label=VerticalSlices&logo=docker&sort=semver)](https://hub.docker.com/r/cratis/vertical-slices-mcp)
@@ -21,7 +21,7 @@ For the global user settings, you simply do the following:
 ```json
 "mcp": {
     "servers": {
-        "Chronicle": {
+        "VerticalSlices": {
             "type": "stdio",
             "command": "docker",
             "args": [
@@ -40,7 +40,7 @@ For a local `mcp.json` file, its almost the same:
 ```json
 {
     "servers": {
-        "Chronicle": {
+        "VerticalSlices": {
             "type": "stdio",
             "command": "docker",
             "args": [

@@ -5,8 +5,6 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- Roslyn-->
-    <PackageVersion Include="Cratis.Chronicle.Connections" Version="12.2.1" />
-    <PackageVersion Include="Cratis.Chronicle.Contracts" Version="12.2.1" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.14.0" />
     <!-- Analysis -->

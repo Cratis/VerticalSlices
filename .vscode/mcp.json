@@ -1,23 +1,22 @@
 {
     "servers": {
-        "chronicle-mcp": {
+        "vertical-slices": {
             "type": "stdio",
             "command": "dotnet",
             "args": [
                 "run",
                 "--project",
-                "${workspaceFolder}/Source/Chronicle.MCP.csproj",
+                "${workspaceFolder}/Source/VerticalSlices.csproj",
             ]
         },
-        "Chronicle": {
+        "VerticalSlicesDocker": {
             "type": "stdio",
             "command": "docker",
             "args": [
                 "run",
                 "-i",
                 "--rm",
-                "-eCratis__Chronicle__Mcp__ConnectionString=chronicle://host.docker.internal:35000",
-                "cratis/chronicle-mcp"
+                "cratis/vertical-slices-mcp:latest"
             ]
         }
     }

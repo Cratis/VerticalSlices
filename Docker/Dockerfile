@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 ####################################
-# Cratis Chronicle MCP
+# Cratis Vertical Slices MCP
 # Build runtime image
 ####################################
 FROM mcr.microsoft.com/dotnet/runtime:9.0.0-bookworm-slim
@@ -21,4 +21,4 @@ COPY ./Source/out ./out
 RUN echo $PWD
 RUN ./copy-server-files.sh
 
-ENTRYPOINT ["./Cratis.Chronicle.Mcp"]
+ENTRYPOINT ["./Cratis.VerticalSlices"]

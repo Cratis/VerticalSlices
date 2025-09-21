@@ -10,5 +10,5 @@ cp ./out/$ARCH_FOLDER/*.dll .
 cp ./out/$ARCH_FOLDER/*.json .
 cp ./out/$ARCH_FOLDER/*.xml .
 cp ./out/$ARCH_FOLDER/*.so .
-cp ./out/$ARCH_FOLDER/Cratis.Chronicle.Mcp .
+cp ./out/$ARCH_FOLDER/Cratis.VerticalSlices .
 rm -rf ./out
