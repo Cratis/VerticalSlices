@@ -1,0 +1,37 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "isBuildCommand": true,
+            "args": [
+                "build",
+                "--no-restore",
+                "/p:MaxCpuCount=0",
+                "/p:GenerateFullPaths=true",
+                "/clp:ErrorsOnly",
+                "/consoleloggerparameters:NoSummary",
+                "/p:Configuration=Debug",
+                "/p:Platform=AnyCpu",
+                "/p:UseSharedCompilation=true",
+                "${input:project}"
+            ],
+            "problemMatcher": "$msCompile",
+            "runOptions": {
+                "reevaluateOnRerun": false
+            }
+        }
+    ],
+    "inputs": [
+        {
+            "id": "project",
+            "type": "command",
+            "command": "dotnet-build-commands.selectProject",
+            "args": {
+                "file": "${workspaceFolder}/.vscode/projects.json"
+            }
+        }
+    ]
+}

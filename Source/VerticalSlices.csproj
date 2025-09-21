@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Cratis.VerticalSlices</RootNamespace>
+    <AssemblyName>Cratis.VerticalSlices</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Cratis.Chronicle.Connections" />
+    <PackageReference Include="Cratis.Chronicle.Contracts" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Include="ModelContextProtocol" />
+  </ItemGroup>
+
+</Project>

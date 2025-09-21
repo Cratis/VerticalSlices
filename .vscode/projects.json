@@ -1,0 +1,6 @@
+[
+    {
+        "name": "Chronicle.MCP",
+        "path": "${workspaceFolder}/Source",
+        "outputPath": "${workspaceFolder}/Source/bin/Debug/net9.0/Cratis.Chronicle.Mcp.dll"
+    }]

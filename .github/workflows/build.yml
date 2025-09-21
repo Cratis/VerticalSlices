@@ -1,0 +1,33 @@
+name: Build
+
+env:
+  DOTNET_VERSION: "9.0.x"
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "Source/**"
+  pull_request:
+    branches:
+      - "**"
+    paths:
+      - "Source/**"
+
+jobs:
+  dotnet-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .Net
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            ${{ env.DOTNET_VERSION }}
+
+      - name: Build
+        run: dotnet build --configuration Release

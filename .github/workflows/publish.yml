@@ -1,0 +1,155 @@
+name: Publish
+
+env:
+  DOTNET_VERSION: "9.0.x"
+  DOTNET_X64_CACHE: "dotnet-x64-cache-${{ github.sha }}"
+  DOTNET_ARM64_CACHE: "dotnet-arm64-cache-${{ github.sha }}"
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release'
+        required: true
+        default: '0.0.0'
+        type: string
+      release-notes:
+        description: 'Release notes'
+        required: true
+        default: 'No release notes'
+        type: string
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+        type: choice
+        options:
+        - info
+        - warning
+        - debug
+  pull_request:
+    types: [closed]
+    branches:
+      - "**"
+    paths:
+      - "**"
+      - "!Docker/BaseDevelopment/**"
+
+permissions:
+  contents: write
+  deployments: write
+
+jobs:
+  dotnet-x64:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .Net
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            ${{ env.DOTNET_VERSION }}
+
+      - uses: actions/cache@v3
+        id: dotnet-x64-output
+        with:
+          path: ./Source/out/x64
+          key: ${{ env.DOTNET_X64_CACHE }}
+
+      - name: Build x64 - self contained, ready to run
+        working-directory: ./Source
+        run: dotnet publish -c Release -f net9.0 -r linux-x64 -p:PublishReadyToRun=true -p:DisableProxyGenerator=true --self-contained -o out/x64
+
+  dotnet-arm64:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .Net
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            ${{ env.DOTNET_VERSION }}
+
+      - uses: actions/cache@v3
+        id: dotnet-arm64-output
+        with:
+          path: ./Source/out/arm64
+          key: ${{ env.DOTNET_ARM64_CACHE }}
+
+      - name: Build arm64 - self contained, ready to run
+        working-directory: ./Source
+        run: dotnet publish -c Release -f net9.0 -r linux-arm64 -p:PublishReadyToRun=true -p:DisableProxyGenerator=true --self-contained -o out/arm64
+
+  release:
+    runs-on: ubuntu-latest
+    needs: [dotnet-x64, dotnet-arm64]
+    outputs:
+      version: ${{ steps.release.outputs.version }}
+      publish: ${{ steps.release.outputs.should-publish }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Release
+        id: release
+        uses: cratis/release-action@v1
+        with:
+          version: ${{ github.event.inputs.version }}
+          release-notes: ${{ github.event.inputs.release-notes }}
+
+  publish-docker-production:
+    if: needs.release.outputs.publish == 'true'
+    runs-on: ubuntu-latest
+    needs: [release]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - uses: actions/cache@v3
+        id: dotnet-x64-output
+        with:
+          path: ./Source/out/x64
+          key: ${{ env.DOTNET_X64_CACHE }}
+
+      - uses: actions/cache@v3
+        id: dotnet-arm64-output
+        with:
+          path: ./Source/out/arm64
+          key: ${{ env.DOTNET_ARM64_CACHE }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@master
+        with:
+          platforms: all
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@master
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Production Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          builder: ${{ steps.buildx.outputs.name }}
+          context: .
+          file: ./Docker/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            cratis/vertical-slices-mcp:${{ needs.release.outputs.version }}
+            cratis/vertical-slices-mcp:latest
+          build-args: |
+            VERSION=${{ needs.release.outputs.version }}

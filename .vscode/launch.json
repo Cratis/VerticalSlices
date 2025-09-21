@@ -1,0 +1,72 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "launch",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "cwd": "${input:project}",
+            "program": "${input:target}",
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "name": "launch-njmc",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${input:target}",
+            "cwd": "${input:project}",
+            "stopAtEntry": false,
+            "justMyCode": false,
+            "requireExactSource": false,
+            "symbolOptions": {
+                "moduleFilter": {
+                    "mode": "loadOnlyIncluded",
+                    "includedModules": [
+                        "Cratis.*.dll"
+                    ]
+                },
+                "searchPaths": [],
+                "searchMicrosoftSymbolServer": false,
+                "searchNuGetOrgSymbolServer": true
+            },
+            "suppressJITOptimizations": true,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/home/runner/work/orleans/orleans": "/Volumes/Code/Microsoft/dotnet/orleans",
+                "/home/runner/work/applications/applications": "/Volumes/Code/Cratis/Applications"
+            }
+        },
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach"
+        }
+    ],
+    "inputs": [
+        {
+            "id": "project",
+            "type": "command",
+            "command": "dotnet-build-commands.selectProjectForLaunch",
+            "args": {
+                "file": "${workspaceFolder}/.vscode/projects.json"
+            }
+        },
+        {
+            "id": "target",
+            "type": "command",
+            "command": "dotnet-build-commands.getTarget"
+        }
+    ],
+    "compounds": []
+}
