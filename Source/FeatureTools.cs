@@ -158,7 +158,7 @@ public static class FeatureTools
     {
         return types
             .Where(type => type.CustomAttributes.Any(attr => attr.AttributeType.Name == "CommandAttribute"))
-            .Select(type => new Command(type.Name, GetProperties(type)))
+            .Select(type => new Command(type.Name, ExtractXmlDocumentationSummary(type), GetProperties(type)))
             .ToArray();
     }
 
@@ -166,7 +166,7 @@ public static class FeatureTools
     {
         return types
             .Where(type => type.CustomAttributes.Any(attr => attr.AttributeType.Name == "ReadModelAttribute"))
-            .Select(type => new ReadModel(type.Name, GetProperties(type)))
+            .Select(type => new ReadModel(type.Name, ExtractXmlDocumentationSummary(type), GetProperties(type)))
             .ToArray();
     }
 
@@ -174,7 +174,7 @@ public static class FeatureTools
     {
         return types
             .Where(type => type.CustomAttributes.Any(attr => attr.AttributeType.Name == "EventTypeAttribute"))
-            .Select(type => new EventType(type.Name, GetProperties(type)))
+            .Select(type => new EventType(type.Name, ExtractXmlDocumentationSummary(type), GetProperties(type)))
             .ToArray();
     }
 
@@ -196,7 +196,7 @@ public static class FeatureTools
                         .Select(p => new Property(p.Name ?? "parameter", GetTypeName(p.ParameterType)))
                         .ToArray();
 
-                    queries.Add(new Query(method.Name, readModelName, parameters));
+                    queries.Add(new Query(method.Name, ExtractXmlDocumentationSummary(method), readModelName, parameters));
                 }
             }
         }
@@ -262,5 +262,76 @@ public static class FeatureTools
             "DateTime" => "DateTime",
             _ => type.Name
         };
+    }
+
+    static string ExtractXmlDocumentationSummary(Type type)
+    {
+        try
+        {
+            // Try to get XML documentation from assembly XML file
+            var assemblyLocation = type.Assembly.Location;
+            var xmlDocPath = Path.ChangeExtension(assemblyLocation, ".xml");
+
+            if (File.Exists(xmlDocPath))
+            {
+                var xmlDoc = new System.Xml.XmlDocument();
+                xmlDoc.Load(xmlDocPath);
+
+                var typeName = type.FullName?.Replace('+', '.');
+                var memberPath = $"T:{typeName}";
+
+                var memberNode = xmlDoc.SelectSingleNode($"//member[@name='{memberPath}']");
+                var summaryNode = memberNode?.SelectSingleNode("summary");
+
+                if (summaryNode is not null)
+                {
+                    return summaryNode.InnerText.Trim();
+                }
+            }
+        }
+        catch
+        {
+            // If XML documentation extraction fails, fall back to empty string
+        }
+
+        return string.Empty;
+    }
+
+    static string ExtractXmlDocumentationSummary(MethodInfo method)
+    {
+        try
+        {
+            // Try to get XML documentation from assembly XML file
+            var assemblyLocation = method.DeclaringType?.Assembly.Location;
+            if (assemblyLocation is null) return string.Empty;
+
+            var xmlDocPath = Path.ChangeExtension(assemblyLocation, ".xml");
+
+            if (File.Exists(xmlDocPath))
+            {
+                var xmlDoc = new System.Xml.XmlDocument();
+                xmlDoc.Load(xmlDocPath);
+
+                var typeName = method.DeclaringType?.FullName?.Replace('+', '.');
+                var parameters = string.Join(',', method.GetParameters().Select(p => p.ParameterType.FullName));
+                var memberPath = parameters.Length > 0
+                    ? $"M:{typeName}.{method.Name}({parameters})"
+                    : $"M:{typeName}.{method.Name}";
+
+                var memberNode = xmlDoc.SelectSingleNode($"//member[@name='{memberPath}']");
+                var summaryNode = memberNode?.SelectSingleNode("summary");
+
+                if (summaryNode is not null)
+                {
+                    return summaryNode.InnerText.Trim();
+                }
+            }
+        }
+        catch
+        {
+            // If XML documentation extraction fails, fall back to empty string
+        }
+
+        return string.Empty;
     }
 }

@@ -4,8 +4,9 @@
 namespace Cratis.VerticalSlices;
 
 /// <summary>
-/// Represents a command.
+/// Represents a read model.
 /// </summary>
-/// <param name="Name">The name of the command.</param>
-/// <param name="Properties">The properties of the command.</param>
-public record ReadModel(string Name, IEnumerable<Property> Properties);
+/// <param name="Name">The name of the read model.</param>
+/// <param name="Description">The description of the read model.</param>
+/// <param name="Properties">The properties of the read model.</param>
+public record ReadModel(string Name, string Description, IEnumerable<Property> Properties);

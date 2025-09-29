@@ -4,8 +4,9 @@
 namespace Cratis.VerticalSlices;
 
 /// <summary>
-/// Represents a command.
+/// Represents an event type.
 /// </summary>
-/// <param name="Name">The name of the command.</param>
-/// <param name="Properties">The properties of the command.</param>
-public record EventType(string Name, IEnumerable<Property> Properties);
+/// <param name="Name">The name of the event type.</param>
+/// <param name="Description">The description of the event type.</param>
+/// <param name="Properties">The properties of the event type.</param>
+public record EventType(string Name, string Description, IEnumerable<Property> Properties);
