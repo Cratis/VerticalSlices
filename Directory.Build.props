@@ -4,6 +4,8 @@
         <LangVersion>13.0</LangVersion>
         <Nullable>enable</Nullable>
 
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
         <WarnOnPackingNonPackableProject>false</WarnOnPackingNonPackableProject>
 
         <!-- Debuggability -->
