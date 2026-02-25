@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <RootNamespace>Cratis.VerticalSlices</RootNamespace>
+    <AssemblyName>Cratis.VerticalSlices</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Engine/VerticalSlices.Engine.csproj" />
+  </ItemGroup>
+</Project>
