@@ -13,7 +13,7 @@ namespace Cratis.VerticalSlices;
 /// <param name="ReadModels">The read models in the vertical slice.</param>
 /// <param name="Events">The events in the vertical slice.</param>
 public record VerticalSlice(
-    string Name,
+    VerticalSliceName Name,
     string VerticalSliceTypes,
     IEnumerable<Command> Commands,
     IEnumerable<Query> Queries,

@@ -10,4 +10,4 @@ namespace Cratis.VerticalSlices;
 /// <param name="Description">The description of the query.</param>
 /// <param name="ReadModel">The read model the query is for.</param>
 /// <param name="Properties">The properties of the query.</param>
-public record Query(string Name, string Description, string ReadModel, IEnumerable<Property> Properties);
+public record Query(QueryName Name, Description Description, ReadModelName ReadModel, IEnumerable<Property> Properties);

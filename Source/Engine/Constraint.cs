@@ -7,5 +7,6 @@ namespace Cratis.VerticalSlices;
 /// Represents a constraint.
 /// </summary>
 /// <param name="Name">The name of the constraint.</param>
-/// <param name="Description">The description of the constraint.</param>
-public record Constraint(string Name, string Description);
+/// <param name="Type">The type of the constraint.</param>
+/// <param name="Properties">The properties the constraint applies to.</param>
+public record Constraint(ConstraintName Name, ConstraintType Type, IEnumerable<PropertyName> Properties);

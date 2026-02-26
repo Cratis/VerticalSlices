@@ -4,6 +4,9 @@
     <AssemblyName>Cratis.VerticalSlices.Engine</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Cratis.Arc" />
+    <PackageReference Include="Cratis.Chronicle" />
+    <PackageReference Include="Cratis.Fundamentals" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
   </ItemGroup>
 </Project>
