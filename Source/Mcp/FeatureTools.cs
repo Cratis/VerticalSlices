@@ -77,6 +77,8 @@ public static class FeatureTools
             var featureName = featureGroup.Key;
             var subFeatures = new List<Feature>();
             var verticalSlices = new List<VerticalSlice>();
+            var allTypesInFeature = featureGroup.SelectMany(g => g).ToArray();
+            var concepts = GetConcepts(allTypesInFeature);
 
             // Process each namespace in this feature
             foreach (var namespaceGroup in featureGroup)
@@ -100,7 +102,7 @@ public static class FeatureTools
                 }
             }
 
-            features.Add(new Feature(featureName, subFeatures, verticalSlices));
+            features.Add(new Feature(featureName, concepts, subFeatures, verticalSlices));
         }
 
         return features;
@@ -109,46 +111,44 @@ public static class FeatureTools
     static VerticalSlice? BuildVerticalSlice(string name, Type[] types)
     {
         var commands = GetCommands(types);
-        var queries = GetQueries(types);
-        var readModels = GetReadModels(types);
         var events = GetEvents(types);
+        var readModels = GetReadModels(types, events);
 
         // If no vertical slice artifacts found, return null
-        if (commands.Length == 0 && queries.Length == 0 && readModels.Length == 0 && events.Length == 0)
+        if (commands.Length == 0 && readModels.Length == 0 && events.Length == 0)
             return null;
 
-        var verticalSliceType = DetermineVerticalSliceType(commands, queries, readModels, events);
+        var verticalSliceType = DetermineVerticalSliceType(commands, readModels, events);
 
-        return new VerticalSlice(name, verticalSliceType, commands, queries, readModels, events);
+        return new VerticalSlice(name, verticalSliceType, null, commands, readModels, events);
     }
 
-    static string DetermineVerticalSliceType(Command[] commands, Query[] queries, ReadModel[] readModels, EventType[] events)
+    static string DetermineVerticalSliceType(Command[] commands, ReadModel[] readModels, EventType[] events)
     {
         var hasCommands = commands.Length > 0;
-        var hasQueries = queries.Length > 0;
         var hasReadModels = readModels.Length > 0;
         var hasEvents = events.Length > 0;
 
         // StateChange - holds one or more commands
-        if (hasCommands && !hasQueries && !hasReadModels)
+        if (hasCommands && !hasReadModels)
             return VerticalSliceTypes.StateChange;
 
-        // StateView - holds one or more queries
-        if (hasQueries && hasReadModels && !hasCommands)
+        // StateView - holds one or more read models without commands
+        if (hasReadModels && !hasCommands)
             return VerticalSliceTypes.StateView;
 
-        // Automation - holds a read-model and a command
-        if (hasCommands && hasReadModels && !hasQueries)
+        // Automation - holds a read model and a command
+        if (hasCommands && hasReadModels)
             return VerticalSliceTypes.Automation;
 
-        // Translator - holds an event, a reactor and translates into a command
+        // Translator - holds events and commands
         if (hasEvents && hasCommands)
             return VerticalSliceTypes.Translator;
 
         // Default fallback based on what's present
         if (hasCommands)
             return VerticalSliceTypes.StateChange;
-        if (hasQueries)
+        if (hasReadModels)
             return VerticalSliceTypes.StateView;
 
         return "Unknown";
@@ -162,12 +162,62 @@ public static class FeatureTools
             .ToArray();
     }
 
-    static ReadModel[] GetReadModels(Type[] types)
+    static ReadModel[] GetReadModels(Type[] types, EventType[] events)
     {
         return types
             .Where(type => type.CustomAttributes.Any(attr => attr.AttributeType.Name == "ReadModelAttribute"))
-            .Select(type => new ReadModel(type.Name, ExtractXmlDocumentationSummary(type), GetProperties(type)))
+            .Select(type =>
+            {
+                var properties = GetProperties(type);
+                var relatedEvents = FindRelatedEvents(type, events);
+
+                return new ReadModel(type.Name, ExtractXmlDocumentationSummary(type), properties, relatedEvents);
+            })
             .ToArray();
+    }
+
+    /// <summary>
+    /// Finds events related to a read model by inspecting projection attributes
+    /// (e.g. SetFrom, AddFrom, Count, RemovedWith) or falling back to all events.
+    /// </summary>
+    /// <param name="readModelType">The read model type to inspect.</param>
+    /// <param name="allEvents">All event types discovered in the slice.</param>
+    /// <returns>The event types this read model projects from.</returns>
+    static EventType[] FindRelatedEvents(Type readModelType, EventType[] allEvents)
+    {
+        var eventNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+        // Inspect type-level attributes (e.g. [RemovedWith<T>])
+        foreach (var attr in readModelType.CustomAttributes)
+        {
+            if (attr.AttributeType.IsGenericType && attr.AttributeType.GenericTypeArguments.Length > 0)
+            {
+                eventNames.Add(attr.AttributeType.GenericTypeArguments[0].Name);
+            }
+        }
+
+        // Inspect property-level attributes (e.g. [SetFrom<T>], [AddFrom<T>], [Count<T>])
+        foreach (var prop in readModelType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+        {
+            foreach (var attr in prop.CustomAttributes)
+            {
+                if (attr.AttributeType.IsGenericType && attr.AttributeType.GenericTypeArguments.Length > 0)
+                {
+                    eventNames.Add(attr.AttributeType.GenericTypeArguments[0].Name);
+                }
+            }
+        }
+
+        // If we found event references via attributes, filter to those
+        if (eventNames.Count > 0)
+        {
+            return allEvents
+                .Where(e => eventNames.Contains(e.Name))
+                .ToArray();
+        }
+
+        // Fallback: associate all events with this read model
+        return allEvents;
     }
 
     static EventType[] GetEvents(Type[] types)
@@ -176,60 +226,6 @@ public static class FeatureTools
             .Where(type => type.CustomAttributes.Any(attr => attr.AttributeType.Name == "EventTypeAttribute"))
             .Select(type => new EventType(type.Name, ExtractXmlDocumentationSummary(type), GetProperties(type)))
             .ToArray();
-    }
-
-    static Query[] GetQueries(Type[] types)
-    {
-        var queries = new List<Query>();
-
-        foreach (var readModelType in types.Where(type => type.CustomAttributes.Any(attr => attr.AttributeType.Name == "ReadModelAttribute")))
-        {
-            foreach (var method in readModelType.GetMethods(BindingFlags.Public | BindingFlags.Static))
-            {
-                var returnType = method.ReturnType;
-                var readModelName = readModelType.Name;
-
-                // Check if method returns the read model, a collection of it, or an ISubject<> of it
-                if (IsQueryMethod(returnType, readModelType))
-                {
-                    var parameters = method.GetParameters()
-                        .Select(p => new Property(p.Name ?? "parameter", GetTypeName(p.ParameterType)))
-                        .ToArray();
-
-                    queries.Add(new Query(method.Name, ExtractXmlDocumentationSummary(method), readModelName, parameters));
-                }
-            }
-        }
-
-        return [.. queries];
-    }
-
-    static bool IsQueryMethod(Type returnType, Type readModelType)
-    {
-        // Returns the read model directly
-        if (returnType == readModelType)
-            return true;
-
-        // Returns a collection of the read model
-        if (returnType.IsGenericType)
-        {
-            var genericType = returnType.GetGenericTypeDefinition();
-            var genericArgs = returnType.GetGenericArguments();
-
-            // Check for IEnumerable<ReadModel>, ICollection<ReadModel>, List<ReadModel>, etc.
-            if (genericArgs.Length == 1 && genericArgs[0] == readModelType)
-            {
-                if (genericType.Name.StartsWith("IEnumerable") ||
-                    genericType.Name.StartsWith("ICollection") ||
-                    genericType.Name.StartsWith("List") ||
-                    genericType.Name.StartsWith("ISubject"))
-                {
-                    return true;
-                }
-            }
-        }
-
-        return false;
     }
 
     static Property[] GetProperties(Type type)
@@ -297,41 +293,61 @@ public static class FeatureTools
         return string.Empty;
     }
 
-    static string ExtractXmlDocumentationSummary(MethodInfo method)
-    {
-        try
-        {
-            // Try to get XML documentation from assembly XML file
-            var assemblyLocation = method.DeclaringType?.Assembly.Location;
-            if (assemblyLocation is null) return string.Empty;
-
-            var xmlDocPath = Path.ChangeExtension(assemblyLocation, ".xml");
-
-            if (File.Exists(xmlDocPath))
+    /// <summary>
+    /// Discovers concept types that derive from ConceptAs in the given types.
+    /// </summary>
+    /// <param name="types">The types to inspect for concept definitions.</param>
+    static Concept[] GetConcepts(Type[] types) =>
+        types
+            .Where(IsConceptType)
+            .Select(type =>
             {
-                var xmlDoc = new System.Xml.XmlDocument();
-                xmlDoc.Load(xmlDocPath);
+                var underlyingType = GetConceptUnderlyingType(type);
+                return new Concept(
+                    type.Name,
+                    GetTypeName(underlyingType),
+                    ExtractXmlDocumentationSummary(type),
+                    []);
+            })
+            .ToArray();
 
-                var typeName = method.DeclaringType?.FullName?.Replace('+', '.');
-                var parameters = string.Join(',', method.GetParameters().Select(p => p.ParameterType.FullName));
-                var memberPath = parameters.Length > 0
-                    ? $"M:{typeName}.{method.Name}({parameters})"
-                    : $"M:{typeName}.{method.Name}";
-
-                var memberNode = xmlDoc.SelectSingleNode($"//member[@name='{memberPath}']");
-                var summaryNode = memberNode?.SelectSingleNode("summary");
-
-                if (summaryNode is not null)
-                {
-                    return summaryNode.InnerText.Trim();
-                }
-            }
-        }
-        catch
+    /// <summary>
+    /// Checks whether a type derives from ConceptAs.
+    /// </summary>
+    /// <param name="type">The type to check.</param>
+    static bool IsConceptType(Type type)
+    {
+        var baseType = type.BaseType;
+        while (baseType is not null)
         {
-            // If XML documentation extraction fails, fall back to empty string
+            if (baseType.IsGenericType && baseType.GetGenericTypeDefinition().Name.StartsWith("ConceptAs"))
+            {
+                return true;
+            }
+
+            baseType = baseType.BaseType;
         }
 
-        return string.Empty;
+        return false;
+    }
+
+    /// <summary>
+    /// Gets the underlying primitive type from a ConceptAs-derived type.
+    /// </summary>
+    /// <param name="type">The concept type to extract the underlying type from.</param>
+    static Type GetConceptUnderlyingType(Type type)
+    {
+        var baseType = type.BaseType;
+        while (baseType is not null)
+        {
+            if (baseType.IsGenericType && baseType.GetGenericTypeDefinition().Name.StartsWith("ConceptAs"))
+            {
+                return baseType.GetGenericArguments()[0];
+            }
+
+            baseType = baseType.BaseType;
+        }
+
+        return typeof(string);
     }
 }

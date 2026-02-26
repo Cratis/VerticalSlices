@@ -1,17 +1,42 @@
 // Copyright (c) Cratis. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using Cratis.VerticalSlices.Chronicle;
+using Cratis.VerticalSlices.CodeGeneration;
+using Cratis.VerticalSlices.CodeGeneration.Output;
+using Cratis.VerticalSlices.CodeGeneration.Renderers;
+
 namespace Cratis.VerticalSlices;
 
 /// <summary>
-/// Defines an engine for setting up vertical slices with Chronicle.
+/// Defines an engine for working with vertical slices. The engine can generate code,
+/// write it to an output target, and register artifacts with a Chronicle instance.
 /// </summary>
 public interface IVerticalSlicesEngine
 {
     /// <summary>
-    /// Sets up the vertical slices structure with Chronicle.
+    /// Generates code for all vertical slices in the given features, writes them
+    /// to the specified output, and registers artifacts with Chronicle.
     /// </summary>
-    /// <param name="features">The features to set up.</param>
+    /// <param name="features">The features containing vertical slices.</param>
+    /// <param name="output">The output target for generated code. When null, code generation is skipped.</param>
+    /// <param name="chronicle">The Chronicle registration target. When null, registration is skipped.</param>
+    /// <param name="renderSet">The artifact render set to use. Defaults to model-bound when null.</param>
+    /// <param name="ct">The cancellation token.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    Task Setup(IEnumerable<Feature> features);
+    Task Process(
+        IEnumerable<Feature> features,
+        ICodeOutput? output = null,
+        IChronicleRegistration? chronicle = null,
+        ArtifactRenderSet? renderSet = null,
+        CancellationToken ct = default);
+
+    /// <summary>
+    /// Generates code for all vertical slices and returns the files in memory without writing them.
+    /// Useful for preview in a UI.
+    /// </summary>
+    /// <param name="features">The features containing vertical slices.</param>
+    /// <param name="renderSet">The artifact render set to use. Defaults to model-bound when null.</param>
+    /// <returns>The generated files.</returns>
+    IEnumerable<GeneratedFile> Preview(IEnumerable<Feature> features, ArtifactRenderSet? renderSet = null);
 }

@@ -3,10 +3,20 @@
 
 using System.Text.Json;
 using Cratis.VerticalSlices;
+using Cratis.VerticalSlices.Chronicle;
+using Cratis.VerticalSlices.CodeGeneration;
+using Cratis.VerticalSlices.CodeGeneration.Output;
+using Cratis.VerticalSlices.CodeGeneration.SliceTypes;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddSingleton<ISliceTypeCodeGenerator, StateChangeCodeGenerator>();
+builder.Services.AddSingleton<ISliceTypeCodeGenerator, StateViewCodeGenerator>();
+builder.Services.AddSingleton<ISliceTypeCodeGenerator, AutomationCodeGenerator>();
+builder.Services.AddSingleton<ISliceTypeCodeGenerator, TranslationCodeGenerator>();
+builder.Services.AddSingleton<IVerticalSliceCodeGenerator, VerticalSliceCodeGenerator>();
 builder.Services.AddSingleton<IVerticalSlicesEngine, VerticalSlicesEngine>();
+builder.Services.AddSingleton<IChronicleRegistration, NoOpChronicleRegistration>();
 
 var app = builder.Build();
 
@@ -17,9 +27,29 @@ if (File.Exists(structureFile))
     var features = JsonSerializer.Deserialize<IEnumerable<Feature>>(json, JsonSerializerOptions.Web) ?? [];
 
     var engine = app.Services.GetRequiredService<IVerticalSlicesEngine>();
-    await engine.Setup(features);
+    var outputRoot = app.Configuration["VerticalSlices:OutputRoot"] ?? "./generated";
+    var loggerFactory = app.Services.GetRequiredService<ILoggerFactory>();
+    var output = new LocalFileSystemOutput(outputRoot, loggerFactory.CreateLogger<LocalFileSystemOutput>());
+    var chronicle = app.Services.GetRequiredService<IChronicleRegistration>();
+
+    await engine.Process(features, output, chronicle);
 }
 
 app.MapGet("/", () => "VerticalSlices Engine is running.");
+
+app.MapGet("/preview", (IVerticalSlicesEngine engine) =>
+{
+    var structurePath = app.Configuration["VerticalSlices:StructureFile"] ?? "vertical-slices-structure.json";
+    if (!File.Exists(structurePath))
+    {
+        return Results.NotFound("No vertical slices structure file found.");
+    }
+
+    var json = File.ReadAllText(structurePath);
+    var features = JsonSerializer.Deserialize<IEnumerable<Feature>>(json, JsonSerializerOptions.Web) ?? [];
+    var files = engine.Preview(features);
+
+    return Results.Ok(files);
+});
 
 await app.RunAsync();

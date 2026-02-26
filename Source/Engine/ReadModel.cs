@@ -4,9 +4,10 @@
 namespace Cratis.VerticalSlices;
 
 /// <summary>
-/// Represents a read model.
+/// Represents a read model. A read model is both the projection of events and the query surface.
 /// </summary>
 /// <param name="Name">The name of the read model.</param>
 /// <param name="Description">The description of the read model.</param>
 /// <param name="Properties">The properties of the read model.</param>
-public record ReadModel(string Name, string Description, IEnumerable<Property> Properties);
+/// <param name="Events">The event types this read model projects from.</param>
+public record ReadModel(string Name, string Description, IEnumerable<Property> Properties, IEnumerable<EventType> Events);

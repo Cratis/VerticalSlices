@@ -7,6 +7,7 @@ namespace Cratis.VerticalSlices;
 /// Represents a feature.
 /// </summary>
 /// <param name="Name">The name of the feature.</param>
+/// <param name="Concepts">The domain concepts defined in this feature scope.</param>
 /// <param name="Features">Any sub-features.</param>
 /// <param name="VerticalSlices">The vertical slices in the feature.</param>
-public record Feature(string Name, IEnumerable<Feature> Features, IEnumerable<VerticalSlice> VerticalSlices);
+public record Feature(string Name, IEnumerable<Concept> Concepts, IEnumerable<Feature> Features, IEnumerable<VerticalSlice> VerticalSlices);

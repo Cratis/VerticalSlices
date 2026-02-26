@@ -2,6 +2,7 @@
   <PropertyGroup>
     <RootNamespace>Cratis.VerticalSlices</RootNamespace>
     <AssemblyName>Cratis.VerticalSlices</AssemblyName>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../Engine/VerticalSlices.Engine.csproj" />
