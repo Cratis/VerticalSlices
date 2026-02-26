@@ -8,4 +8,4 @@ namespace Cratis.VerticalSlices;
 /// </summary>
 /// <param name="Name">The name of the property.</param>
 /// <param name="Type">The type of the property.</param>
-public record Property(string Name, string Type);
+public record Property(PropertyName Name, PropertyType Type);

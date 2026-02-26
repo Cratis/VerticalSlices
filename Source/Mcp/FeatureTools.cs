@@ -174,7 +174,7 @@ public static class FeatureTools
     {
         return types
             .Where(type => type.CustomAttributes.Any(attr => attr.AttributeType.Name == "EventTypeAttribute"))
-            .Select(type => new EventType(type.Name, ExtractXmlDocumentationSummary(type), GetProperties(type)))
+            .Select(type => new EventType(type.Name, ExtractXmlDocumentationSummary(type), GetProperties(type), []))
             .ToArray();
     }
 

@@ -9,4 +9,5 @@ namespace Cratis.VerticalSlices;
 /// <param name="Name">The name of the event type.</param>
 /// <param name="Description">The description of the event type.</param>
 /// <param name="Properties">The properties of the event type.</param>
-public record EventType(string Name, string Description, IEnumerable<Property> Properties);
+/// <param name="Constraints">The constraints on the event type.</param>
+public record EventType(EventTypeName Name, Description Description, IEnumerable<Property> Properties, IEnumerable<Constraint> Constraints);

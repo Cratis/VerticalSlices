@@ -9,4 +9,4 @@ namespace Cratis.VerticalSlices;
 /// <param name="Name">The name of the read model.</param>
 /// <param name="Description">The description of the read model.</param>
 /// <param name="Properties">The properties of the read model.</param>
-public record ReadModel(string Name, string Description, IEnumerable<Property> Properties);
+public record ReadModel(ReadModelName Name, Description Description, IEnumerable<Property> Properties);

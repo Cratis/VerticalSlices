@@ -9,4 +9,4 @@ namespace Cratis.VerticalSlices;
 /// <param name="Name">The name of the feature.</param>
 /// <param name="Features">Any sub-features.</param>
 /// <param name="VerticalSlices">The vertical slices in the feature.</param>
-public record Feature(string Name, IEnumerable<Feature> Features, IEnumerable<VerticalSlice> VerticalSlices);
+public record Feature(FeatureName Name, IEnumerable<Feature> Features, IEnumerable<VerticalSlice> VerticalSlices);

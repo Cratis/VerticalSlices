@@ -11,6 +11,6 @@
     <PackageReference Include="System.Reflection.MetadataLoadContext" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="../Engine/VerticalSlices.Engine.csproj" />
+    <ProjectReference Include="../Engine/Engine.csproj" />
   </ItemGroup>
 </Project>

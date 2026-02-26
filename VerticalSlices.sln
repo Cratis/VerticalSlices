@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Source\Web", "{A3456
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VerticalSlices.Mcp", "Source\Mcp\VerticalSlices.Mcp.csproj", "{48B44107-918C-4E5F-990F-4A5017295CEB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VerticalSlices.Engine", "Source\Engine\VerticalSlices.Engine.csproj", "{58B55108-918C-4E5F-990F-4A5017295CEC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine", "Source\Engine\Engine.csproj", "{58B55108-918C-4E5F-990F-4A5017295CEC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VerticalSlices", "Source\Web\VerticalSlices.csproj", "{68B66109-918C-4E5F-990F-4A5017295CED}"
 EndProject
