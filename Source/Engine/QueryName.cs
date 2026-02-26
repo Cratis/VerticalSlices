@@ -17,12 +17,6 @@ public record QueryName(string Value) : ConceptAs<string>(Value)
     public static readonly QueryName Empty = new(string.Empty);
 
     /// <summary>
-    /// Implicitly converts a <see cref="QueryName"/> to a <see cref="string"/>.
-    /// </summary>
-    /// <param name="name">The <see cref="QueryName"/> to convert.</param>
-    public static implicit operator string(QueryName name) => name.Value;
-
-    /// <summary>
     /// Implicitly converts a <see cref="string"/> to a <see cref="QueryName"/>.
     /// </summary>
     /// <param name="name">The <see cref="string"/> to convert.</param>

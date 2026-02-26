@@ -17,12 +17,6 @@ public record FeatureName(string Value) : ConceptAs<string>(Value)
     public static readonly FeatureName Empty = new(string.Empty);
 
     /// <summary>
-    /// Implicitly converts a <see cref="FeatureName"/> to a <see cref="string"/>.
-    /// </summary>
-    /// <param name="name">The <see cref="FeatureName"/> to convert.</param>
-    public static implicit operator string(FeatureName name) => name.Value;
-
-    /// <summary>
     /// Implicitly converts a <see cref="string"/> to a <see cref="FeatureName"/>.
     /// </summary>
     /// <param name="name">The <see cref="string"/> to convert.</param>

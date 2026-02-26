@@ -17,12 +17,6 @@ public record CommandName(string Value) : ConceptAs<string>(Value)
     public static readonly CommandName Empty = new(string.Empty);
 
     /// <summary>
-    /// Implicitly converts a <see cref="CommandName"/> to a <see cref="string"/>.
-    /// </summary>
-    /// <param name="name">The <see cref="CommandName"/> to convert.</param>
-    public static implicit operator string(CommandName name) => name.Value;
-
-    /// <summary>
     /// Implicitly converts a <see cref="string"/> to a <see cref="CommandName"/>.
     /// </summary>
     /// <param name="name">The <see cref="string"/> to convert.</param>

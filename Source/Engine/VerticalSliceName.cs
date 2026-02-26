@@ -17,12 +17,6 @@ public record VerticalSliceName(string Value) : ConceptAs<string>(Value)
     public static readonly VerticalSliceName Empty = new(string.Empty);
 
     /// <summary>
-    /// Implicitly converts a <see cref="VerticalSliceName"/> to a <see cref="string"/>.
-    /// </summary>
-    /// <param name="name">The <see cref="VerticalSliceName"/> to convert.</param>
-    public static implicit operator string(VerticalSliceName name) => name.Value;
-
-    /// <summary>
     /// Implicitly converts a <see cref="string"/> to a <see cref="VerticalSliceName"/>.
     /// </summary>
     /// <param name="name">The <see cref="string"/> to convert.</param>

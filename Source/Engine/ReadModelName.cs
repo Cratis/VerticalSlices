@@ -17,12 +17,6 @@ public record ReadModelName(string Value) : ConceptAs<string>(Value)
     public static readonly ReadModelName Empty = new(string.Empty);
 
     /// <summary>
-    /// Implicitly converts a <see cref="ReadModelName"/> to a <see cref="string"/>.
-    /// </summary>
-    /// <param name="name">The <see cref="ReadModelName"/> to convert.</param>
-    public static implicit operator string(ReadModelName name) => name.Value;
-
-    /// <summary>
     /// Implicitly converts a <see cref="string"/> to a <see cref="ReadModelName"/>.
     /// </summary>
     /// <param name="name">The <see cref="string"/> to convert.</param>

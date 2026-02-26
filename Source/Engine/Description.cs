@@ -17,12 +17,6 @@ public record Description(string Value) : ConceptAs<string>(Value)
     public static readonly Description Empty = new(string.Empty);
 
     /// <summary>
-    /// Implicitly converts a <see cref="Description"/> to a <see cref="string"/>.
-    /// </summary>
-    /// <param name="description">The <see cref="Description"/> to convert.</param>
-    public static implicit operator string(Description description) => description.Value;
-
-    /// <summary>
     /// Implicitly converts a <see cref="string"/> to a <see cref="Description"/>.
     /// </summary>
     /// <param name="description">The <see cref="string"/> to convert.</param>

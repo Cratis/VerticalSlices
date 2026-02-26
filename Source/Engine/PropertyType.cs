@@ -17,12 +17,6 @@ public record PropertyType(string Value) : ConceptAs<string>(Value)
     public static readonly PropertyType Empty = new(string.Empty);
 
     /// <summary>
-    /// Implicitly converts a <see cref="PropertyType"/> to a <see cref="string"/>.
-    /// </summary>
-    /// <param name="type">The <see cref="PropertyType"/> to convert.</param>
-    public static implicit operator string(PropertyType type) => type.Value;
-
-    /// <summary>
     /// Implicitly converts a <see cref="string"/> to a <see cref="PropertyType"/>.
     /// </summary>
     /// <param name="type">The <see cref="string"/> to convert.</param>
