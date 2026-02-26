@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Solution>
+    <Folder Name="/Source/">
+        <Project Path="Source/Engine/VerticalSlices.Engine.csproj" />
+        <Project Path="Source/Mcp/VerticalSlices.Mcp.csproj" />
+        <Project Path="Source/Web/VerticalSlices.csproj" />
+    </Folder>
+</Solution>
