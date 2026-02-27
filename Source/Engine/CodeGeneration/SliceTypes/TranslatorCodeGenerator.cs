@@ -7,8 +7,11 @@ using Cratis.VerticalSlices.CodeGeneration.Renderers;
 namespace Cratis.VerticalSlices.CodeGeneration.SliceTypes;
 
 /// <summary>
-/// Generates code for Translator slices. A Translator slice takes external events
+/// Generates code for Translator slices. A Translator slice consumes external events
 /// and translates them into internal domain events.
+/// Only <see cref="EventKind.Internal"/> events (the outputs) receive generated code and
+/// Chronicle registration. <see cref="EventKind.External"/> events (the inputs) are
+/// structural documentation only.
 /// Flow: External EventType(s) → translated internal EventType(s).
 /// </summary>
 public class TranslatorCodeGenerator : ISliceTypeCodeGenerator
@@ -21,7 +24,7 @@ public class TranslatorCodeGenerator : ISliceTypeCodeGenerator
     {
         var files = new List<GeneratedFile>();
 
-        foreach (var eventType in slice.Events)
+        foreach (var eventType in slice.Events.Where(e => e.Kind == EventKind.Internal))
         {
             var descriptor = EventTypeDescriptor.FromEventType(eventType);
             files.AddRange(renderSet.EventType.Render(descriptor, context));

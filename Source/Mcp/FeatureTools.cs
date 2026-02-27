@@ -116,7 +116,7 @@ public static class FeatureTools
 
         var sliceType = DetermineVerticalSliceType(commands, readModels, events);
 
-        return new VerticalSlice(name, sliceType, null, commands, readModels, events);
+        return new VerticalSlice(name, sliceType, null, null, commands, readModels, events);
     }
 
     static VerticalSliceType DetermineVerticalSliceType(Command[] commands, ReadModel[] readModels, EventType[] events)

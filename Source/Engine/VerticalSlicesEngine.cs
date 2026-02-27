@@ -106,7 +106,7 @@ public partial class VerticalSlicesEngine(
                 var context = new CodeGenerationContext(feature.Name, slice.Name, parentPath);
                 files.AddRange(codeGenerator.Generate(slice, context, renderSet));
 
-                foreach (var eventType in slice.Events)
+                foreach (var eventType in slice.Events.Where(e => e.Kind == EventKind.Internal))
                 {
                     eventDescriptors.Add(EventTypeDescriptor.FromEventType(eventType));
                 }

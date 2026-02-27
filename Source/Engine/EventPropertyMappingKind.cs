@@ -5,8 +5,8 @@ namespace Cratis.VerticalSlices;
 
 /// <summary>
 /// Defines the kind of mapping operation between a source event property and a read model property.
-/// Integer values intentionally match <see cref="CodeGeneration.Descriptors.PropertyMappingKind"/>
-/// so the two can be cast directly without a conversion helper.
+/// Integer values are kept in sync with <see cref="CodeGeneration.Descriptors.PropertyMappingKind"/>
+/// so the cast <c>(PropertyMappingKind)(int)kind</c> is always safe.
 /// </summary>
 public enum EventPropertyMappingKind
 {
@@ -31,12 +31,27 @@ public enum EventPropertyMappingKind
     Count = 3,
 
     /// <summary>
-    /// Increments the property value each time the event occurs.
+    /// Increments the property value by one when the event occurs.
     /// </summary>
     Increment = 4,
 
     /// <summary>
+    /// Decrements the property value by one when the event occurs.
+    /// </summary>
+    Decrement = 5,
+
+    /// <summary>
+    /// Sets the property value from event context metadata (e.g., Occurred, SequenceNumber).
+    /// </summary>
+    SetFromContext = 6,
+
+    /// <summary>
+    /// Sets the property to a static constant value when the event occurs.
+    /// </summary>
+    StaticValue = 7,
+
+    /// <summary>
     /// Sets the property value from the event source identifier.
     /// </summary>
-    FromEventSourceId = 5
+    FromEventSourceId = 8
 }
