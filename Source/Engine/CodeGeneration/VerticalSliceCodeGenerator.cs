@@ -16,29 +16,29 @@ public partial class VerticalSliceCodeGenerator(
     IEnumerable<ISliceTypeCodeGenerator> sliceTypeGenerators,
     ILogger<VerticalSliceCodeGenerator> logger) : IVerticalSliceCodeGenerator
 {
-    readonly Dictionary<string, ISliceTypeCodeGenerator> _generatorsBySliceType =
-        sliceTypeGenerators.ToDictionary(g => g.SliceType, StringComparer.OrdinalIgnoreCase);
+    readonly Dictionary<VerticalSliceType, ISliceTypeCodeGenerator> _generatorsBySliceType =
+        sliceTypeGenerators.ToDictionary(g => g.SliceType);
 
     /// <inheritdoc/>
     public IEnumerable<GeneratedFile> Generate(VerticalSlice slice, CodeGenerationContext context, ArtifactRenderSet? renderSet = null)
     {
         renderSet ??= ArtifactRenderSet.ModelBound;
 
-        if (!_generatorsBySliceType.TryGetValue(slice.VerticalSliceTypes, out var generator))
+        if (!_generatorsBySliceType.TryGetValue(slice.SliceType, out var generator))
         {
-            LogUnsupportedSliceType(slice.VerticalSliceTypes, slice.Name);
+            LogUnsupportedSliceType(slice.SliceType, slice.Name);
 
             return [];
         }
 
-        LogGeneratingSlice(slice.Name, slice.VerticalSliceTypes);
+        LogGeneratingSlice(slice.Name, slice.SliceType);
 
         return generator.Generate(slice, context, renderSet);
     }
 
     [LoggerMessage(LogLevel.Warning, "Unsupported slice type '{SliceType}' for slice '{SliceName}', skipping code generation")]
-    partial void LogUnsupportedSliceType(string sliceType, string sliceName);
+    partial void LogUnsupportedSliceType(VerticalSliceType sliceType, string sliceName);
 
     [LoggerMessage(LogLevel.Debug, "Generating code for slice '{SliceName}' of type '{SliceType}'")]
-    partial void LogGeneratingSlice(string sliceName, string sliceType);
+    partial void LogGeneratingSlice(string sliceName, VerticalSliceType sliceType);
 }

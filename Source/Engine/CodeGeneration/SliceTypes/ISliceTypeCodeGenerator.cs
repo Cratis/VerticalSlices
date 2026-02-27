@@ -13,7 +13,7 @@ public interface ISliceTypeCodeGenerator
     /// <summary>
     /// Gets the slice type this generator handles.
     /// </summary>
-    string SliceType { get; }
+    VerticalSliceType SliceType { get; }
 
     /// <summary>
     /// Generates code files for a vertical slice of this type using the provided render set.

@@ -7,14 +7,14 @@ using Cratis.VerticalSlices.CodeGeneration.Renderers;
 namespace Cratis.VerticalSlices.CodeGeneration.SliceTypes;
 
 /// <summary>
-/// Generates code for Translation slices. A Translation slice takes external events
+/// Generates code for Translator slices. A Translator slice takes external events
 /// and translates them into internal domain events.
 /// Flow: External EventType(s) → translated internal EventType(s).
 /// </summary>
-public class TranslationCodeGenerator : ISliceTypeCodeGenerator
+public class TranslatorCodeGenerator : ISliceTypeCodeGenerator
 {
     /// <inheritdoc/>
-    public string SliceType => VerticalSliceTypes.Translator;
+    public VerticalSliceType SliceType => VerticalSliceType.Translator;
 
     /// <inheritdoc/>
     public IEnumerable<GeneratedFile> Generate(VerticalSlice slice, CodeGenerationContext context, ArtifactRenderSet renderSet)
@@ -29,7 +29,7 @@ public class TranslationCodeGenerator : ISliceTypeCodeGenerator
 
         foreach (var readModel in slice.ReadModels)
         {
-            var descriptor = ReadModelDescriptor.FromReadModel(readModel, slice.Screen);
+            var descriptor = ReadModelDescriptor.FromReadModel(readModel, slice.Events, slice.Screen);
             files.AddRange(renderSet.ReadModel.Render(descriptor, context));
         }
 

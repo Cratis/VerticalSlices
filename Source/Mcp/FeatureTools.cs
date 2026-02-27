@@ -80,22 +80,18 @@ public static class FeatureTools
             var allTypesInFeature = featureGroup.SelectMany(g => g).ToArray();
             var concepts = GetConcepts(allTypesInFeature);
 
-            // Process each namespace in this feature
             foreach (var namespaceGroup in featureGroup)
             {
                 var namespaceParts = namespaceGroup.Key.Split('.');
 
                 if (namespaceParts.Length == 1)
                 {
-                    // This is a direct vertical slice in the feature
                     var verticalSlice = BuildVerticalSlice(namespaceParts[0], namespaceGroup.ToArray());
                     if (verticalSlice is not null)
                         verticalSlices.Add(verticalSlice);
                 }
                 else
                 {
-                    // This belongs to a sub-feature - for now, we'll treat it as a vertical slice
-                    // In a more complex implementation, we could build nested features
                     var verticalSlice = BuildVerticalSlice(namespaceParts[^1], namespaceGroup.ToArray());
                     if (verticalSlice is not null)
                         verticalSlices.Add(verticalSlice);
@@ -118,12 +114,12 @@ public static class FeatureTools
         if (commands.Length == 0 && readModels.Length == 0 && events.Length == 0)
             return null;
 
-        var verticalSliceType = DetermineVerticalSliceType(commands, readModels, events);
+        var sliceType = DetermineVerticalSliceType(commands, readModels, events);
 
-        return new VerticalSlice(name, verticalSliceType, null, commands, readModels, events);
+        return new VerticalSlice(name, sliceType, null, commands, readModels, events);
     }
 
-    static string DetermineVerticalSliceType(Command[] commands, ReadModel[] readModels, EventType[] events)
+    static VerticalSliceType DetermineVerticalSliceType(Command[] commands, ReadModel[] readModels, EventType[] events)
     {
         var hasCommands = commands.Length > 0;
         var hasReadModels = readModels.Length > 0;
@@ -131,27 +127,27 @@ public static class FeatureTools
 
         // StateChange - holds one or more commands
         if (hasCommands && !hasReadModels)
-            return VerticalSliceTypes.StateChange;
+            return VerticalSliceType.StateChange;
 
         // StateView - holds one or more read models without commands
         if (hasReadModels && !hasCommands)
-            return VerticalSliceTypes.StateView;
+            return VerticalSliceType.StateView;
 
         // Automation - holds a read model and a command
         if (hasCommands && hasReadModels)
-            return VerticalSliceTypes.Automation;
+            return VerticalSliceType.Automation;
 
         // Translator - holds events and commands
         if (hasEvents && hasCommands)
-            return VerticalSliceTypes.Translator;
+            return VerticalSliceType.Translator;
 
         // Default fallback based on what's present
         if (hasCommands)
-            return VerticalSliceTypes.StateChange;
+            return VerticalSliceType.StateChange;
         if (hasReadModels)
-            return VerticalSliceTypes.StateView;
+            return VerticalSliceType.StateView;
 
-        return "Unknown";
+        return VerticalSliceType.StateChange;
     }
 
     static Command[] GetCommands(Type[] types)
@@ -162,62 +158,91 @@ public static class FeatureTools
             .ToArray();
     }
 
-    static ReadModel[] GetReadModels(Type[] types, EventType[] events)
+    static ReadModel[] GetReadModels(Type[] types, EventType[] availableEvents)
     {
         return types
             .Where(type => type.CustomAttributes.Any(attr => attr.AttributeType.Name == "ReadModelAttribute"))
             .Select(type =>
             {
-                var properties = GetProperties(type);
-                var relatedEvents = FindRelatedEvents(type, events);
-
-                return new ReadModel(type.Name, ExtractXmlDocumentationSummary(type), properties, relatedEvents);
+                var properties = GetReadModelProperties(type, availableEvents);
+                return new ReadModel(type.Name, ExtractXmlDocumentationSummary(type), properties);
             })
             .ToArray();
     }
 
     /// <summary>
-    /// Finds events related to a read model by inspecting projection attributes
-    /// (e.g. SetFrom, AddFrom, Count, RemovedWith) or falling back to all events.
+    /// Builds the read model property list for a given type by inspecting projection attributes
+    /// (e.g. SetFrom, AddFrom, SubtractFrom, Count, Increment) on each property.
+    /// Falls back to name-match Set mappings when no attributes are found.
     /// </summary>
     /// <param name="readModelType">The read model type to inspect.</param>
-    /// <param name="allEvents">All event types discovered in the slice.</param>
-    /// <returns>The event types this read model projects from.</returns>
-    static EventType[] FindRelatedEvents(Type readModelType, EventType[] allEvents)
+    /// <param name="availableEvents">All event types discovered in the slice.</param>
+    static ReadModelProperty[] GetReadModelProperties(Type readModelType, EventType[] availableEvents)
     {
-        var eventNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-
-        // Inspect type-level attributes (e.g. [RemovedWith<T>])
-        foreach (var attr in readModelType.CustomAttributes)
-        {
-            if (attr.AttributeType.IsGenericType && attr.AttributeType.GenericTypeArguments.Length > 0)
+        return readModelType
+            .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+            .Where(prop => prop.CanRead)
+            .Select(prop =>
             {
-                eventNames.Add(attr.AttributeType.GenericTypeArguments[0].Name);
+                var mappings = ExtractPropertyMappings(prop, availableEvents);
+                return new ReadModelProperty(prop.Name, GetTypeName(prop.PropertyType), mappings);
+            })
+            .ToArray();
+    }
+
+    /// <summary>
+    /// Extracts explicit event-to-property mappings from Chronicle projection attributes
+    /// on the given property. Falls back to name-based Set mappings across all available events
+    /// when no attributes are found.
+    /// </summary>
+    /// <param name="prop">The property to inspect.</param>
+    /// <param name="availableEvents">All event types discovered in the slice.</param>
+    static EventPropertyMapping[] ExtractPropertyMappings(PropertyInfo prop, EventType[] availableEvents)
+    {
+        var mappings = new List<EventPropertyMapping>();
+
+        foreach (var attr in prop.CustomAttributes)
+        {
+            if (!attr.AttributeType.IsGenericType || attr.AttributeType.GenericTypeArguments.Length == 0)
+                continue;
+
+            var eventTypeName = attr.AttributeType.GenericTypeArguments[0].Name;
+            var attrName = attr.AttributeType.Name;
+
+            var kind = attrName switch
+            {
+                var n when n.StartsWith("AddFrom", StringComparison.Ordinal) => EventPropertyMappingKind.Add,
+                var n when n.StartsWith("SubtractFrom", StringComparison.Ordinal) => EventPropertyMappingKind.Subtract,
+                var n when n.StartsWith("Count", StringComparison.Ordinal) => EventPropertyMappingKind.Count,
+                var n when n.StartsWith("Increment", StringComparison.Ordinal) => EventPropertyMappingKind.Increment,
+                var n when n.StartsWith("FromEventSourceId", StringComparison.Ordinal) => EventPropertyMappingKind.FromEventSourceId,
+                _ => EventPropertyMappingKind.Set
+            };
+
+            // Count/Increment/FromEventSourceId do not read from a named event property
+            var sourcePropertyName = kind is EventPropertyMappingKind.Set
+                or EventPropertyMappingKind.Add
+                or EventPropertyMappingKind.Subtract
+                ? prop.Name
+                : null;
+
+            mappings.Add(new EventPropertyMapping(eventTypeName, kind, sourcePropertyName));
+        }
+
+        // Fallback: name-match Set mappings across all available events
+        if (mappings.Count == 0)
+        {
+            foreach (var evt in availableEvents)
+            {
+                var match = evt.Properties
+                    .FirstOrDefault(ep => ep.Name.Equals(prop.Name, StringComparison.OrdinalIgnoreCase));
+
+                if (match is not null)
+                    mappings.Add(new EventPropertyMapping(evt.Name, EventPropertyMappingKind.Set, match.Name));
             }
         }
 
-        // Inspect property-level attributes (e.g. [SetFrom<T>], [AddFrom<T>], [Count<T>])
-        foreach (var prop in readModelType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
-        {
-            foreach (var attr in prop.CustomAttributes)
-            {
-                if (attr.AttributeType.IsGenericType && attr.AttributeType.GenericTypeArguments.Length > 0)
-                {
-                    eventNames.Add(attr.AttributeType.GenericTypeArguments[0].Name);
-                }
-            }
-        }
-
-        // If we found event references via attributes, filter to those
-        if (eventNames.Count > 0)
-        {
-            return allEvents
-                .Where(e => eventNames.Contains(e.Name))
-                .ToArray();
-        }
-
-        // Fallback: associate all events with this read model
-        return allEvents;
+        return [.. mappings];
     }
 
     static EventType[] GetEvents(Type[] types)

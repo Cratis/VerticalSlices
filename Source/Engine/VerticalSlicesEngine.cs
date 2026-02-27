@@ -22,51 +22,64 @@ public partial class VerticalSlicesEngine(
 {
     /// <inheritdoc/>
     public async Task Process(
-        IEnumerable<Feature> features,
+        IEnumerable<Module> modules,
         ICodeOutput? output = null,
         IChronicleRegistration? chronicle = null,
         ArtifactRenderSet? renderSet = null,
         CancellationToken ct = default)
     {
         renderSet ??= ArtifactRenderSet.ModelBound;
-        var allFiles = new List<GeneratedFile>();
-        var allEventDescriptors = new List<EventTypeDescriptor>();
-        var allReadModelDescriptors = new List<ReadModelDescriptor>();
+        var collected = CollectFromModules(modules, renderSet);
 
-        CollectFromFeatures(features, renderSet, allFiles, allEventDescriptors, allReadModelDescriptors);
-
-        if (output is not null && allFiles.Count > 0)
+        if (output is not null && collected.Files.Count > 0)
         {
-            LogWritingFiles(allFiles.Count);
-            await output.Write(allFiles, ct);
+            LogWritingFiles(collected.Files.Count);
+            await output.Write(collected.Files, ct);
         }
 
         if (chronicle is not null)
         {
-            if (allEventDescriptors.Count > 0)
+            if (collected.EventDescriptors.Count > 0)
             {
-                LogRegisteringEventTypes(allEventDescriptors.Count);
-                await chronicle.RegisterEventTypes(allEventDescriptors, ct);
+                LogRegisteringEventTypes(collected.EventDescriptors.Count);
+                await chronicle.RegisterEventTypes(collected.EventDescriptors, ct);
             }
 
-            if (allReadModelDescriptors.Count > 0)
+            if (collected.ReadModelDescriptors.Count > 0)
             {
-                LogRegisteringProjections(allReadModelDescriptors.Count);
-                await chronicle.RegisterProjections(allReadModelDescriptors, ct);
-                await chronicle.RegisterReadModelTypes(allReadModelDescriptors, ct);
+                LogRegisteringProjections(collected.ReadModelDescriptors.Count);
+                await chronicle.RegisterProjections(collected.ReadModelDescriptors, ct);
+                await chronicle.RegisterReadModelTypes(collected.ReadModelDescriptors, ct);
             }
         }
     }
 
     /// <inheritdoc/>
-    public IEnumerable<GeneratedFile> Preview(IEnumerable<Feature> features, ArtifactRenderSet? renderSet = null)
+    public IEnumerable<GeneratedFile> Preview(IEnumerable<Module> modules, ArtifactRenderSet? renderSet = null)
     {
         renderSet ??= ArtifactRenderSet.ModelBound;
-        var allFiles = new List<GeneratedFile>();
+        return CollectFromModules(modules, renderSet).Files;
+    }
 
-        CollectFromFeatures(features, renderSet, allFiles, [], []);
+    CollectedArtifacts CollectFromModules(IEnumerable<Module> modules, ArtifactRenderSet renderSet)
+    {
+        var files = new List<GeneratedFile>();
+        var eventDescriptors = new List<EventTypeDescriptor>();
+        var readModelDescriptors = new List<ReadModelDescriptor>();
 
-        return allFiles;
+        foreach (var module in modules)
+        {
+            foreach (var concept in module.Concepts)
+            {
+                var context = new CodeGenerationContext(module.Name, string.Empty, []);
+                var descriptor = ConceptDescriptor.FromConcept(concept);
+                files.AddRange(renderSet.Concept.Render(descriptor, context));
+            }
+
+            CollectFromFeatures(module.Features, renderSet, files, eventDescriptors, readModelDescriptors, [module.Name]);
+        }
+
+        return new CollectedArtifacts(files, eventDescriptors, readModelDescriptors);
     }
 
     void CollectFromFeatures(
@@ -75,29 +88,24 @@ public partial class VerticalSlicesEngine(
         List<GeneratedFile> files,
         List<EventTypeDescriptor> eventDescriptors,
         List<ReadModelDescriptor> readModelDescriptors,
-        List<string>? parentFeatures = null)
+        IReadOnlyList<string> parentPath)
     {
-        parentFeatures ??= [];
-
         foreach (var feature in features)
         {
             LogProcessingFeature(feature.Name);
 
-            // Generate concept files at the feature level
             foreach (var concept in feature.Concepts)
             {
-                var conceptContext = new CodeGenerationContext(feature.Name, string.Empty, parentFeatures);
+                var conceptContext = new CodeGenerationContext(feature.Name, string.Empty, parentPath);
                 var descriptor = ConceptDescriptor.FromConcept(concept);
                 files.AddRange(renderSet.Concept.Render(descriptor, conceptContext));
             }
 
             foreach (var slice in feature.VerticalSlices)
             {
-                var context = new CodeGenerationContext(feature.Name, slice.Name, parentFeatures);
-                var generated = codeGenerator.Generate(slice, context, renderSet);
-                files.AddRange(generated);
+                var context = new CodeGenerationContext(feature.Name, slice.Name, parentPath);
+                files.AddRange(codeGenerator.Generate(slice, context, renderSet));
 
-                // Collect descriptors for Chronicle registration
                 foreach (var eventType in slice.Events)
                 {
                     eventDescriptors.Add(EventTypeDescriptor.FromEventType(eventType));
@@ -105,13 +113,13 @@ public partial class VerticalSlicesEngine(
 
                 foreach (var readModel in slice.ReadModels)
                 {
-                    readModelDescriptors.Add(ReadModelDescriptor.FromReadModel(readModel, slice.Screen));
+                    readModelDescriptors.Add(ReadModelDescriptor.FromReadModel(readModel, slice.Events, slice.Screen));
                 }
             }
 
             if (feature.Features.Any())
             {
-                var subPath = new List<string>(parentFeatures) { feature.Name };
+                var subPath = new List<string>(parentPath) { feature.Name };
                 CollectFromFeatures(feature.Features, renderSet, files, eventDescriptors, readModelDescriptors, subPath);
             }
         }

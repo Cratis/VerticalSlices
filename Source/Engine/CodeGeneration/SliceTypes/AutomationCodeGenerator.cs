@@ -14,7 +14,7 @@ namespace Cratis.VerticalSlices.CodeGeneration.SliceTypes;
 public class AutomationCodeGenerator : ISliceTypeCodeGenerator
 {
     /// <inheritdoc/>
-    public string SliceType => VerticalSliceTypes.Automation;
+    public VerticalSliceType SliceType => VerticalSliceType.Automation;
 
     /// <inheritdoc/>
     public IEnumerable<GeneratedFile> Generate(VerticalSlice slice, CodeGenerationContext context, ArtifactRenderSet renderSet)
@@ -29,7 +29,7 @@ public class AutomationCodeGenerator : ISliceTypeCodeGenerator
 
         foreach (var readModel in slice.ReadModels)
         {
-            var descriptor = ReadModelDescriptor.FromReadModel(readModel, slice.Screen);
+            var descriptor = ReadModelDescriptor.FromReadModel(readModel, slice.Events, slice.Screen);
             files.AddRange(renderSet.ReadModel.Render(descriptor, context));
         }
 

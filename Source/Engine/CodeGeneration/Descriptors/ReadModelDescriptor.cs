@@ -35,31 +35,37 @@ public record ReadModelDescriptor(
 {
     /// <summary>
     /// Creates a <see cref="ReadModelDescriptor"/> from a <see cref="ReadModel"/>,
-    /// using the read model's own events for property mapping and optionally matching screen fields.
+    /// using the supplied available events together with explicit per-property mappings
+    /// already defined on the read model properties.
     /// </summary>
     /// <param name="readModel">The read model to describe.</param>
-    /// <param name="screen">The optional screen whose fields map to read model properties.</param>
+    /// <param name="availableEvents">
+    /// All event types known at the containing slice level. Only those referenced by
+    /// at least one property mapping are included in <see cref="SourceEvents"/>.
+    /// </param>
+    /// <param name="screen">The optional screen whose fields contribute display metadata.</param>
     /// <returns>A new <see cref="ReadModelDescriptor"/>.</returns>
-    public static ReadModelDescriptor FromReadModel(ReadModel readModel, Screen? screen = null)
+    public static ReadModelDescriptor FromReadModel(ReadModel readModel, IEnumerable<EventType> availableEvents, Screen? screen = null)
     {
-        var eventList = readModel.Events.ToList();
-        var eventDescriptors = eventList.Select(EventTypeDescriptor.FromEventType);
+        var eventList = availableEvents.ToList();
         var screenFields = screen?.Fields.ToList() ?? [];
+
+        var referencedEventNames = readModel.Properties
+            .SelectMany(p => p.Mappings)
+            .Select(m => m.EventTypeName)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        var eventDescriptors = eventList
+            .Where(e => referencedEventNames.Contains(e.Name))
+            .Select(EventTypeDescriptor.FromEventType);
 
         var properties = readModel.Properties.Select((property, index) =>
         {
-            var mappings = eventList
-                .Select(evt =>
-                {
-                    var match = evt.Properties
-                        .FirstOrDefault(ep => ep.Name.Equals(property.Name, StringComparison.OrdinalIgnoreCase));
-
-                    return match is not null
-                        ? new PropertyMapping(evt.Name, PropertyMappingKind.Set, match.Name)
-                        : null;
-                })
-                .Where(mapping => mapping is not null)
-                .Cast<PropertyMapping>();
+            var mappings = property.Mappings.Select(m =>
+                new PropertyMapping(
+                    m.EventTypeName,
+                    (PropertyMappingKind)(int)m.Kind,
+                    m.SourcePropertyName));
 
             var matchingField = screenFields
                 .FirstOrDefault(f => f.Name.Equals(property.Name, StringComparison.OrdinalIgnoreCase));

@@ -15,17 +15,17 @@ namespace Cratis.VerticalSlices;
 public interface IVerticalSlicesEngine
 {
     /// <summary>
-    /// Generates code for all vertical slices in the given features, writes them
+    /// Generates code for all vertical slices in the given modules, writes them
     /// to the specified output, and registers artifacts with Chronicle.
     /// </summary>
-    /// <param name="features">The features containing vertical slices.</param>
+    /// <param name="modules">The modules containing features and vertical slices.</param>
     /// <param name="output">The output target for generated code. When null, code generation is skipped.</param>
     /// <param name="chronicle">The Chronicle registration target. When null, registration is skipped.</param>
     /// <param name="renderSet">The artifact render set to use. Defaults to model-bound when null.</param>
     /// <param name="ct">The cancellation token.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     Task Process(
-        IEnumerable<Feature> features,
+        IEnumerable<Module> modules,
         ICodeOutput? output = null,
         IChronicleRegistration? chronicle = null,
         ArtifactRenderSet? renderSet = null,
@@ -35,8 +35,8 @@ public interface IVerticalSlicesEngine
     /// Generates code for all vertical slices and returns the files in memory without writing them.
     /// Useful for preview in a UI.
     /// </summary>
-    /// <param name="features">The features containing vertical slices.</param>
+    /// <param name="modules">The modules containing features and vertical slices.</param>
     /// <param name="renderSet">The artifact render set to use. Defaults to model-bound when null.</param>
     /// <returns>The generated files.</returns>
-    IEnumerable<GeneratedFile> Preview(IEnumerable<Feature> features, ArtifactRenderSet? renderSet = null);
+    IEnumerable<GeneratedFile> Preview(IEnumerable<Module> modules, ArtifactRenderSet? renderSet = null);
 }

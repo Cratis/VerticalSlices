@@ -14,7 +14,7 @@ namespace Cratis.VerticalSlices.CodeGeneration.SliceTypes;
 public class StateChangeCodeGenerator : ISliceTypeCodeGenerator
 {
     /// <inheritdoc/>
-    public string SliceType => VerticalSliceTypes.StateChange;
+    public VerticalSliceType SliceType => VerticalSliceType.StateChange;
 
     /// <inheritdoc/>
     public IEnumerable<GeneratedFile> Generate(VerticalSlice slice, CodeGenerationContext context, ArtifactRenderSet renderSet)

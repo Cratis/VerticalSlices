@@ -13,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<ISliceTypeCodeGenerator, StateChangeCodeGenerator>();
 builder.Services.AddSingleton<ISliceTypeCodeGenerator, StateViewCodeGenerator>();
 builder.Services.AddSingleton<ISliceTypeCodeGenerator, AutomationCodeGenerator>();
-builder.Services.AddSingleton<ISliceTypeCodeGenerator, TranslationCodeGenerator>();
+builder.Services.AddSingleton<ISliceTypeCodeGenerator, TranslatorCodeGenerator>();
 builder.Services.AddSingleton<IVerticalSliceCodeGenerator, VerticalSliceCodeGenerator>();
 builder.Services.AddSingleton<IVerticalSlicesEngine, VerticalSlicesEngine>();
 builder.Services.AddSingleton<IChronicleRegistration, NoOpChronicleRegistration>();
@@ -24,7 +24,7 @@ var structureFile = app.Configuration["VerticalSlices:StructureFile"] ?? "vertic
 if (File.Exists(structureFile))
 {
     var json = await File.ReadAllTextAsync(structureFile);
-    var features = JsonSerializer.Deserialize<IEnumerable<Feature>>(json, JsonSerializerOptions.Web) ?? [];
+    var modules = JsonSerializer.Deserialize<IEnumerable<Module>>(json, JsonSerializerOptions.Web) ?? [];
 
     var engine = app.Services.GetRequiredService<IVerticalSlicesEngine>();
     var outputRoot = app.Configuration["VerticalSlices:OutputRoot"] ?? "./generated";
@@ -32,7 +32,7 @@ if (File.Exists(structureFile))
     var output = new LocalFileSystemOutput(outputRoot, loggerFactory.CreateLogger<LocalFileSystemOutput>());
     var chronicle = app.Services.GetRequiredService<IChronicleRegistration>();
 
-    await engine.Process(features, output, chronicle);
+    await engine.Process(modules, output, chronicle);
 }
 
 app.MapGet("/", () => "VerticalSlices Engine is running.");
@@ -46,8 +46,8 @@ app.MapGet("/preview", (IVerticalSlicesEngine engine) =>
     }
 
     var json = File.ReadAllText(structurePath);
-    var features = JsonSerializer.Deserialize<IEnumerable<Feature>>(json, JsonSerializerOptions.Web) ?? [];
-    var files = engine.Preview(features);
+    var modules = JsonSerializer.Deserialize<IEnumerable<Module>>(json, JsonSerializerOptions.Web) ?? [];
+    var files = engine.Preview(modules);
 
     return Results.Ok(files);
 });

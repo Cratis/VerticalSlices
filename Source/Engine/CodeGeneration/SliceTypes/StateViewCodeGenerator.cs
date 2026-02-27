@@ -15,7 +15,7 @@ namespace Cratis.VerticalSlices.CodeGeneration.SliceTypes;
 public class StateViewCodeGenerator : ISliceTypeCodeGenerator
 {
     /// <inheritdoc/>
-    public string SliceType => VerticalSliceTypes.StateView;
+    public VerticalSliceType SliceType => VerticalSliceType.StateView;
 
     /// <inheritdoc/>
     public IEnumerable<GeneratedFile> Generate(VerticalSlice slice, CodeGenerationContext context, ArtifactRenderSet renderSet)
@@ -24,7 +24,7 @@ public class StateViewCodeGenerator : ISliceTypeCodeGenerator
 
         foreach (var readModel in slice.ReadModels)
         {
-            var descriptor = ReadModelDescriptor.FromReadModel(readModel, slice.Screen);
+            var descriptor = ReadModelDescriptor.FromReadModel(readModel, slice.Events, slice.Screen);
             files.AddRange(renderSet.ReadModel.Render(descriptor, context));
         }
 
