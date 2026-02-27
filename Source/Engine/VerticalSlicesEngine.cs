@@ -63,6 +63,8 @@ public partial class VerticalSlicesEngine(
 
     CollectedArtifacts CollectFromModules(IEnumerable<Module> modules, ArtifactRenderSet renderSet)
     {
+        SliceValidator.Validate(modules);
+
         var files = new List<GeneratedFile>();
         var eventDescriptors = new List<EventTypeDescriptor>();
         var readModelDescriptors = new List<ReadModelDescriptor>();
