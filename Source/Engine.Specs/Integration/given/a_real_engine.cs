@@ -55,6 +55,14 @@ public class a_real_engine : Specification
         WriteProjectFile();
     }
 
+    void Destroy()
+    {
+        if (Directory.Exists(_outputDirectory))
+        {
+            Directory.Delete(_outputDirectory, recursive: true);
+        }
+    }
+
     void WriteProjectFile()
     {
         // NuGet.config — explicitly declares only the public nuget.org feed so the
