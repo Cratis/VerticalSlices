@@ -60,7 +60,7 @@ public class ModelBoundConceptRenderer : IArtifactRenderer<ConceptDescriptor>
     static GeneratedFile RenderValidator(ConceptDescriptor descriptor, CodeGenerationContext context)
     {
         var builder = new StringBuilder()
-            .AppendLine(CodeWriter.FormatUsings(["Cratis.Arc.Validation"]))
+            .AppendLine(CodeWriter.FormatUsings(["Cratis.Arc.Validation", "FluentValidation"]))
             .AppendLine()
             .AppendLine($"namespace {context.Namespace};");
 
@@ -82,7 +82,7 @@ public class ModelBoundConceptRenderer : IArtifactRenderer<ConceptDescriptor>
             var ruleExpression = FormatValidationRule(rule);
             if (ruleExpression is not null)
             {
-                builder.AppendLine($"        RuleFor(x => x){ruleExpression};");
+                builder.AppendLine($"        RuleFor(x => x.Value){ruleExpression};");
             }
         }
 

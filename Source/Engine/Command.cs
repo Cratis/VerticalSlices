@@ -9,4 +9,5 @@ namespace Cratis.VerticalSlices;
 /// <param name="Name">The name of the command.</param>
 /// <param name="Description">The description of the command.</param>
 /// <param name="Properties">The properties of the command.</param>
-public record Command(string Name, string Description, IEnumerable<Property> Properties);
+/// <param name="EventSourceId">The name of the property that acts as the event source id.</param>
+public record Command(string Name, string Description, IEnumerable<Property> Properties, string EventSourceId);

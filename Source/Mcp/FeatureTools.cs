@@ -154,7 +154,17 @@ public static class FeatureTools
     {
         return types
             .Where(type => type.CustomAttributes.Any(attr => attr.AttributeType.Name == "CommandAttribute"))
-            .Select(type => new Command(type.Name, ExtractXmlDocumentationSummary(type), GetProperties(type)))
+            .Select(type =>
+            {
+                var allProps = type.GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(p => p.CanRead).ToList();
+                var eventSourceIdProp = allProps.FirstOrDefault(p => GetTypeName(p.PropertyType) == "EventSourceId");
+                var eventSourceId = eventSourceIdProp?.Name ?? "Id";
+                var properties = allProps
+                    .Where(p => p != eventSourceIdProp)
+                    .Select(p => new Property(p.Name, GetTypeName(p.PropertyType)))
+                    .ToArray();
+                return new Command(type.Name, ExtractXmlDocumentationSummary(type), properties, eventSourceId);
+            })
             .ToArray();
     }
 

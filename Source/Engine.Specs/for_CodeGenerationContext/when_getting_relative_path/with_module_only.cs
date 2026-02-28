@@ -1,0 +1,18 @@
+// Copyright (c) Cratis. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using Cratis.VerticalSlices.CodeGeneration;
+
+namespace Cratis.VerticalSlices.for_CodeGenerationContext.when_getting_relative_path;
+
+public class with_module_only : Specification
+{
+    CodeGenerationContext _context;
+    string _result;
+
+    void Establish() => _context = new CodeGenerationContext("Orders", string.Empty, []);
+
+    void Because() => _result = _context.RelativePath;
+
+    [Fact] void should_return_only_the_module_name() => _result.ShouldEqual("Orders");
+}

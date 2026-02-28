@@ -32,6 +32,7 @@ public class ModelBoundReadModelRenderer : IArtifactRenderer<ReadModelDescriptor
     {
         var usings = new List<string>
         {
+            "Cratis.Chronicle.Events",
             "Cratis.Chronicle.Keys",
             "Cratis.Chronicle.Projections.ModelBound"
         };
@@ -174,7 +175,7 @@ public class ModelBoundReadModelRenderer : IArtifactRenderer<ReadModelDescriptor
                 PropertyMappingKind.Decrement =>
                     $"[Decrement<{mapping.EventTypeName}>]",
 
-                PropertyMappingKind.SetFromContext =>
+                PropertyMappingKind.SetFromContext when mapping.EventTypeName != "*" =>
                     $"[SetFromContext<{mapping.EventTypeName}>(nameof(EventContext.{mapping.ContextProperty}))]",
 
                 PropertyMappingKind.StaticValue =>

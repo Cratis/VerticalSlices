@@ -11,11 +11,13 @@ namespace Cratis.VerticalSlices.CodeGeneration.Descriptors;
 /// <param name="Description">A human-readable description of the command.</param>
 /// <param name="Properties">The command's input properties with optional screen field metadata.</param>
 /// <param name="ProducedEvents">The event types this command produces when handled.</param>
+/// <param name="EventSourceId">The name of the property that acts as the event source id.</param>
 public record CommandDescriptor(
     string Name,
     string Description,
     IEnumerable<CommandPropertyDescriptor> Properties,
-    IEnumerable<EventTypeDescriptor> ProducedEvents)
+    IEnumerable<EventTypeDescriptor> ProducedEvents,
+    string EventSourceId)
 {
     /// <summary>
     /// Creates a <see cref="CommandDescriptor"/> from a <see cref="Command"/> and its produced events,
@@ -45,6 +47,7 @@ public record CommandDescriptor(
             command.Name,
             command.Description,
             properties,
-            producedEvents.Select(EventTypeDescriptor.FromEventType));
+            producedEvents.Select(EventTypeDescriptor.FromEventType),
+            command.EventSourceId);
     }
 }

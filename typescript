@@ -1,0 +1,708 @@
+Script started on Sat Feb 28 08:53:11 2026
+[0m[49m[39m[27m[24m[K
+[1A7[0m[49m[39m]133;A[0m[49m[38;2;87;199;255m/Volumes/sourcecode/repos/cratis/VerticalSlices[0m[38;2;87;199;255m[49m[38;2;87;199;255m[0m[38;2;87;199;255m[49m [0m[38;2;87;199;255m[49m[38;2;255;106;193m❯[0m[38;2;255;106;193m[49m[38;2;255;106;193m[0m[38;2;255;106;193m[49m[30m[0m[38;2;0;0;0m[49m[39m [0m[49m[39m]133;B[?2004h[?25l8[0m[49m[39m[27m[24m[J]2;sindrewilting@Mac:/Volumes/sourcecode/repos/cratis/VerticalSlices]1;..erticalSlices]7;file://Mac.wilting/Volumes/sourcecode/repos/cratis/VerticalSlices\[0m[49m[39m[27m[24m[1m[7m%[27m[1m[0m                                                                               [0m[49m[39m[27m[24m[K[0m[27m[24m[J[0m[49m[39m[0m[49m[38;2;87;199;255m/Volumes/sourcecode/repos/cratis/VerticalSlices[0m[38;2;87;199;255m[49m[38;2;87;199;255m[0m[38;2;87;199;255m[49m [0m[38;2;87;199;255m[49m[38;2;255;106;193m❯[0m[38;2;255;106;193m[49m[38;2;255;106;193m[0m[38;2;255;106;193m[49m[30m[0m[38;2;0;0;0m[49m[39m [0m[49m[39m[K[21C[0m[49m[38;5;242m08:53:11[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[39m[29D[?1h=[?25h[?2004h[?25l[0m[27m[24m[J[0m[38;5;242m[49m[39m[0m[49m[38;2;87;199;255m/Volumes/sourcecode/repos/cratis/VerticalSlices[0m[38;2;87;199;255m[49m[38;2;87;199;255m[0m[38;2;87;199;255m[49m [0m[38;2;87;199;255m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242mfeat/engine[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m [0m[38;2;0;0;242m[49m[38;2;255;106;193m❯[0m[38;2;255;106;193m[49m[38;2;255;106;193m[0m[38;2;255;106;193m[49m[30m[0m[38;2;0;0;0m[49m[39m [0m[49m[39m[K[9C[0m[49m[38;5;242m08:53:11[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[39m[17D[?25h[?25l[0m[27m[24m[J[0m[38;5;242m[49m[39m[0m[49m[38;2;87;199;255m/Volumes/sourcecode/repos/cratis/VerticalSlices[0m[38;2;87;199;255m[49m[38;2;87;199;255m[0m[38;2;87;199;255m[49m [0m[38;2;87;199;255m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242mfeat/engine[0m[38;2;0;0;242m[49m[38;5;242m*[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m [0m[38;2;0;0;242m[49m[38;2;255;106;193m❯[0m[38;2;255;106;193m[49m[38;2;255;106;193m[0m[38;2;255;106;193m[49m[30m[0m[38;2;0;0;0m[49m[39m [0m[49m[39m[K[8C[0m[49m[38;5;242m08:53:11[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[39m[16D[?25h  grep -n[K "GetProp [K[Keerties\|EventSourceId\|PropertyInfo" /Volumes/sourcecode/repos/cratis/VerticalSl [K[Kiices/Source/Mcp/FeatureTools.cs | head -30[A[A[21C [32mg[32mr[32me[32mp[39m[4C[33m"[33mG[33me[33mt[33mP[33mr[33mo[33mp[33me[33mr[33mt[33mi[33me[33ms[33m\[33m|[33mE[33mv[33me[33mn[33mt[33mS[33mo[33mu[33mr[33mc[33me[33mI[33md[33m\[33m|[33mP[33mr[33mo[33mp[33me[33mr[33mt[33my[33mI[33mn[33mf[33mo[33m"[39m [4m/[4mV[4mo[4ml[4mu[4mm[4me[4ms[4m/[4ms[4mo[4mu[4mr[4mc[4me[4mc[4mo[4md[4me[4m/[4mr[4me[4mp[4mo[4ms[4m/[4mc[4mr[4ma[4mt[4mi[4ms[4m/[4mV[4me[4mr[4mt[4mi[4mc[4ma[4ml[4mS[4ml[4mi[4mc[4me[4ms[4m/[4mS[4mo[4mu[4mr[4mc[4me[4m/[4mM[4mc[4mp[4m/[4mF[4me[4ma[4mt[4mu[4mr[4me[4mT[4mo[4mo[4ml[4ms[4m.[4mc[4ms[24m[3C[32mh[32me[32ma[32md[39m[4C[?1l>[?2004l
+]2;grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox,.venv,venv]1;grep157:            .Select(type => new Command(type.Name, ExtractXmlDocumentationSummary(type), GetProperties(type)))
+183:            .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+200:    static EventPropertyMapping[] ExtractPropertyMappings(PropertyInfo prop, EventType[] availableEvents)
+218:                var n when n.StartsWith("FromEventSourceId", StringComparison.Ordinal) => EventPropertyMappingKind.FromEventSourceId,
+222:            // Count/Increment/FromEventSourceId do not read from a named event property
+252:            .Select(type => new EventType(type.Name, ExtractXmlDocumentationSummary(type), GetProperties(type)))
+256:    static Property[] GetProperties(Type type)
+258:        return type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+[1m[7m%[27m[1m[0m                                                                                ]2;sindrewilting@Mac:/Volumes/sourcecode/repos/cratis/VerticalSlices]1;..erticalSlices]7;file://Mac.wilting/Volumes/sourcecode/repos/cratis/VerticalSlices\[0m[27m[24m[J[0m[38;5;242m[49m[39m[0m[49m[38;2;87;199;255m/Volumes/sourcecode/repos/cratis/VerticalSlices[0m[38;2;87;199;255m[49m[38;2;87;199;255m[0m[38;2;87;199;255m[49m [0m[38;2;87;199;255m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242mfeat/engine[0m[38;2;0;0;242m[49m[38;5;242m*[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m [0m[38;2;0;0;242m[49m[38;2;255;106;193m❯[0m[38;2;255;106;193m[49m[38;2;255;106;193m[0m[38;2;255;106;193m[49m[30m[0m[38;2;0;0;0m[49m[39m [0m[49m[39m[K[8C[0m[49m[38;5;242m08:56:05[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[39m[16D[?1h=[?2004h[?25l[0m[27m[24m[J[0m[38;5;242m[49m[39m[0m[49m[38;2;87;199;255m/Volumes/sourcecode/repos/cratis/VerticalSlices[0m[38;2;87;199;255m[49m[38;2;87;199;255m[0m[38;2;87;199;255m[49m [0m[38;2;87;199;255m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242mfeat/engine[0m[38;2;0;0;242m[49m[38;5;242m*[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m [0m[38;2;0;0;242m[49m[38;2;255;106;193m❯[0m[38;2;255;106;193m[49m[38;2;255;106;193m[0m[38;2;255;106;193m[49m[30m[0m[38;2;0;0;0m[49m[39m [0m[49m[39m[K[8C[0m[49m[38;5;242m08:56:05[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[39m[16D[?25h  sed -n[K[1C'150,200p [K[K'' /Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Mcp/FeatureTools.cs[A[13D [32ms[32me[32md[39m[4C[33m'[33m1[33m5[33m0[33m,[33m2[33m0[33m0[33mp[33m'[39m [4m/[4mV[4mo[4ml[4mu[4mm[4me[4ms[4m/[4ms[4mo[4mu[4mr[4mc[4me[4mc[4mo[4md[4me[4m/[4mr[4me[4mp[4mo[4ms[4m/[4mc[4mr[4ma[4mt[4mi[4ms[4m/[4mV[4me[4mr[4mt[4mi[4mc[4ma[4ml[4mS[4ml[4mi[4mc[4me[4ms[4m/[4mS[4mo[4mu[4mr[4mc[4me[4m/[4mM[4mc[4mp[4m/[4mF[4me[4ma[4mt[4mu[4mr[4me[4mT[4mo[4mo[4ml[4ms[4m.[4mc[4ms[24m[?1l>[?2004l
+]2;sed -n '150,200p' ]1;sed        return VerticalSliceType.StateChange;
+    }
+
+    static Command[] GetCommands(Type[] types)
+    {
+        return types
+            .Where(type => type.CustomAttributes.Any(attr => attr.AttributeType.Name == "CommandAttribute"))
+            .Select(type => new Command(type.Name, ExtractXmlDocumentationSummary(type), GetProperties(type)))
+            .ToArray();
+    }
+
+    static ReadModel[] GetReadModels(Type[] types, EventType[] availableEvents)
+    {
+        return types
+            .Where(type => type.CustomAttributes.Any(attr => attr.AttributeType.Name == "ReadModelAttribute"))
+            .Select(type =>
+            {
+                var properties = GetReadModelProperties(type, availableEvents);
+                return new ReadModel(type.Name, ExtractXmlDocumentationSummary(type), properties);
+            })
+            .ToArray();
+    }
+
+    /// <summary>
+    /// Builds the read model property list for a given type by inspecting projection attributes
+    /// (e.g. SetFrom, AddFrom, SubtractFrom, Count, Increment) on each property.
+    /// Falls back to name-match Set mappings when no attributes are found.
+    /// </summary>
+    /// <param name="readModelType">The read model type to inspect.</param>
+    /// <param name="availableEvents">All event types discovered in the slice.</param>
+    static ReadModelProperty[] GetReadModelProperties(Type readModelType, EventType[] availableEvents)
+    {
+        return readModelType
+            .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+            .Where(prop => prop.CanRead)
+            .Select(prop =>
+            {
+                var mappings = ExtractPropertyMappings(prop, availableEvents);
+                return new ReadModelProperty(prop.Name, GetTypeName(prop.PropertyType), mappings);
+            })
+            .ToArray();
+    }
+
+    /// <summary>
+    /// Extracts explicit event-to-property mappings from Chronicle projection attributes
+    /// on the given property. Falls back to name-based Set mappings across all available events
+    /// when no attributes are found.
+    /// </summary>
+    /// <param name="prop">The property to inspect.</param>
+    /// <param name="availableEvents">All event types discovered in the slice.</param>
+    static EventPropertyMapping[] ExtractPropertyMappings(PropertyInfo prop, EventType[] availableEvents)
+[1m[7m%[27m[1m[0m                                                                                ]2;sindrewilting@Mac:/Volumes/sourcecode/repos/cratis/VerticalSlices]1;..erticalSlices]7;file://Mac.wilting/Volumes/sourcecode/repos/cratis/VerticalSlices\[0m[27m[24m[J[0m[38;5;242m[49m[39m[0m[49m[38;2;87;199;255m/Volumes/sourcecode/repos/cratis/VerticalSlices[0m[38;2;87;199;255m[49m[38;2;87;199;255m[0m[38;2;87;199;255m[49m [0m[38;2;87;199;255m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242mfeat/engine[0m[38;2;0;0;242m[49m[38;5;242m*[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m [0m[38;2;0;0;242m[49m[38;2;255;106;193m❯[0m[38;2;255;106;193m[49m[38;2;255;106;193m[0m[38;2;255;106;193m[49m[30m[0m[38;2;0;0;0m[49m[39m [0m[49m[39m[K[8C[0m[49m[38;5;242m08:56:25[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[39m[16D[?1h=[?2004h[?25l[0m[27m[24m[J[0m[38;5;242m[49m[39m[0m[49m[38;2;87;199;255m/Volumes/sourcecode/repos/cratis/VerticalSlices[0m[38;2;87;199;255m[49m[38;2;87;199;255m[0m[38;2;87;199;255m[49m [0m[38;2;87;199;255m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242mfeat/engine[0m[38;2;0;0;242m[49m[38;5;242m*[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m [0m[38;2;0;0;242m[49m[38;2;255;106;193m❯[0m[38;2;255;106;193m[49m[38;2;255;106;193m[0m[38;2;255;106;193m[49m[30m[0m[38;2;0;0;0m[49m[39m [0m[49m[39m[K[8C[0m[49m[38;5;242m08:56:25[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[39m[16D[?25h  grep -n[K "GetType [K[KNName" /Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Mcp/FeatureTools.cs [K[K[1C | head -5[A[A[53C [32mg[32mr[32me[32mp[39m[4C[33m"[33mG[33me[33mt[33mT[33my[33mp[33me[33mN[33ma[33mm[33me[33m"[39m [4m/[4mV[4mo[4ml[4mu[4mm[4me[4ms[4m/[4ms[4mo[4mu[4mr[4mc[4me[4mc[4mo[4md[4me[4m/[4mr[4me[4mp[4mo[4ms[4m/[4mc[4mr[4ma[4mt[4mi[4ms[4m/[4mV[4me[4mr[4mt[4mi[4mc[4ma[4ml[4mS[4ml[4mi[4mc[4me[4ms[4m/[4mS[4mo[4mu[4mr[4mc[4me[4m/[4mM[4mc[4mp[4m/[4mF[4me[4ma[4mt[4mu[4mr[4me[4mT[4mo[4mo[4ml[4ms[4m.[4mc[4ms[24m [2C[32mh[32me[32ma[32md[39m[3C[?1l>[?2004l
+]2;grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox,.venv,venv]1;grep188:                return new ReadModelProperty(prop.Name, GetTypeName(prop.PropertyType), mappings);
+260:            .Select(prop => new Property(prop.Name, GetTypeName(prop.PropertyType)))
+264:    static string GetTypeName(Type type)
+269:            var genericArgs = string.Join(", ", type.GetGenericArguments().Select(GetTypeName));
+333:                    GetTypeName(underlyingType),
+[1m[7m%[27m[1m[0m                                                                                ]2;sindrewilting@Mac:/Volumes/sourcecode/repos/cratis/VerticalSlices]1;..erticalSlices]7;file://Mac.wilting/Volumes/sourcecode/repos/cratis/VerticalSlices\[0m[27m[24m[J[0m[38;5;242m[49m[39m[0m[49m[38;2;87;199;255m/Volumes/sourcecode/repos/cratis/VerticalSlices[0m[38;2;87;199;255m[49m[38;2;87;199;255m[0m[38;2;87;199;255m[49m [0m[38;2;87;199;255m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242mfeat/engine[0m[38;2;0;0;242m[49m[38;5;242m*[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m [0m[38;2;0;0;242m[49m[38;2;255;106;193m❯[0m[38;2;255;106;193m[49m[38;2;255;106;193m[0m[38;2;255;106;193m[49m[30m[0m[38;2;0;0;0m[49m[39m [0m[49m[39m[K[8C[0m[49m[38;5;242m08:57:02[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[39m[16D[?1h=[?2004h[?25l[0m[27m[24m[J[0m[38;5;242m[49m[39m[0m[49m[38;2;87;199;255m/Volumes/sourcecode/repos/cratis/VerticalSlices[0m[38;2;87;199;255m[49m[38;2;87;199;255m[0m[38;2;87;199;255m[49m [0m[38;2;87;199;255m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242mfeat/engine[0m[38;2;0;0;242m[49m[38;5;242m*[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m [0m[38;2;0;0;242m[49m[38;2;255;106;193m❯[0m[38;2;255;106;193m[49m[38;2;255;106;193m[0m[38;2;255;106;193m[49m[30m[0m[38;2;0;0;0m[49m[39m [0m[49m[39m[K[8C[0m[49m[38;5;242m08:57:02[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[39m[16D[?25h  grep -A[K8 "new Co [K[Kmmmand(" /Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Inte [K[Kggration/when_processing_a_state_change_module/with_one_internal_event_and_one_co [K[Kmmmand.cs | head -12[3A[44C [32mg[32mr[32me[32mp[39m[5C[33m"[33mn[33me[33mw[33m [33mC[33mo[33mm[33mm[33ma[33mn[33md[33m([33m"[39m [4m/[4mV[4mo[4ml[4mu[4mm[4me[4ms[4m/[4ms[4mo[4mu[4mr[4mc[4me[4mc[4mo[4md[4me[4m/[4mr[4me[4mp[4mo[4ms[4m/[4mc[4mr[4ma[4mt[4mi[4ms[4m/[4mV[4me[4mr[4mt[4mi[4mc[4ma[4ml[4mS[4ml[4mi[4mc[4me[4ms[4m/[4mS[4mo[4mu[4mr[4mc[4me[4m/[4mE[4mn[4mg[4mi[4mn[4me[4m.[4mS[4mp[4me[4mc[4ms[4m/[4mI[4mn[4mt[4me[4mg[4mr[4ma[4mt[4mi[4mo[4mn[4m/[4mw[4mh[4me[4mn[4m_[4mp[4mr[4mo[4mc[4me[4ms[4ms[4mi[4mn[4mg[4m_[4ma[4m_[4ms[4mt[4ma[4mt[4me[4m_[4mc[4mh[4ma[4mn[4mg[4me[4m_[4mm[4mo[4md[4mu[4ml[4me[4m/[4mw[4mi[4mt[4mh[4m_[4mo[4mn[4me[4m_[4mi[4mn[4mt[4me[4mr[4mn[4ma[4ml[4m_[4me[4mv[4me[4mn[4mt[4m_[4ma[4mn[4md[4m_[4mo[4mn[4me[4m_[4mc[4mo[4mm[4mm[4ma[4mn[4md[4m.[4mc[4ms[24m[3C[32mh[32me[32ma[32md[39m[4C[?1l>[?2004l
+]2;grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox,.venv,venv]1;grep        var command = new Command(
+            "RegisterEmployee",
+            "Registers a new employee",
+            [
+                new Property("EmployeeId", "string"),
+                new Property("FirstName", "string"),
+                new Property("LastName", "string")
+            ]);
+
+[1m[7m%[27m[1m[0m                                                                                ]2;sindrewilting@Mac:/Volumes/sourcecode/repos/cratis/VerticalSlices]1;..erticalSlices]7;file://Mac.wilting/Volumes/sourcecode/repos/cratis/VerticalSlices\[0m[27m[24m[J[0m[38;5;242m[49m[39m[0m[49m[38;2;87;199;255m/Volumes/sourcecode/repos/cratis/VerticalSlices[0m[38;2;87;199;255m[49m[38;2;87;199;255m[0m[38;2;87;199;255m[49m [0m[38;2;87;199;255m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242mfeat/engine[0m[38;2;0;0;242m[49m[38;5;242m*[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m [0m[38;2;0;0;242m[49m[38;2;255;106;193m❯[0m[38;2;255;106;193m[49m[38;2;255;106;193m[0m[38;2;255;106;193m[49m[30m[0m[38;2;0;0;0m[49m[39m [0m[49m[39m[K[8C[0m[49m[38;5;242m08:59:29[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[39m[16D[?1h=[?2004h[?25l[0m[27m[24m[J[0m[38;5;242m[49m[39m[0m[49m[38;2;87;199;255m/Volumes/sourcecode/repos/cratis/VerticalSlices[0m[38;2;87;199;255m[49m[38;2;87;199;255m[0m[38;2;87;199;255m[49m [0m[38;2;87;199;255m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242mfeat/engine[0m[38;2;0;0;242m[49m[38;5;242m*[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m [0m[38;2;0;0;242m[49m[38;2;255;106;193m❯[0m[38;2;255;106;193m[49m[38;2;255;106;193m[0m[38;2;255;106;193m[49m[30m[0m[38;2;0;0;0m[49m[39m [0m[49m[39m[K[8C[0m[49m[38;5;242m08:59:29[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[39m[16D[?25h  grep -A[K8 "new Co [K[Kmmmand(" /Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Inte [K[Kggration/when_processing_a_state_view_module/with_one_read_model.cs && echo "===" [K[K[1C && grep -A8 "new Command(" /Volumes/sourcecode/repos/cratis/VerticalSlices/Sour [K[Kcce/Engine.Specs/Integration/when_processing_a_state_change_module/with_multiple_ [K[Keevents.cs[5A[54C [32mg[32mr[32me[32mp[39m[5C[33m"[33mn[33me[33mw[33m [33mC[33mo[33mm[33mm[33ma[33mn[33md[33m([33m"[39m [4m/[4mV[4mo[4ml[4mu[4mm[4me[4ms[4m/[4ms[4mo[4mu[4mr[4mc[4me[4mc[4mo[4md[4me[4m/[4mr[4me[4mp[4mo[4ms[4m/[4mc[4mr[4ma[4mt[4mi[4ms[4m/[4mV[4me[4mr[4mt[4mi[4mc[4ma[4ml[4mS[4ml[4mi[4mc[4me[4ms[4m/[4mS[4mo[4mu[4mr[4mc[4me[4m/[4mE[4mn[4mg[4mi[4mn[4me[4m.[4mS[4mp[4me[4mc[4ms[4m/[4mI[4mn[4mt[4me[4mg[4mr[4ma[4mt[4mi[4mo[4mn[4m/[4mw[4mh[4me[4mn[4m_[4mp[4mr[4mo[4mc[4me[4ms[4ms[4mi[4mn[4mg[4m_[4ma[4m_[4ms[4mt[4ma[4mt[4me[4m_[4mv[4mi[4me[4mw[4m_[4mm[4mo[4md[4mu[4ml[4me[4m/[4mw[4mi[4mt[4mh[4m_[4mo[4mn[4me[4m_[4mr[4me[4ma[4md[4m_[4mm[4mo[4md[4me[4ml[4m.[4mc[4ms[24m[4C[32me[32mc[32mh[32mo[39m [33m"[33m=[33m=[33m=[33m"[39m [3C[32mg[32mr[32me[32mp[39m[5C[33m"[33mn[33me[33mw[33m [33mC[33mo[33mm[33mm[33ma[33mn[33md[33m([33m"[39m [4m/[4mV[4mo[4ml[4mu[4mm[4me[4ms[4m/[4ms[4mo[4mu[4mr[4mc[4me[4mc[4mo[4md[4me[4m/[4mr[4me[4mp[4mo[4ms[4m/[4mc[4mr[4ma[4mt[4mi[4ms[4m/[4mV[4me[4mr[4mt[4mi[4mc[4ma[4ml[4mS[4ml[4mi[4mc[4me[4ms[4m/[4mS[4mo[4mu[4mr[4mc[4me[4m/[4mE[4mn[4mg[4mi[4mn[4me[4m.[4mS[4mp[4me[4mc[4ms[4m/[4mI[4mn[4mt[4me[4mg[4mr[4ma[4mt[4mi[4mo[4mn[4m/[4mw[4mh[4me[4mn[4m_[4mp[4mr[4mo[4mc[4me[4ms[4ms[4mi[4mn[4mg[4m_[4ma[4m_[4ms[4mt[4ma[4mt[4me[4m_[4mc[4mh[4ma[4mn[4mg[4me[4m_[4mm[4mo[4md[4mu[4ml[4me[4m/[4mw[4mi[4mt[4mh[4m_[4mm[4mu[4ml[4mt[4mi[4mp[4ml[4me[4m_[4me[4mv[4me[4mn[4mt[4ms[4m.[4mc[4ms[24m[?1l>[?2004l
+]2;grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox,.venv,venv]1;grep        var registerEmployeeCommand = [01;31m[Knew Command([m[K
+            "RegisterEmployee",
+            "Registers a new employee",
+            [
+                new Property("EmployeeId", "string"),
+                new Property("FirstName", "string"),
+                new Property("LastName", "string")
+            ]);
+
+===
+        var command = [01;31m[Knew Command([m[K
+            "CreateProject",
+            "Creates a new project and assigns an owner",
+            [
+                new Property("ProjectId", "string"),
+                new Property("Name", "string"),
+                new Property("OwnerId", "string")
+            ]);
+
+[1m[7m%[27m[1m[0m                                                                                ]2;sindrewilting@Mac:/Volumes/sourcecode/repos/cratis/VerticalSlices]1;..erticalSlices]7;file://Mac.wilting/Volumes/sourcecode/repos/cratis/VerticalSlices\[0m[27m[24m[J[0m[38;5;242m[49m[39m[0m[49m[38;2;87;199;255m/Volumes/sourcecode/repos/cratis/VerticalSlices[0m[38;2;87;199;255m[49m[38;2;87;199;255m[0m[38;2;87;199;255m[49m [0m[38;2;87;199;255m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242mfeat/engine[0m[38;2;0;0;242m[49m[38;5;242m*[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m [0m[38;2;0;0;242m[49m[38;2;255;106;193m❯[0m[38;2;255;106;193m[49m[38;2;255;106;193m[0m[38;2;255;106;193m[49m[30m[0m[38;2;0;0;0m[49m[39m [0m[49m[39m[K[8C[0m[49m[38;5;242m08:59:50[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[39m[16D[?1h=[?2004h[?25l[0m[27m[24m[J[0m[38;5;242m[49m[39m[0m[49m[38;2;87;199;255m/Volumes/sourcecode/repos/cratis/VerticalSlices[0m[38;2;87;199;255m[49m[38;2;87;199;255m[0m[38;2;87;199;255m[49m [0m[38;2;87;199;255m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242mfeat/engine[0m[38;2;0;0;242m[49m[38;5;242m*[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m [0m[38;2;0;0;242m[49m[38;2;255;106;193m❯[0m[38;2;255;106;193m[49m[38;2;255;106;193m[0m[38;2;255;106;193m[49m[30m[0m[38;2;0;0;0m[49m[39m [0m[49m[39m[K[8C[0m[49m[38;5;242m08:59:50[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[39m[16D[?25h  for f i[Kn with_su [K[Kbb_features with_state_change_and_automation_slices with_state_change_and_transla [K[Kttor_slices with_state_change_and_state_view_slices with_read_model_and_command w [K[Kiith_arithmetic_balance_projection with_count_and_increment_projection with_set_f [K[Krrom_context_mapping with_from_every_context_mapping with_multiple_read_models; d [K[Ko[?1l>[?2004l
+[0m[27m[24m[Jfor> [K[?1h=[?2004h   echo "=== $f ==="[?1l>[?2004l
+[0m[27m[24m[Jfor> [K[?1h=[?2004h   find /Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs  [K[K--name "${f}.cs" | xargs grep -A10 "new Command(" 2>/dev/null || echo "(none)"[?1l>[?2004l
+[0m[27m[24m[Jfor> [K[?1h=[?2004hddone[33md[33mo[33mn[33me[39m[?1l>[?2004l
+]2;for f in with_sub_features with_state_change_and_automation_slices        ; d]1;for=== with_sub_features ===
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_module_with_nested_features/with_sub_features.cs:        var placeOrderCommand = new Command(
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_module_with_nested_features/with_sub_features.cs-            "PlaceOrder",
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_module_with_nested_features/with_sub_features.cs-            "Places a new order",
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_module_with_nested_features/with_sub_features.cs-            [
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_module_with_nested_features/with_sub_features.cs-                new Property("OrderId", "string"),
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_module_with_nested_features/with_sub_features.cs-                new Property("Amount", "decimal")
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_module_with_nested_features/with_sub_features.cs-            ]);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_module_with_nested_features/with_sub_features.cs-
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_module_with_nested_features/with_sub_features.cs-        // StateChange slice lives inside the "Placing" sub-feature
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_module_with_nested_features/with_sub_features.cs-        var placeOrderSlice = new VerticalSlice(
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_module_with_nested_features/with_sub_features.cs-            "PlaceOrder",
+--
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_module_with_nested_features/with_sub_features.cs:        var cancelOrderCommand = new Command(
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_module_with_nested_features/with_sub_features.cs-            "CancelOrder",
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_module_with_nested_features/with_sub_features.cs-            "Cancels an existing order",
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_module_with_nested_features/with_sub_features.cs-            [new Property("OrderId", "string")]);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_module_with_nested_features/with_sub_features.cs-
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_module_with_nested_features/with_sub_features.cs-        var cancelOrderSlice = new VerticalSlice(
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_module_with_nested_features/with_sub_features.cs-            "CancelOrder",
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_module_with_nested_features/with_sub_features.cs-            VerticalSliceType.StateChange,
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_module_with_nested_features/with_sub_features.cs-            null,
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_module_with_nested_features/with_sub_features.cs-            null,
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_module_with_nested_features/with_sub_features.cs-            [cancelOrderCommand],
+=== with_state_change_and_automation_slices ===
+        var recordCommand = new Command(
+            "RecordInvoice",
+            "Records a new invoice",
+            [
+                new Property("InvoiceId", "string"),
+                new Property("SupplierId", "string"),
+                new Property("Amount", "decimal")
+            ]);
+
+        var stateChangeSlice = new VerticalSlice(
+            "RecordInvoice",
+--
+        var approveCommand = new Command(
+            "ApproveInvoice",
+            "Approves a pending invoice",
+            [new Property("InvoiceId", "string")]);
+
+        var automationSlice = new VerticalSlice(
+            "ApprovalAutomation",
+            VerticalSliceType.Automation,
+            null,
+            null,
+            [approveCommand],
+=== with_state_change_and_translator_slices ===
+        var sendCommand = new Command(
+            "DispatchShipment",
+            "Dispatches a shipment",
+            [
+                new Property("ShipmentId", "string"),
+                new Property("Carrier", "string")
+            ]);
+
+        var stateChangeSlice = new VerticalSlice(
+            "DispatchShipment",
+            VerticalSliceType.StateChange,
+=== with_state_change_and_state_view_slices ===
+        var placeOrderCommand = new Command(
+            "PlaceOrder",
+            "Places a new customer order",
+            [
+                new Property("OrderId", "string"),
+                new Property("CustomerId", "string"),
+                new Property("Amount", "decimal")
+            ]);
+
+        var stateChangeSlice = new VerticalSlice(
+            "PlaceOrder",
+=== with_read_model_and_command ===
+        var completeTaskCommand = new Command(
+            "CompleteTask",
+            "Completes a task",
+            [
+                new Property("TaskId", "string")
+            ]);
+
+        var automationSlice = new VerticalSlice(
+            "ReviewTask",
+            VerticalSliceType.Automation,
+            null,
+=== with_arithmetic_balance_projection ===
+        var openAccountCommand = new Command(
+            "OpenAccount",
+            "Opens a new bank account",
+            [
+                new Property("AccountId", "string"),
+                new Property("InitialBalance", "decimal")
+            ]);
+
+        var stateChangeSlice = new VerticalSlice(
+            "AccountManagement",
+            VerticalSliceType.StateChange,
+=== with_count_and_increment_projection ===
+        var createTaskCommand = new Command(
+            "CreateTask",
+            "Creates a new task",
+            [new Property("ProjectId", "string"), new Property("Title", "string")]);
+
+        var stateChangeSlice = new VerticalSlice(
+            "TaskManagement",
+            VerticalSliceType.StateChange,
+            null,
+            null,
+            [createTaskCommand],
+=== with_set_from_context_mapping ===
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_state_view_module/with_set_from_context_mapping.cs:        var saveCommand = new Command(
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_state_view_module/with_set_from_context_mapping.cs-            "SaveDocument",
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_state_view_module/with_set_from_context_mapping.cs-            "Saves a document",
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_state_view_module/with_set_from_context_mapping.cs-            [new Property("DocumentId", "string"), new Property("AuthorId", "string")]);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_state_view_module/with_set_from_context_mapping.cs-
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_state_view_module/with_set_from_context_mapping.cs-        var stateChangeSlice = new VerticalSlice(
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_state_view_module/with_set_from_context_mapping.cs-            "DocumentManagement",
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_state_view_module/with_set_from_context_mapping.cs-            VerticalSliceType.StateChange,
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_state_view_module/with_set_from_context_mapping.cs-            null,
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_state_view_module/with_set_from_context_mapping.cs-            null,
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_state_view_module/with_set_from_context_mapping.cs-            [saveCommand],
+=== with_from_every_context_mapping ===
+        var publishCommand = new Command(
+            "PublishBlogPost",
+            "Publishes a blog post",
+            [new Property("PostId", "string"), new Property("Title", "string")]);
+
+        var stateChangeSlice = new VerticalSlice(
+            "Publishing",
+            VerticalSliceType.StateChange,
+            null,
+            null,
+            [publishCommand],
+=== with_multiple_read_models ===
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_state_view_module/with_multiple_read_models.cs:        var registerCommand = new Command(
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_state_view_module/with_multiple_read_models.cs-            "RegisterEmployee",
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_state_view_module/with_multiple_read_models.cs-            "Registers a new employee",
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_state_view_module/with_multiple_read_models.cs-            [
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_state_view_module/with_multiple_read_models.cs-                new Property("EmployeeId", "string"),
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_state_view_module/with_multiple_read_models.cs-                new Property("DepartmentId", "string"),
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_state_view_module/with_multiple_read_models.cs-                new Property("FullName", "string")
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_state_view_module/with_multiple_read_models.cs-            ]);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_state_view_module/with_multiple_read_models.cs-
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_state_view_module/with_multiple_read_models.cs-        var stateChangeSlice = new VerticalSlice(
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/when_processing_a_state_view_module/with_multiple_read_models.cs-            "Registration",
+[1m[7m%[27m[1m[0m                                                                                ]2;sindrewilting@Mac:/Volumes/sourcecode/repos/cratis/VerticalSlices]1;..erticalSlices]7;file://Mac.wilting/Volumes/sourcecode/repos/cratis/VerticalSlices\[0m[27m[24m[J[0m[38;5;242m[49m[39m[0m[49m[38;2;87;199;255m/Volumes/sourcecode/repos/cratis/VerticalSlices[0m[38;2;87;199;255m[49m[38;2;87;199;255m[0m[38;2;87;199;255m[49m [0m[38;2;87;199;255m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242mfeat/engine[0m[38;2;0;0;242m[49m[38;5;242m*[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m [0m[38;2;0;0;242m[49m[38;2;255;106;193m❯[0m[38;2;255;106;193m[49m[38;2;255;106;193m[0m[38;2;255;106;193m[49m[30m[0m[38;2;0;0;0m[49m[39m [0m[49m[39m[K[8C[0m[49m[38;5;242m09:01:26[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[39m[16D[?1h=[?2004h[?25l[0m[27m[24m[J[0m[38;5;242m[49m[39m[0m[49m[38;2;87;199;255m/Volumes/sourcecode/repos/cratis/VerticalSlices[0m[38;2;87;199;255m[49m[38;2;87;199;255m[0m[38;2;87;199;255m[49m [0m[38;2;87;199;255m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242mfeat/engine[0m[38;2;0;0;242m[49m[38;5;242m*[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m [0m[38;2;0;0;242m[49m[38;2;255;106;193m❯[0m[38;2;255;106;193m[49m[38;2;255;106;193m[0m[38;2;255;106;193m[49m[30m[0m[38;2;0;0;0m[49m[39m [0m[49m[39m[K[8C[0m[49m[38;5;242m09:01:26[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[39m[16D[?25h  find /V[Kolumes/so [K[Kuurcecode/repos/cratis/VerticalSlices/Source/Engine.Specs -path "*/for_ModelBound [K[KCCommandRenderer/*" -name "*.cs" | xargs grep -l "new CommandDescriptor" | sort[A[A[15D [32mf[32mi[32mn[32md[39m [4m/[4mV[4mo[4ml[4mu[4mm[4me[4ms[4m/[4ms[4mo[4mu[4mr[4mc[4me[4mc[4mo[4md[4me[4m/[4mr[4me[4mp[4mo[4ms[4m/[4mc[4mr[4ma[4mt[4mi[4ms[4m/[4mV[4me[4mr[4mt[4mi[4mc[4ma[4ml[4mS[4ml[4mi[4mc[4me[4ms[4m/[4mS[4mo[4mu[4mr[4mc[4me[4m/[4mE[4mn[4mg[4mi[4mn[4me[4m.[4mS[4mp[4me[4mc[4ms[24m[7C[33m"[33m*[33m/[33mf[33mo[33mr[33m_[33mM[33mo[33md[33me[33ml[33mB[33mo[33mu[33mn[33md[33mC[33mo[33mm[33mm[33ma[33mn[33md[33mR[33me[33mn[33md[33me[33mr[33me[33mr[33m/[33m*[33m"[39m[7C[33m"[33m*[33m.[33mc[33ms[33m"[39m[3C[32mx[32ma[32mr[32mg[32ms[39m[9C[33m"[33mn[33me[33mw[33m [33mC[33mo[33mm[33mm[33ma[33mn[33md[33mD[33me[33ms[33mc[33mr[33mi[33mp[33mt[33mo[33mr[33m"[39m[3C[32ms[32mo[32mr[32mt[39m[?1l>[?2004l
+]2;find /Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs -pat]1;find/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/Renderers/ModelBound/for_ModelBoundCommandRenderer/when_rendering/with_a_description.cs
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/Renderers/ModelBound/for_ModelBoundCommandRenderer/when_rendering/with_correct_relative_path.cs
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/Renderers/ModelBound/for_ModelBoundCommandRenderer/when_rendering/with_multiple_produced_events.cs
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/Renderers/ModelBound/for_ModelBoundCommandRenderer/when_rendering/with_no_properties.cs
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/Renderers/ModelBound/for_ModelBoundCommandRenderer/when_rendering/with_produced_events.cs
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/Renderers/ModelBound/for_ModelBoundCommandRenderer/when_rendering/with_properties.cs
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/Renderers/ModelBound/for_ModelBoundCommandRenderer/when_rendering/without_a_description.cs
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/Renderers/ModelBound/for_ModelBoundCommandRenderer/when_rendering/without_produced_events.cs
+[1m[7m%[27m[1m[0m                                                                                ]2;sindrewilting@Mac:/Volumes/sourcecode/repos/cratis/VerticalSlices]1;..erticalSlices]7;file://Mac.wilting/Volumes/sourcecode/repos/cratis/VerticalSlices\[0m[27m[24m[J[0m[38;5;242m[49m[39m[0m[49m[38;2;87;199;255m/Volumes/sourcecode/repos/cratis/VerticalSlices[0m[38;2;87;199;255m[49m[38;2;87;199;255m[0m[38;2;87;199;255m[49m [0m[38;2;87;199;255m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242mfeat/engine[0m[38;2;0;0;242m[49m[38;5;242m*[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m [0m[38;2;0;0;242m[49m[38;2;255;106;193m❯[0m[38;2;255;106;193m[49m[38;2;255;106;193m[0m[38;2;255;106;193m[49m[30m[0m[38;2;0;0;0m[49m[39m [0m[49m[39m[K[8C[0m[49m[38;5;242m09:02:19[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[39m[16D[?1h=[?2004h[?25l[0m[27m[24m[J[0m[38;5;242m[49m[39m[0m[49m[38;2;87;199;255m/Volumes/sourcecode/repos/cratis/VerticalSlices[0m[38;2;87;199;255m[49m[38;2;87;199;255m[0m[38;2;87;199;255m[49m [0m[38;2;87;199;255m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242mfeat/engine[0m[38;2;0;0;242m[49m[38;5;242m*[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m [0m[38;2;0;0;242m[49m[38;2;255;106;193m❯[0m[38;2;255;106;193m[49m[38;2;255;106;193m[0m[38;2;255;106;193m[49m[30m[0m[38;2;0;0;0m[49m[39m [0m[49m[39m[K[8C[0m[49m[38;5;242m09:02:19[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[39m[16D[?25h  for f i[Kn with_a_ [K[Kddescription with_correct_relative_path with_multiple_produced_events with_no_pro [K[Kpperties with_produced_events with_properties without_a_description without_produ [K[Kcced_events; do[?1l>[?2004l
+[0m[27m[24m[Jfor> [K[?1h=[?2004h   echo "=== $f ==="[?1l>[?2004l
+[0m[27m[24m[Jfor> [K[?1h=[?2004h   cat "/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/ [K[KCCodeGeneration/Renderers/ModelBound/for_ModelBoundCommandRenderer/when_rendering [K[K//${f}.cs"[?1l>[?2004l
+[0m[27m[24m[Jfor> [K[?1h=[?2004hddone[33md[33mo[33mn[33me[39m[?1l>[?2004l
+]2;for f in with_a_description with_correct_relative_path  with_no_properties   ]1;for=== with_a_description ===
+// Copyright (c) Cratis. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using Cratis.VerticalSlices.CodeGeneration.Descriptors;
+
+namespace Cratis.VerticalSlices.CodeGeneration.Renderers.ModelBound.for_ModelBoundCommandRenderer.when_rendering;
+
+public class with_a_description : given.a_context
+{
+    ModelBoundCommandRenderer _renderer;
+    CommandDescriptor _descriptor;
+    string _content;
+
+    void Establish()
+    {
+        _renderer = new ModelBoundCommandRenderer();
+        _descriptor = new CommandDescriptor("PlaceOrder", "Places a new order", [], []);
+    }
+
+    void Because() => _content = _renderer.Render(_descriptor, _context).Single().Content;
+
+    [Fact] void should_include_xml_summary_comment() => _content.ShouldContain("/// <summary>");
+    [Fact] void should_include_description_text() => _content.ShouldContain("Places a new order");
+}
+=== with_correct_relative_path ===
+// Copyright (c) Cratis. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using Cratis.VerticalSlices.CodeGeneration.Descriptors;
+
+namespace Cratis.VerticalSlices.CodeGeneration.Renderers.ModelBound.for_ModelBoundCommandRenderer.when_rendering;
+
+public class with_correct_relative_path : given.a_context
+{
+    ModelBoundCommandRenderer _renderer;
+    CommandDescriptor _descriptor;
+    GeneratedFile _result;
+
+    void Establish()
+    {
+        _renderer = new ModelBoundCommandRenderer();
+        _descriptor = new CommandDescriptor("PlaceOrder", "Places a new order", [], []);
+    }
+
+    void Because() => _result = _renderer.Render(_descriptor, _context).Single();
+
+    [Fact] void should_place_file_under_context_relative_path() =>
+        _result.RelativePath.ShouldEqual(Path.Combine(_context.RelativePath, "PlaceOrder.cs"));
+}
+=== with_multiple_produced_events ===
+// Copyright (c) Cratis. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using Cratis.VerticalSlices.CodeGeneration.Descriptors;
+
+namespace Cratis.VerticalSlices.CodeGeneration.Renderers.ModelBound.for_ModelBoundCommandRenderer.when_rendering;
+
+public class with_multiple_produced_events : given.a_context
+{
+    ModelBoundCommandRenderer _renderer;
+    CommandDescriptor _descriptor;
+    string _content;
+
+    void Establish()
+    {
+        _renderer = new ModelBoundCommandRenderer();
+        _descriptor = new CommandDescriptor(
+            "RegisterEmployee",
+            "Registers a new employee",
+            [new CommandPropertyDescriptor("EmployeeId", "string", null, null)],
+            [
+                new EventTypeDescriptor("EmployeeRegistered", "Employee was registered", []),
+                new EventTypeDescriptor("EmployeeWelcomed", "Employee was welcomed", [])
+            ]);
+    }
+
+    void Because() => _content = _renderer.Render(_descriptor, _context).Single().Content;
+
+    [Fact] void should_include_stub_comment_for_first_event() => _content.ShouldContain("new EmployeeRegistered(");
+    [Fact] void should_include_stub_comment_for_second_event() => _content.ShouldContain("new EmployeeWelcomed(");
+    [Fact] void should_emit_ienumerable_object_handle_method() => _content.ShouldContain("public IEnumerable<object> Handle()");
+    [Fact] void should_not_emit_ieventlog_parameter() => _content.ShouldNotContain("IEventLog");
+}
+=== with_no_properties ===
+// Copyright (c) Cratis. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using Cratis.VerticalSlices.CodeGeneration.Descriptors;
+
+namespace Cratis.VerticalSlices.CodeGeneration.Renderers.ModelBound.for_ModelBoundCommandRenderer.when_rendering;
+
+/// <summary>
+/// A command with no properties should produce a record with an empty parameter
+/// list, e.g. <c>public record DoThing()</c>.
+/// </summary>
+public class with_no_properties : given.a_context
+{
+    ModelBoundCommandRenderer _renderer;
+    CommandDescriptor _descriptor;
+    string _content;
+
+    void Establish()
+    {
+        _renderer = new ModelBoundCommandRenderer();
+        _descriptor = new CommandDescriptor("PingService", "A no-arg ping command", [], []);
+    }
+
+    void Because() => _content = _renderer.Render(_descriptor, _context).Single().Content;
+
+    [Fact] void should_emit_record_with_empty_parameter_list() =>
+        _content.ShouldContain("public record PingService()");
+}
+=== with_produced_events ===
+// Copyright (c) Cratis. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using Cratis.VerticalSlices.CodeGeneration.Descriptors;
+
+namespace Cratis.VerticalSlices.CodeGeneration.Renderers.ModelBound.for_ModelBoundCommandRenderer.when_rendering;
+
+public class with_produced_events : given.a_context
+{
+    ModelBoundCommandRenderer _renderer;
+    CommandDescriptor _descriptor;
+    string _content;
+
+    void Establish()
+    {
+        _renderer = new ModelBoundCommandRenderer();
+        var producedEvent = new EventTypeDescriptor("OrderPlaced", "An order was placed", []);
+        _descriptor = new CommandDescriptor(
+            "PlaceOrder",
+            "Places a new order",
+            [new CommandPropertyDescriptor("OrderId", "string", null, null)],
+            [producedEvent]);
+    }
+
+    void Because() => _content = _renderer.Render(_descriptor, _context).Single().Content;
+
+    [Fact] void should_emit_handle_returning_event_type() => _content.ShouldContain("public OrderPlaced Handle()");
+    [Fact] void should_include_stub_comment_for_produced_event() => _content.ShouldContain("new OrderPlaced(");
+    [Fact] void should_not_emit_void_handle_method() => _content.ShouldNotContain("public void Handle()");
+    [Fact] void should_not_emit_ieventlog_parameter() => _content.ShouldNotContain("IEventLog");
+}
+=== with_properties ===
+// Copyright (c) Cratis. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using Cratis.VerticalSlices.CodeGeneration.Descriptors;
+
+namespace Cratis.VerticalSlices.CodeGeneration.Renderers.ModelBound.for_ModelBoundCommandRenderer.when_rendering;
+
+public class with_properties : given.a_context
+{
+    ModelBoundCommandRenderer _renderer;
+    CommandDescriptor _descriptor;
+    string _content;
+
+    void Establish()
+    {
+        _renderer = new ModelBoundCommandRenderer();
+        _descriptor = new CommandDescriptor(
+            "RegisterEmployee",
+            "Registers a new employee",
+            [
+                new CommandPropertyDescriptor("EmployeeId", "Guid", null, null),
+                new CommandPropertyDescriptor("Name", "string", null, null)
+            ],
+            []);
+    }
+
+    void Because() => _content = _renderer.Render(_descriptor, _context).Single().Content;
+
+    [Fact] void should_include_first_property_type() => _content.ShouldContain("Guid");
+    [Fact] void should_include_first_property_name() => _content.ShouldContain("EmployeeId");
+    [Fact] void should_include_second_property_type() => _content.ShouldContain("string");
+    [Fact] void should_include_second_property_name() => _content.ShouldContain("Name");
+    [Fact] void should_emit_record_declaration() => _content.ShouldContain("public record RegisterEmployee(");
+}
+=== without_a_description ===
+// Copyright (c) Cratis. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using Cratis.VerticalSlices.CodeGeneration.Descriptors;
+
+namespace Cratis.VerticalSlices.CodeGeneration.Renderers.ModelBound.for_ModelBoundCommandRenderer.when_rendering;
+
+/// <summary>
+/// When a command descriptor has no description set, the renderer should not emit
+/// any XML doc comment block before the record declaration.
+/// </summary>
+public class without_a_description : given.a_context
+{
+    ModelBoundCommandRenderer _renderer;
+    CommandDescriptor _descriptor;
+    string _content;
+
+    void Establish()
+    {
+        _renderer = new ModelBoundCommandRenderer();
+        _descriptor = new CommandDescriptor("DeleteItem", null, [], []);
+    }
+
+    void Because() => _content = _renderer.Render(_descriptor, _context).Single().Content;
+
+    [Fact] void should_not_emit_class_level_xml_summary() =>
+        // The Handle method always has a summary; we verify no summary appears *before* [Command]
+        _content.IndexOf("/// <summary>", StringComparison.Ordinal)
+            .ShouldBeGreaterThan(_content.IndexOf("[Command]", StringComparison.Ordinal));
+}
+=== without_produced_events ===
+// Copyright (c) Cratis. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using Cratis.VerticalSlices.CodeGeneration.Descriptors;
+
+namespace Cratis.VerticalSlices.CodeGeneration.Renderers.ModelBound.for_ModelBoundCommandRenderer.when_rendering;
+
+public class without_produced_events : given.a_context
+{
+    ModelBoundCommandRenderer _renderer;
+    CommandDescriptor _descriptor;
+    string _content;
+
+    void Establish()
+    {
+        _renderer = new ModelBoundCommandRenderer();
+        _descriptor = new CommandDescriptor(
+            "PlaceOrder",
+            "Places a new order",
+            [new CommandPropertyDescriptor("OrderId", "string", null, null)],
+            []);
+    }
+
+    void Because() => _content = _renderer.Render(_descriptor, _context).Single().Content;
+
+    [Fact] void should_emit_command_attribute() => _content.ShouldContain("[Command]");
+    [Fact] void should_emit_record_declaration() => _content.ShouldContain("public record PlaceOrder(");
+    [Fact] void should_include_orderId_property() => _content.ShouldContain("string OrderId");
+    [Fact] void should_emit_void_handle_method() => _content.ShouldContain("public void Handle()");
+    [Fact] void should_not_emit_task_handle_method() => _content.ShouldNotContain("public Task Handle(");
+    [Fact] void should_declare_correct_namespace() => _content.ShouldContain("namespace MyModule.MyFeature.MySlice;");
+}
+[1m[7m%[27m[1m[0m                                                                                ]2;sindrewilting@Mac:/Volumes/sourcecode/repos/cratis/VerticalSlices]1;..erticalSlices]7;file://Mac.wilting/Volumes/sourcecode/repos/cratis/VerticalSlices\[0m[27m[24m[J[0m[38;5;242m[49m[39m[0m[49m[38;2;87;199;255m/Volumes/sourcecode/repos/cratis/VerticalSlices[0m[38;2;87;199;255m[49m[38;2;87;199;255m[0m[38;2;87;199;255m[49m [0m[38;2;87;199;255m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242mfeat/engine[0m[38;2;0;0;242m[49m[38;5;242m*[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m [0m[38;2;0;0;242m[49m[38;2;255;106;193m❯[0m[38;2;255;106;193m[49m[38;2;255;106;193m[0m[38;2;255;106;193m[49m[30m[0m[38;2;0;0;0m[49m[39m [0m[49m[39m[K[8C[0m[49m[38;5;242m09:02:31[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[39m[16D[?1h=[?2004h[?25l[0m[27m[24m[J[0m[38;5;242m[49m[39m[0m[49m[38;2;87;199;255m/Volumes/sourcecode/repos/cratis/VerticalSlices[0m[38;2;87;199;255m[49m[38;2;87;199;255m[0m[38;2;87;199;255m[49m [0m[38;2;87;199;255m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242mfeat/engine[0m[38;2;0;0;242m[49m[38;5;242m*[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m [0m[38;2;0;0;242m[49m[38;2;255;106;193m❯[0m[38;2;255;106;193m[49m[38;2;255;106;193m[0m[38;2;255;106;193m[49m[30m[0m[38;2;0;0;0m[49m[39m [0m[49m[39m[K[8C[0m[49m[38;5;242m09:02:31[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[39m[16D[?25h  find /V[Kolumes/so [K[Kuurcecode/repos/cratis/VerticalSlices/Source/Engine.Specs -name "*.cs" | xargs gr [K[Keep -l "new Command(" | grep -v Integration | sort[A[A[14C [32mf[32mi[32mn[32md[39m [4m/[4mV[4mo[4ml[4mu[4mm[4me[4ms[4m/[4ms[4mo[4mu[4mr[4mc[4me[4mc[4mo[4md[4me[4m/[4mr[4me[4mp[4mo[4ms[4m/[4mc[4mr[4ma[4mt[4mi[4ms[4m/[4mV[4me[4mr[4mt[4mi[4mc[4ma[4ml[4mS[4ml[4mi[4mc[4me[4ms[4m/[4mS[4mo[4mu[4mr[4mc[4me[4m/[4mE[4mn[4mg[4mi[4mn[4me[4m.[4mS[4mp[4me[4mc[4ms[24m[7C[33m"[33m*[33m.[33mc[33ms[33m"[39m[3C[32mx[32ma[32mr[32mg[32ms[39m[1B[71D[33m"[33mn[33me[33mw[33m [33mC[33mo[33mm[33mm[33ma[33mn[33md[33m([33m"[39m[3C[32mg[32mr[32me[32mp[39m[18C[32ms[32mo[32mr[32mt[39m[?1l>[?2004l
+]2;find /Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs -nam]1;find/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_commands_have_no_produced_events.cs
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_events_read_models_and_commands.cs
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_only_commands.cs
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_command_but_no_events.cs
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_commands_receive_produced_events.cs
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_multiple_events_and_commands.cs
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_one_command.cs
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_a_screen_matching_properties.cs
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_screen_having_matching_field.cs
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_screen_having_no_matching_field.cs
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/without_a_screen.cs
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/without_screen.cs
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_VerticalSlicesEngine/given/a_module_with_a_slice_producing_files.cs
+[1m[7m%[27m[1m[0m                                                                                ]2;sindrewilting@Mac:/Volumes/sourcecode/repos/cratis/VerticalSlices]1;..erticalSlices]7;file://Mac.wilting/Volumes/sourcecode/repos/cratis/VerticalSlices\[0m[27m[24m[J[0m[38;5;242m[49m[39m[0m[49m[38;2;87;199;255m/Volumes/sourcecode/repos/cratis/VerticalSlices[0m[38;2;87;199;255m[49m[38;2;87;199;255m[0m[38;2;87;199;255m[49m [0m[38;2;87;199;255m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242mfeat/engine[0m[38;2;0;0;242m[49m[38;5;242m*[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m [0m[38;2;0;0;242m[49m[38;2;255;106;193m❯[0m[38;2;255;106;193m[49m[38;2;255;106;193m[0m[38;2;255;106;193m[49m[30m[0m[38;2;0;0;0m[49m[39m [0m[49m[39m[K[8C[0m[49m[38;5;242m09:03:41[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[39m[16D[?1h=[?2004h[?25l[0m[27m[24m[J[0m[38;5;242m[49m[39m[0m[49m[38;2;87;199;255m/Volumes/sourcecode/repos/cratis/VerticalSlices[0m[38;2;87;199;255m[49m[38;2;87;199;255m[0m[38;2;87;199;255m[49m [0m[38;2;87;199;255m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242mfeat/engine[0m[38;2;0;0;242m[49m[38;5;242m*[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m [0m[38;2;0;0;242m[49m[38;2;255;106;193m❯[0m[38;2;255;106;193m[49m[38;2;255;106;193m[0m[38;2;255;106;193m[49m[30m[0m[38;2;0;0;0m[49m[39m [0m[49m[39m[K[8C[0m[49m[38;5;242m09:03:41[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[39m[16D[?25h  find /V[Kolumes/so [K[Kuurcecode/repos/cratis/VerticalSlices/Source/Engine.Specs -name "*.cs" | xargs gr [K[Keep -l "new Command(" | grep -v Integration | sort | xargs grep -A10 "new Command [K[K(("[3A[61C [32mf[32mi[32mn[32md[39m [4m/[4mV[4mo[4ml[4mu[4mm[4me[4ms[4m/[4ms[4mo[4mu[4mr[4mc[4me[4mc[4mo[4md[4me[4m/[4mr[4me[4mp[4mo[4ms[4m/[4mc[4mr[4ma[4mt[4mi[4ms[4m/[4mV[4me[4mr[4mt[4mi[4mc[4ma[4ml[4mS[4ml[4mi[4mc[4me[4ms[4m/[4mS[4mo[4mu[4mr[4mc[4me[4m/[4mE[4mn[4mg[4mi[4mn[4me[4m.[4mS[4mp[4me[4mc[4ms[24m[7C[33m"[33m*[33m.[33mc[33ms[33m"[39m[3C[32mx[32ma[32mr[32mg[32ms[39m[1B[71D[33m"[33mn[33me[33mw[33m [33mC[33mo[33mm[33mm[33ma[33mn[33md[33m([33m"[39m[3C[32mg[32mr[32me[32mp[39m[18C[32ms[32mo[32mr[32mt[39m[3C[32mx[32ma[32mr[32mg[32ms[39m[11C[33m"[33mn[33me[33mw[33m [33mC[33mo[33mm[33mm[33ma[33mn[33md[33m([33m"[39m[?1l>[?2004l
+]2;find /Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs -nam]1;find/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_commands_have_no_produced_events.cs:        var command = new Command("EscalateTask", "Escalates the overdue task", []);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_commands_have_no_produced_events.cs-        _slice = new VerticalSlice("Escalation", VerticalSliceType.Automation, null, null, [command], [], [domainEvent]);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_commands_have_no_produced_events.cs-
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_commands_have_no_produced_events.cs-        _commandRenderer
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_commands_have_no_produced_events.cs-            .Render(Arg.Do<CommandDescriptor>(d => _capturedDescriptor = d), Arg.Any<CodeGenerationContext>())
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_commands_have_no_produced_events.cs-            .Returns([]);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_commands_have_no_produced_events.cs-    }
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_commands_have_no_produced_events.cs-
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_commands_have_no_produced_events.cs-    void Because() => _generator.Generate(_slice, _context, _renderSet);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_commands_have_no_produced_events.cs-
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_commands_have_no_produced_events.cs-    [Fact] void should_create_command_descriptor_with_no_produced_events() =>
+--
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_events_read_models_and_commands.cs:        var command = new Command("ApproveInvoice", "Approves an invoice", []);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_events_read_models_and_commands.cs-        _slice = new VerticalSlice("ReviewInvoice", VerticalSliceType.Automation, null, null, [command], [taskList], [domainEvent]);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_events_read_models_and_commands.cs-        _eventFile = new GeneratedFile("Test/InvoiceReceived.cs", "// event");
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_events_read_models_and_commands.cs-        _readModelFile = new GeneratedFile("Test/PendingInvoices.cs", "// rm");
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_events_read_models_and_commands.cs-        _commandFile = new GeneratedFile("Test/ApproveInvoice.cs", "// cmd");
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_events_read_models_and_commands.cs-        _eventTypeRenderer.Render(Arg.Any<EventTypeDescriptor>(), Arg.Any<CodeGenerationContext>()).Returns([_eventFile]);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_events_read_models_and_commands.cs-        _readModelRenderer.Render(Arg.Any<ReadModelDescriptor>(), Arg.Any<CodeGenerationContext>()).Returns([_readModelFile]);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_events_read_models_and_commands.cs-        _commandRenderer.Render(Arg.Any<CommandDescriptor>(), Arg.Any<CodeGenerationContext>()).Returns([_commandFile]);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_events_read_models_and_commands.cs-    }
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_events_read_models_and_commands.cs-
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_events_read_models_and_commands.cs-    void Because() => _result = _generator.Generate(_slice, _context, _renderSet);
+--
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_only_commands.cs:        var command = new Command("SendReminder", "Sends a reminder to the user", []);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_only_commands.cs-        _slice = new VerticalSlice("Reminders", VerticalSliceType.Automation, null, null, [command], [], []);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_only_commands.cs-        _commandFile = new GeneratedFile("Test/SendReminder.cs", "// cmd");
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_only_commands.cs-        _commandRenderer.Render(Arg.Any<CommandDescriptor>(), Arg.Any<CodeGenerationContext>()).Returns([_commandFile]);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_only_commands.cs-    }
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_only_commands.cs-
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_only_commands.cs-    void Because() => _result = _generator.Generate(_slice, _context, _renderSet);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_only_commands.cs-
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_only_commands.cs-    [Fact] void should_call_command_renderer() => _commandRenderer.Received(1).Render(Arg.Any<CommandDescriptor>(), _context);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_only_commands.cs-    [Fact] void should_not_call_event_type_renderer() => _eventTypeRenderer.DidNotReceiveWithAnyArgs().Render(default!, default!);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_AutomationCodeGenerator/when_generating/with_only_commands.cs-    [Fact] void should_not_call_read_model_renderer() => _readModelRenderer.DidNotReceiveWithAnyArgs().Render(default!, default!);
+--
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_command_but_no_events.cs:        var command = new Command("DeleteDraft", "Deletes a draft entry", []);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_command_but_no_events.cs-        _slice = new VerticalSlice("DeleteDraft", VerticalSliceType.StateChange, null, null, [command], [], []);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_command_but_no_events.cs-
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_command_but_no_events.cs-        _commandRenderer
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_command_but_no_events.cs-            .Render(Arg.Do<CommandDescriptor>(d => _capturedDescriptor = d), Arg.Any<CodeGenerationContext>())
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_command_but_no_events.cs-            .Returns([]);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_command_but_no_events.cs-    }
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_command_but_no_events.cs-
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_command_but_no_events.cs-    void Because() => _generator.Generate(_slice, _context, _renderSet);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_command_but_no_events.cs-
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_command_but_no_events.cs-    [Fact] void should_call_command_renderer() =>
+--
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_commands_receive_produced_events.cs:        var command = new Command("PlaceOrder", "Places a customer order", []);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_commands_receive_produced_events.cs-        _slice = new VerticalSlice("PlaceOrder", VerticalSliceType.StateChange, null, null, [command], [], [domainEvent]);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_commands_receive_produced_events.cs-
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_commands_receive_produced_events.cs-        _commandRenderer
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_commands_receive_produced_events.cs-            .Render(Arg.Do<CommandDescriptor>(d => _capturedDescriptor = d), Arg.Any<CodeGenerationContext>())
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_commands_receive_produced_events.cs-            .Returns([]);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_commands_receive_produced_events.cs-    }
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_commands_receive_produced_events.cs-
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_commands_receive_produced_events.cs-    void Because() => _generator.Generate(_slice, _context, _renderSet);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_commands_receive_produced_events.cs-
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_commands_receive_produced_events.cs-    [Fact] void should_create_command_descriptor_with_produced_events() =>
+--
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_multiple_events_and_commands.cs:        var command = new Command("PlaceOrder", "Places an order", []);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_multiple_events_and_commands.cs-        _slice = new VerticalSlice("PlaceOrder", VerticalSliceType.StateChange, null, null, [command], [], [event1, event2]);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_multiple_events_and_commands.cs-        _eventFile1 = new GeneratedFile("Test/OrderPlaced.cs", "// event1");
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_multiple_events_and_commands.cs-        _eventFile2 = new GeneratedFile("Test/OrderShipped.cs", "// event2");
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_multiple_events_and_commands.cs-        _commandFile = new GeneratedFile("Test/PlaceOrder.cs", "// command");
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_multiple_events_and_commands.cs-        _eventTypeRenderer.Render(Arg.Any<EventTypeDescriptor>(), Arg.Any<CodeGenerationContext>())
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_multiple_events_and_commands.cs-            .Returns([_eventFile1], [_eventFile2]);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_multiple_events_and_commands.cs-        _commandRenderer.Render(Arg.Any<CommandDescriptor>(), Arg.Any<CodeGenerationContext>())
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_multiple_events_and_commands.cs-            .Returns([_commandFile]);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_multiple_events_and_commands.cs-    }
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_multiple_events_and_commands.cs-
+--
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_one_command.cs:        var command = new Command("PlaceOrder", "Places an order", [new Property("OrderId", "string")]);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_one_command.cs-        _slice = new VerticalSlice("PlaceOrder", VerticalSliceType.StateChange, null, null, [command], [], []);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_one_command.cs-        _expectedFile = new GeneratedFile("Test/PlaceOrder.cs", "// generated");
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_one_command.cs-        _commandRenderer.Render(Arg.Any<CommandDescriptor>(), Arg.Any<CodeGenerationContext>()).Returns([_expectedFile]);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_one_command.cs-    }
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_one_command.cs-
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_one_command.cs-    void Because() => _result = _generator.Generate(_slice, _context, _renderSet);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_one_command.cs-
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_one_command.cs-    [Fact] void should_call_command_renderer() => _commandRenderer.Received(1).Render(Arg.Any<CommandDescriptor>(), _context);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_one_command.cs-    [Fact] void should_return_the_file_from_the_renderer() => _result.ShouldContainOnly(_expectedFile);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/SliceTypes/for_StateChangeCodeGenerator/when_generating/with_one_command.cs-    [Fact] void should_not_call_event_type_renderer() => _eventTypeRenderer.DidNotReceiveWithAnyArgs().Render(default!, default!);
+--
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_a_screen_matching_properties.cs:        _command = new Command(
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_a_screen_matching_properties.cs-            "PlaceOrder",
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_a_screen_matching_properties.cs-            "Places an order",
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_a_screen_matching_properties.cs-            [
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_a_screen_matching_properties.cs-                new Property("OrderId", "string"),
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_a_screen_matching_properties.cs-                new Property("Amount", "decimal")
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_a_screen_matching_properties.cs-            ]);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_a_screen_matching_properties.cs-        _screen = new Screen(
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_a_screen_matching_properties.cs-            "PlaceOrderScreen",
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_a_screen_matching_properties.cs-            "Screen to place an order",
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_a_screen_matching_properties.cs-            [
+--
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_screen_having_matching_field.cs:        _command = new Command("PlaceOrder", "Places an order", [new Property("OrderId", "Guid")]);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_screen_having_matching_field.cs-        _screen = new Screen(
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_screen_having_matching_field.cs-            "PlaceOrderScreen",
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_screen_having_matching_field.cs-            "Screen for placing orders",
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_screen_having_matching_field.cs-            [new ScreenField("OrderId", "Guid", ScreenFieldType.TextInput, "Order ID")]);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_screen_having_matching_field.cs-    }
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_screen_having_matching_field.cs-
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_screen_having_matching_field.cs-    void Because() => _result = CommandDescriptor.FromCommand(_command, [], _screen);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_screen_having_matching_field.cs-
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_screen_having_matching_field.cs-    [Fact] void should_map_field_type_from_screen() => _result.Properties.First().FieldType.ShouldEqual(ScreenFieldType.TextInput);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_screen_having_matching_field.cs-    [Fact] void should_map_label_from_screen() => _result.Properties.First().Label.ShouldEqual("Order ID");
+--
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_screen_having_no_matching_field.cs:        _command = new Command("PlaceOrder", "Places an order", [new Property("CustomerId", "Guid")]);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_screen_having_no_matching_field.cs-        _screen = new Screen(
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_screen_having_no_matching_field.cs-            "PlaceOrderScreen",
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_screen_having_no_matching_field.cs-            "Screen for placing orders",
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_screen_having_no_matching_field.cs-            [new ScreenField("OrderId", "Guid", ScreenFieldType.TextInput, "Order ID")]);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_screen_having_no_matching_field.cs-    }
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_screen_having_no_matching_field.cs-
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_screen_having_no_matching_field.cs-    void Because() => _result = CommandDescriptor.FromCommand(_command, [], _screen);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_screen_having_no_matching_field.cs-
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_screen_having_no_matching_field.cs-    [Fact] void should_have_null_field_type_when_no_match() => _result.Properties.First().FieldType.ShouldBeNull();
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/with_screen_having_no_matching_field.cs-    [Fact] void should_have_null_label_when_no_match() => _result.Properties.First().Label.ShouldBeNull();
+--
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/without_a_screen.cs:        _command = new Command("PlaceOrder", "Places an order", [new Property("OrderId", "string"), new Property("Amount", "decimal")]);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/without_a_screen.cs-        _producedEvent = new EventType("OrderPlaced", "An order was placed", []);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/without_a_screen.cs-    }
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/without_a_screen.cs-
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/without_a_screen.cs-    void Because() => _result = CommandDescriptor.FromCommand(_command, [_producedEvent]);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/without_a_screen.cs-
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/without_a_screen.cs-    [Fact] void should_map_name() => _result.Name.ShouldEqual("PlaceOrder");
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/without_a_screen.cs-    [Fact] void should_map_description() => _result.Description.ShouldEqual("Places an order");
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/without_a_screen.cs-    [Fact] void should_map_all_properties() => _result.Properties.Count().ShouldEqual(2);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/without_a_screen.cs-    [Fact] void should_include_produced_event() => _result.ProducedEvents.Count().ShouldEqual(1);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/without_a_screen.cs-    [Fact] void should_map_produced_event_name() => _result.ProducedEvents.First().Name.ShouldEqual("OrderPlaced");
+--
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/without_screen.cs:        _command = new Command("PlaceOrder", "Places an order", [new Property("OrderId", "Guid")]);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/without_screen.cs-    }
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/without_screen.cs-
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/without_screen.cs-    void Because() => _result = CommandDescriptor.FromCommand(_command, [_producedEvent]);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/without_screen.cs-
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/without_screen.cs-    [Fact] void should_map_name() => _result.Name.ShouldEqual("PlaceOrder");
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/without_screen.cs-    [Fact] void should_map_description() => _result.Description.ShouldEqual("Places an order");
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/without_screen.cs-    [Fact] void should_map_property_name() => _result.Properties.First().Name.ShouldEqual("OrderId");
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/without_screen.cs-    [Fact] void should_map_property_type() => _result.Properties.First().Type.ShouldEqual("Guid");
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/without_screen.cs-    [Fact] void should_have_null_field_type_without_screen() => _result.Properties.First().FieldType.ShouldBeNull();
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_CommandDescriptor/when_creating_from_command/without_screen.cs-    [Fact] void should_have_null_label_without_screen() => _result.Properties.First().Label.ShouldBeNull();
+--
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_VerticalSlicesEngine/given/a_module_with_a_slice_producing_files.cs:            [new Command("PlaceOrderCommand", "Places an order", [])],
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_VerticalSlicesEngine/given/a_module_with_a_slice_producing_files.cs-            [readModel],
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_VerticalSlicesEngine/given/a_module_with_a_slice_producing_files.cs-            [internalEvent]);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_VerticalSlicesEngine/given/a_module_with_a_slice_producing_files.cs-
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_VerticalSlicesEngine/given/a_module_with_a_slice_producing_files.cs-        var feature = new Feature("Ordering", [], [], [slice]);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_VerticalSlicesEngine/given/a_module_with_a_slice_producing_files.cs-        _modules = [new Module("Orders", [], [feature])];
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_VerticalSlicesEngine/given/a_module_with_a_slice_producing_files.cs-
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_VerticalSlicesEngine/given/a_module_with_a_slice_producing_files.cs-        _codeGenerator
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_VerticalSlicesEngine/given/a_module_with_a_slice_producing_files.cs-            .Generate(Arg.Any<VerticalSlice>(), Arg.Any<CodeGenerationContext>(), Arg.Any<ArtifactRenderSet>())
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_VerticalSlicesEngine/given/a_module_with_a_slice_producing_files.cs-            .Returns([_generatedFile]);
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_VerticalSlicesEngine/given/a_module_with_a_slice_producing_files.cs-    }
+[1m[7m%[27m[1m[0m                                                                                ]2;sindrewilting@Mac:/Volumes/sourcecode/repos/cratis/VerticalSlices]1;..erticalSlices]7;file://Mac.wilting/Volumes/sourcecode/repos/cratis/VerticalSlices\[0m[27m[24m[J[0m[38;5;242m[49m[39m[0m[49m[38;2;87;199;255m/Volumes/sourcecode/repos/cratis/VerticalSlices[0m[38;2;87;199;255m[49m[38;2;87;199;255m[0m[38;2;87;199;255m[49m [0m[38;2;87;199;255m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242mfeat/engine[0m[38;2;0;0;242m[49m[38;5;242m*[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m [0m[38;2;0;0;242m[49m[38;2;255;106;193m❯[0m[38;2;255;106;193m[49m[38;2;255;106;193m[0m[38;2;255;106;193m[49m[30m[0m[38;2;0;0;0m[49m[39m [0m[49m[39m[K[8C[0m[49m[38;5;242m09:03:51[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[39m[16D[?1h=[?2004h[?25l[0m[27m[24m[J[0m[38;5;242m[49m[39m[0m[49m[38;2;87;199;255m/Volumes/sourcecode/repos/cratis/VerticalSlices[0m[38;2;87;199;255m[49m[38;2;87;199;255m[0m[38;2;87;199;255m[49m [0m[38;2;87;199;255m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242mfeat/engine[0m[38;2;0;0;242m[49m[38;5;242m*[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m [0m[38;2;0;0;242m[49m[38;2;255;106;193m❯[0m[38;2;255;106;193m[49m[38;2;255;106;193m[0m[38;2;255;106;193m[49m[30m[0m[38;2;0;0;0m[49m[39m [0m[49m[39m[K[8C[0m[49m[38;5;242m09:03:51[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[39m[16D[?25h  dotnet[K[1Ctest Sour [K[Kcce/Engine.Specs --no-restore 2>&1 | tail -60[A[19C [32md[32mo[32mt[32mn[32me[32mt[39m[6C[4mS[4mo[4mu[4mr[4mc[4me[4m/[4mE[4mn[4mg[4mi[4mn[4me[4m.[4mS[4mp[4me[4mc[4ms[24m[14C[33m2[33m>[33m&[39m[4C[32mt[32ma[32mi[32ml[39m[4C[?1l>[?2004l
+]2;dotnet test Source/Engine.Specs --no-restore 2>&1 | tail -60]1;dotnet[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=[?1h=/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/VerticalSlices.Engine.Specs.csproj : warning NU1510: PackageReference System.Text.Json will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine/VerticalSlices.Engine.csproj : warning NU1510: PackageReference System.Text.Json will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.
+  VerticalSlices.Engine -> /Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine/bin/Debug/net10.0/Cratis.VerticalSlices.Engine.dll
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/Renderers/ModelBound/for_ModelBoundCommandRenderer/when_rendering/without_a_description.cs(21,59): warning CS8625: Cannot convert null literal to non-nullable reference type. [/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/VerticalSlices.Engine.Specs.csproj]
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/Renderers/ModelBound/for_ModelBoundCommandRenderer/when_rendering/without_a_description.cs(27,9): warning SA1515: Single-line comment should be preceded by blank line (https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1515.md) [/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/VerticalSlices.Engine.Specs.csproj]
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/Renderers/ModelBound/for_ModelBoundConceptRenderer/when_rendering/with_unknown_validation_rule_type.cs(22,9): warning SA1515: Single-line comment should be preceded by blank line (https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1515.md) [/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/VerticalSlices.Engine.Specs.csproj]
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/Renderers/ModelBound/for_ModelBoundReadModelRenderer/when_rendering/with_second_property_not_marked_as_key.cs(45,50): warning IDE0200: Lambda expression can be removed (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/style-rules/ide0200) [/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/VerticalSlices.Engine.Specs.csproj]
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_ReadModelDescriptor/when_creating_from_read_model/with_same_property_mapped_from_two_events.cs(21,13): warning IDE0059: Unnecessary assignment of a value to 'eventB' (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/style-rules/ide0059) [/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/VerticalSlices.Engine.Specs.csproj]
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_ReadModelDescriptor/when_creating_from_read_model/with_same_property_mapped_from_two_events.cs(20,13): warning IDE0059: Unnecessary assignment of a value to 'eventA' (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/style-rules/ide0059) [/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/VerticalSlices.Engine.Specs.csproj]
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_VerticalSlicesEngine/when_processing/with_sub_features.cs(45,47): warning SA1117: The parameters should all be placed on the same line or each parameter should be placed on its own line (https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1117.md) [/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/VerticalSlices.Engine.Specs.csproj]
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/Renderers/ModelBound/for_ModelBoundReadModelRenderer/when_rendering/with_multiple_properties_with_different_mapping_kinds.cs(27,17): warning SA1117: The parameters should all be placed on the same line or each parameter should be placed on its own line (https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1117.md) [/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/VerticalSlices.Engine.Specs.csproj]
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/Renderers/ModelBound/for_ModelBoundReadModelRenderer/when_rendering/with_multiple_properties_with_different_mapping_kinds.cs(31,17): warning SA1117: The parameters should all be placed on the same line or each parameter should be placed on its own line (https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1117.md) [/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/VerticalSlices.Engine.Specs.csproj]
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/Renderers/ModelBound/for_ModelBoundReadModelRenderer/when_rendering/with_multiple_properties_with_different_mapping_kinds.cs(35,17): warning SA1117: The parameters should all be placed on the same line or each parameter should be placed on its own line (https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1117.md) [/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/VerticalSlices.Engine.Specs.csproj]
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/Renderers/ModelBound/for_ModelBoundReadModelRenderer/when_rendering/with_multiple_properties_with_different_mapping_kinds.cs(40,17): warning SA1117: The parameters should all be placed on the same line or each parameter should be placed on its own line (https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1117.md) [/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/VerticalSlices.Engine.Specs.csproj]
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/Renderers/ModelBound/for_ModelBoundReadModelRenderer/when_rendering/with_multiple_properties_with_different_mapping_kinds.cs(44,17): warning SA1117: The parameters should all be placed on the same line or each parameter should be placed on its own line (https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1117.md) [/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/VerticalSlices.Engine.Specs.csproj]
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/Renderers/ModelBound/for_ModelBoundReadModelRenderer/when_rendering/with_multiple_properties_with_different_mapping_kinds.cs(48,17): warning SA1117: The parameters should all be placed on the same line or each parameter should be placed on its own line (https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1117.md) [/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/VerticalSlices.Engine.Specs.csproj]
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_VerticalSlicesEngine/when_processing/with_feature_level_concepts.cs(32,74): warning SA1117: The parameters should all be placed on the same line or each parameter should be placed on its own line (https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1117.md) [/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/VerticalSlices.Engine.Specs.csproj]
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/for_VerticalSlicesEngine/when_processing/with_module_level_concepts.cs(31,72): warning SA1117: The parameters should all be placed on the same line or each parameter should be placed on its own line (https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1117.md) [/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/VerticalSlices.Engine.Specs.csproj]
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/CodeGeneration/Renderers/ModelBound/for_ModelBoundConceptRenderer/when_rendering/with_unknown_validation_rule_type.cs(23,9): warning RCS1118: Mark local variable as const (https://josefpihrt.github.io/docs/roslynator/analyzers/RCS1118) [/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/VerticalSlices.Engine.Specs.csproj]
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/given/a_real_engine.cs(135,27): warning RCS1186: Use Regex instance instead of static method (https://josefpihrt.github.io/docs/roslynator/analyzers/RCS1186) [/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/VerticalSlices.Engine.Specs.csproj]
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/given/a_real_engine.cs(135,72): warning MA0023: Add RegexOptions.ExplicitCapture to prevent capturing unneeded groups (https://github.com/meziantou/Meziantou.Analyzer/blob/main/docs/Rules/MA0023.md) [/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/VerticalSlices.Engine.Specs.csproj]
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/given/a_real_engine.cs(135,21): warning MA0009: Regular expressions should not be vulnerable to Denial of Service attacks (https://github.com/meziantou/Meziantou.Analyzer/blob/main/docs/Rules/MA0009.md) [/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/VerticalSlices.Engine.Specs.csproj]
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/given/a_real_engine.cs(135,21): warning MA0110: Use the Regex source generator (https://github.com/meziantou/Meziantou.Analyzer/blob/main/docs/Rules/MA0110.md) [/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/VerticalSlices.Engine.Specs.csproj]
+/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/Integration/given/a_real_engine.cs(135,21): warning SYSLIB1045: Use 'GeneratedRegexAttribute' to generate the regular expression implementation at compile-time. (https://learn.microsoft.com/dotnet/fundamentals/syslib-diagnostics/syslib1045) [/Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/VerticalSlices.Engine.Specs.csproj]
+  VerticalSlices.Engine.Specs -> /Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/bin/Debug/net10.0/Cratis.VerticalSlices.Engine.Specs.dll
+Test run for /Volumes/sourcecode/repos/cratis/VerticalSlices/Source/Engine.Specs/bin/Debug/net10.0/Cratis.VerticalSlices.Engine.Specs.dll (.NETCoreApp,Version=v10.0)
+VSTest version 18.0.1 (arm64)
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:   497, Skipped:     0, Total:   497, Duration: 14 s - Cratis.VerticalSlices.Engine.Specs.dll (net10.0)
+[1m[7m%[27m[1m[0m                                                                                ]2;sindrewilting@Mac:/Volumes/sourcecode/repos/cratis/VerticalSlices]1;..erticalSlices]7;file://Mac.wilting/Volumes/sourcecode/repos/cratis/VerticalSlices\[0m[27m[24m[J[0m[38;5;242m[49m[39m[0m[49m[38;2;87;199;255m/Volumes/sourcecode/repos/cratis/VerticalSlices[0m[38;2;87;199;255m[49m[38;2;87;199;255m[0m[38;2;87;199;255m[49m [0m[38;2;87;199;255m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242mfeat/engine[0m[38;2;0;0;242m[49m[38;5;242m*[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m [0m[38;2;0;0;242m[49m[38;2;243;249;157m18s[0m[38;2;243;249;157m[49m[38;2;243;249;157m[0m[38;2;243;249;157m[49m [0m[38;2;243;249;157m[49m[38;2;255;106;193m❯[0m[38;2;255;106;193m[49m[38;2;255;106;193m[0m[38;2;255;106;193m[49m[30m[0m[38;2;0;0;0m[49m[39m [0m[49m[39m[K[4C[0m[49m[38;5;242m09:08:06[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[39m[12D[?1h=[?2004h[?25l[0m[27m[24m[J[0m[38;5;242m[49m[39m[0m[49m[38;2;87;199;255m/Volumes/sourcecode/repos/cratis/VerticalSlices[0m[38;2;87;199;255m[49m[38;2;87;199;255m[0m[38;2;87;199;255m[49m [0m[38;2;87;199;255m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242mfeat/engine[0m[38;2;0;0;242m[49m[38;5;242m*[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m[38;5;242m[0m[38;2;0;0;242m[49m [0m[38;2;0;0;242m[49m[38;2;243;249;157m18s[0m[38;2;243;249;157m[49m[38;2;243;249;157m[0m[38;2;243;249;157m[49m [0m[38;2;243;249;157m[49m[38;2;255;106;193m❯[0m[38;2;255;106;193m[49m[38;2;255;106;193m[0m[38;2;255;106;193m[49m[30m[0m[38;2;0;0;0m[49m[39m [0m[49m[39m[K[4C[0m[49m[38;5;242m09:08:06[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[38;5;242m[0m[38;5;242m[49m[39m[12D[?25h

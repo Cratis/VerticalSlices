@@ -62,10 +62,16 @@ public record ReadModelDescriptor(
         var properties = readModel.Properties.Select((property, index) =>
         {
             var mappings = property.Mappings.Select(m =>
-                new PropertyMapping(
+            {
+                var kind = (PropertyMappingKind)(int)m.Kind;
+                var isContextMapping = kind is PropertyMappingKind.SetFromContext;
+
+                return new PropertyMapping(
                     m.EventTypeName,
-                    (PropertyMappingKind)(int)m.Kind,
-                    m.SourcePropertyName));
+                    kind,
+                    EventPropertyName: isContextMapping ? null : m.SourcePropertyName,
+                    ContextProperty: isContextMapping ? m.SourcePropertyName : null);
+            });
 
             var matchingField = screenFields
                 .FirstOrDefault(f => f.Name.Equals(property.Name, StringComparison.OrdinalIgnoreCase));

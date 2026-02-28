@@ -14,16 +14,14 @@ public class ModelBoundCommandRenderer : IArtifactRenderer<CommandDescriptor>
     /// <inheritdoc/>
     public IEnumerable<GeneratedFile> Render(CommandDescriptor descriptor, CodeGenerationContext context)
     {
-        var parameters = CodeWriter.FormatRecordParameters(
-            descriptor.Properties.Select(p => new Property(p.Name, p.Type)));
-
         var producedEvents = descriptor.ProducedEvents.ToList();
 
-        var usings = new List<string> { "Cratis.Arc.Commands.ModelBound" };
-        if (producedEvents.Count > 0)
-        {
-            usings.Add("Cratis.Chronicle.Events");
-        }
+        var usings = new List<string> { "Cratis.Arc.Commands.ModelBound", "Cratis.Chronicle.Events" };
+
+        var allProperties = new Property[] { new(descriptor.EventSourceId, "EventSourceId") }
+            .Concat(descriptor.Properties.Select(p => new Property(p.Name, p.Type)));
+
+        var parameters = CodeWriter.FormatRecordParameters(allProperties);
 
         var builder = new StringBuilder()
             .AppendLine(CodeWriter.FormatUsings(usings))
@@ -45,26 +43,34 @@ public class ModelBoundCommandRenderer : IArtifactRenderer<CommandDescriptor>
             .AppendLine($"public record {descriptor.Name}({parameters})")
             .AppendLine("{");
 
-        if (producedEvents.Count > 0)
+        if (producedEvents.Count == 1)
         {
+            var evt = producedEvents[0];
             builder
                 .AppendLine("    /// <summary>")
                 .AppendLine($"    /// Handles the {descriptor.Name} command.")
                 .AppendLine("    /// </summary>")
-                .AppendLine("    /// <param name=\"eventLog\">The event log to append events to.</param>")
-                .AppendLine("    /// <returns>A <see cref=\"Task\"/> representing the asynchronous operation.</returns>")
-                .AppendLine("    public Task Handle(IEventLog eventLog)")
+                .AppendLine($"    /// <returns>The <see cref=\"{evt.Name}\"/> event to append.</returns>")
+                .AppendLine($"    public {evt.Name} Handle()")
                 .AppendLine("    {")
                 .AppendLine("        // TODO: Implement command handling logic.")
-                .AppendLine("        // Append events to the event log, for example:");
-
-            foreach (var evt in producedEvents)
-            {
-                builder.AppendLine($"        // await eventLog.Append(id, new {evt.Name}(...));");
-            }
-
+                .AppendLine($"        // return new {evt.Name}(...);")
+                .AppendLine("        throw new NotImplementedException();")
+                .AppendLine("    }");
+        }
+        else if (producedEvents.Count > 1)
+        {
+            var eventStubs = string.Join(", ", producedEvents.Select(e => $"new {e.Name}(...)"));
             builder
-                .AppendLine("        return Task.CompletedTask;")
+                .AppendLine("    /// <summary>")
+                .AppendLine($"    /// Handles the {descriptor.Name} command.")
+                .AppendLine("    /// </summary>")
+                .AppendLine("    /// <returns>The events to append.</returns>")
+                .AppendLine("    public IEnumerable<object> Handle()")
+                .AppendLine("    {")
+                .AppendLine("        // TODO: Implement command handling logic.")
+                .AppendLine($"        // return [{eventStubs}];")
+                .AppendLine("        throw new NotImplementedException();")
                 .AppendLine("    }");
         }
         else
