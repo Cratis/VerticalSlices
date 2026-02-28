@@ -7,7 +7,7 @@ public class with_an_empty_slice : given.a_slice_type_code_generator
 {
     StateChangeCodeGenerator _generator;
     VerticalSlice _slice;
-    IEnumerable<GeneratedFile> _result;
+    IEnumerable<RenderedArtifact> _result;
 
     void Establish()
     {

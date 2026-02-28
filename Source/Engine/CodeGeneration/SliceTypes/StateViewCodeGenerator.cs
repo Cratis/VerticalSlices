@@ -18,16 +18,16 @@ public class StateViewCodeGenerator : ISliceTypeCodeGenerator
     public VerticalSliceType SliceType => VerticalSliceType.StateView;
 
     /// <inheritdoc/>
-    public IEnumerable<GeneratedFile> Generate(VerticalSlice slice, CodeGenerationContext context, ArtifactRenderSet renderSet)
+    public IEnumerable<RenderedArtifact> Generate(VerticalSlice slice, CodeGenerationContext context, ArtifactRenderSet renderSet)
     {
-        var files = new List<GeneratedFile>();
+        var artifacts = new List<RenderedArtifact>();
 
         foreach (var readModel in slice.ReadModels)
         {
             var descriptor = ReadModelDescriptor.FromReadModel(readModel, slice.Events, slice.Screen);
-            files.AddRange(renderSet.ReadModel.Render(descriptor, context));
+            artifacts.AddRange(renderSet.ReadModel.Render(descriptor, context));
         }
 
-        return files;
+        return artifacts;
     }
 }

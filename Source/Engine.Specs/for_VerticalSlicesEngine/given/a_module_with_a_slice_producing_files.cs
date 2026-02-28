@@ -9,11 +9,11 @@ namespace Cratis.VerticalSlices.for_VerticalSlicesEngine.given;
 public class a_module_with_a_slice_producing_files : all_dependencies
 {
     protected IEnumerable<Module> _modules;
-    protected GeneratedFile _generatedFile;
+    protected RenderedArtifact _generatedFile;
 
     void Establish()
     {
-        _generatedFile = new GeneratedFile("Orders/Ordering/PlaceOrder/PlaceOrderCommand.cs", "// generated code");
+        _generatedFile = new RenderedArtifact("Orders/Ordering/PlaceOrder/PlaceOrderCommand.cs", "// generated code");
 
         var internalEvent = new EventType("OrderPlaced", "An order was placed", [new Property("OrderId", "string")]);
         var readModel = new ReadModel("OrderList", "List of orders", []);

@@ -21,31 +21,31 @@ public class AutomationCodeGenerator : ISliceTypeCodeGenerator
     public VerticalSliceType SliceType => VerticalSliceType.Automation;
 
     /// <inheritdoc/>
-    public IEnumerable<GeneratedFile> Generate(VerticalSlice slice, CodeGenerationContext context, ArtifactRenderSet renderSet)
+    public IEnumerable<RenderedArtifact> Generate(VerticalSlice slice, CodeGenerationContext context, ArtifactRenderSet renderSet)
     {
-        var files = new List<GeneratedFile>();
+        var artifacts = new List<RenderedArtifact>();
 
         if (slice.Commands.Any())
         {
             foreach (var eventType in slice.Events)
             {
                 var descriptor = EventTypeDescriptor.FromEventType(eventType);
-                files.AddRange(renderSet.EventType.Render(descriptor, context));
+                artifacts.AddRange(renderSet.EventType.Render(descriptor, context));
             }
         }
 
         foreach (var readModel in slice.ReadModels)
         {
             var descriptor = ReadModelDescriptor.FromReadModel(readModel, slice.Events, slice.Screen);
-            files.AddRange(renderSet.ReadModel.Render(descriptor, context));
+            artifacts.AddRange(renderSet.ReadModel.Render(descriptor, context));
         }
 
         foreach (var command in slice.Commands)
         {
             var descriptor = CommandDescriptor.FromCommand(command, [], slice.Screen);
-            files.AddRange(renderSet.Command.Render(descriptor, context));
+            artifacts.AddRange(renderSet.Command.Render(descriptor, context));
         }
 
-        return files;
+        return artifacts;
     }
 }

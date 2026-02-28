@@ -22,7 +22,7 @@ public class with_string_underlying_type : given.a_context
     }
 
     void Because() => _conceptContent = _renderer.Render(_descriptor, _context)
-        .Single(f => f.RelativePath.EndsWith("ProductCode.cs")).Content;
+        .Single(f => f.ArtifactPath.EndsWith("ProductCode.cs")).Content;
 
     [Fact] void should_emit_not_set_field_with_empty_string() =>
         _conceptContent.ShouldContain("public static readonly ProductCode NotSet = new(string.Empty);");

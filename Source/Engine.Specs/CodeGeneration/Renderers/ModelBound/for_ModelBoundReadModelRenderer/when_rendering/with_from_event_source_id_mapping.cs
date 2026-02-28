@@ -32,7 +32,7 @@ public class with_from_event_source_id_mapping : given.a_context
     }
 
     void Because() => _projectionContent = _renderer.Render(_descriptor, _context)
-        .Single(f => f.RelativePath.EndsWith("ItemView.cs")).Content;
+        .Single(f => f.ArtifactPath.EndsWith("ItemView.cs")).Content;
 
     [Fact] void should_include_key_attribute() => _projectionContent.ShouldContain("[Key]");
     [Fact] void should_not_emit_any_from_event_source_id_attribute() =>

@@ -28,7 +28,7 @@ public class with_every_event_mapping : given.a_context
     }
 
     void Because() => _projectionContent = _renderer.Render(_descriptor, _context)
-        .Single(f => f.RelativePath.EndsWith("Employee.cs")).Content;
+        .Single(f => f.ArtifactPath.EndsWith("Employee.cs")).Content;
 
     [Fact] void should_emit_from_every_attribute() => _projectionContent.ShouldContain("[FromEvery(contextProperty:");
     [Fact] void should_reference_occurred_context_property() => _projectionContent.ShouldContain("nameof(EventContext.Occurred)");

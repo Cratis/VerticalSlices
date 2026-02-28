@@ -23,7 +23,7 @@ public class with_passive_projection : given.a_context
     }
 
     void Because() => _projectionContent = _renderer.Render(_descriptor, _context)
-        .Single(f => f.RelativePath.EndsWith("LiveDashboard.cs")).Content;
+        .Single(f => f.ArtifactPath.EndsWith("LiveDashboard.cs")).Content;
 
     [Fact] void should_emit_passive_attribute() => _projectionContent.ShouldContain("[Passive]");
 }

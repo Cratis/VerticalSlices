@@ -53,29 +53,40 @@ public class with_events_consumed_across_multiple_features : given.a_real_engine
             [new Property("FulfilledBy", "string")],
             "OrderId");
 
-        var ordersSlice = new VerticalSlice(
-            "SalesOrders",
+        var placeOrderSlice = new VerticalSlice(
+            "PlaceSalesOrder",
             VerticalSliceType.StateChange,
             null,
             null,
-            [placeOrderCommand, fulfilCommand],
+            [placeOrderCommand],
             [],
-            [orderPlacedEvent, orderFulfilledEvent]);
+            [orderPlacedEvent]);
+
+        var fulfilSlice = new VerticalSlice(
+            "FulfilSalesOrder",
+            VerticalSliceType.StateChange,
+            null,
+            null,
+            [fulfilCommand],
+            [],
+            [orderFulfilledEvent]);
 
         // ── Slice 2: StateView — per-order read model ─────────────────────────────
         var orderIdMappings = new[] { new EventPropertyMapping("SalesOrderPlaced", EventPropertyMappingKind.Set, "OrderId") };
         var customerIdMappings = new[] { new EventPropertyMapping("SalesOrderPlaced", EventPropertyMappingKind.Set, "CustomerId") };
         var amountMappings = new[] { new EventPropertyMapping("SalesOrderPlaced", EventPropertyMappingKind.Set, "Amount") };
         var placedAtMappings = new[] { new EventPropertyMapping("SalesOrderPlaced", EventPropertyMappingKind.SetFromContext, "Occurred") };
+        var fulfilledByMappings = new[] { new EventPropertyMapping("SalesOrderFulfilled", EventPropertyMappingKind.Set, "FulfilledBy") };
 
         var orderDetail = new ReadModel(
             "OrderDetail",
-            "Full detail for a sales order",
+            "Full detail for a sales order, updated when fulfilled",
             [
                 new ReadModelProperty("OrderId", "string", orderIdMappings),
                 new ReadModelProperty("CustomerId", "string", customerIdMappings),
                 new ReadModelProperty("Amount", "decimal", amountMappings),
-                new ReadModelProperty("PlacedAt", "DateTimeOffset", placedAtMappings)
+                new ReadModelProperty("PlacedAt", "DateTimeOffset", placedAtMappings),
+                new ReadModelProperty("FulfilledBy", "string", fulfilledByMappings)
             ]);
 
         var orderDetailSlice = new VerticalSlice(
@@ -85,7 +96,7 @@ public class with_events_consumed_across_multiple_features : given.a_real_engine
             null,
             [],
             [orderDetail],
-            [orderPlacedEvent]);
+            [orderPlacedEvent, orderFulfilledEvent]);
 
         // ── Slice 3: StateView — regional statistics, uses Add + Increment ────────
         var regionMappings = new[] { new EventPropertyMapping("SalesOrderPlaced", EventPropertyMappingKind.Set, "Region") };
@@ -141,7 +152,7 @@ public class with_events_consumed_across_multiple_features : given.a_real_engine
             [pendingOrder],
             []);
 
-        var salesFeature = new Feature("Sales", [], [], [ordersSlice, orderDetailSlice, salesStatsSlice, fulfilmentAutomation]);
+        var salesFeature = new Feature("Sales", [], [], [placeOrderSlice, fulfilSlice, orderDetailSlice, salesStatsSlice, fulfilmentAutomation]);
 
         _modules = [new Module("SalesTracker", [], [salesFeature])];
     }
@@ -150,34 +161,33 @@ public class with_events_consumed_across_multiple_features : given.a_real_engine
     {
         await _engine.Process(_modules, _output);
         _generatedFiles = _engine.Preview(_modules);
-        AddGlobalUsingsFromGeneratedFiles();
+        AddGlobalUsingsFromRenderedArtifacts();
         _buildExitCode = await RunDotnet("build");
     }
 
     [Fact] void should_generate_event_type_files() =>
         new[] { "SalesOrderPlaced.cs", "SalesOrderFulfilled.cs" }
-            .All(n => _generatedFiles.Any(f => f.RelativePath.EndsWith(n)))
+            .All(n => _generatedFiles.Any(f => f.ArtifactPath.EndsWith(n)))
             .ShouldBeTrue();
 
     [Fact] void should_generate_state_change_command_files() =>
         new[] { "PlaceSalesOrder.cs", "FulfilSalesOrder.cs" }
-            .All(n => _generatedFiles.Any(f => f.RelativePath.EndsWith(n)))
+            .All(n => _generatedFiles.Any(f => f.ArtifactPath.EndsWith(n)))
             .ShouldBeTrue();
 
     [Fact] void should_generate_order_detail_view_files() =>
-        new[] { "OrderDetail.cs", "AllOrderDetails.cs" }
-            .All(n => _generatedFiles.Any(f => f.RelativePath.EndsWith(n)))
+        new[] { "OrderDetail.cs" }
+            .All(n => _generatedFiles.Any(f => f.ArtifactPath.EndsWith(n)))
             .ShouldBeTrue();
 
     [Fact] void should_generate_sales_stats_view_files() =>
-        new[] { "RegionalSalesStats.cs", "AllRegionalSalesStatss.cs" }
-
-            .All(n => _generatedFiles.Any(f => f.RelativePath.EndsWith(n)))
+        new[] { "RegionalSalesStats.cs" }
+            .All(n => _generatedFiles.Any(f => f.ArtifactPath.EndsWith(n)))
             .ShouldBeTrue();
 
     [Fact] void should_generate_fulfilment_automation_files() =>
-        new[] { "PendingOrder.cs", "AllPendingOrders.cs", "AssignFulfilment.cs" }
-            .All(n => _generatedFiles.Any(f => f.RelativePath.EndsWith(n)))
+        new[] { "PendingOrder.cs", "AssignFulfilment.cs" }
+            .All(n => _generatedFiles.Any(f => f.ArtifactPath.EndsWith(n)))
             .ShouldBeTrue();
 
     [Fact] void should_compile_successfully() => _buildExitCode.ShouldEqual(0);

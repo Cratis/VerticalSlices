@@ -23,7 +23,7 @@ public class with_custom_event_sequence : given.a_context
     }
 
     void Because() => _projectionContent = _renderer.Render(_descriptor, _context)
-        .Single(f => f.RelativePath.EndsWith("ArchivedEmployee.cs")).Content;
+        .Single(f => f.ArtifactPath.EndsWith("ArchivedEmployee.cs")).Content;
 
     [Fact] void should_emit_from_event_sequence_attribute() => _projectionContent.ShouldContain("[FromEventSequence(\"archive\")]");
 }

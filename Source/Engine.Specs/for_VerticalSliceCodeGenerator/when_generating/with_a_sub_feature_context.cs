@@ -14,14 +14,14 @@ public class with_a_sub_feature_context : given.all_dependencies
 {
     VerticalSlice _slice;
     CodeGenerationContext _subFeatureContext;
-    GeneratedFile _expectedFile;
-    IEnumerable<GeneratedFile> _result;
+    RenderedArtifact _expectedFile;
+    IEnumerable<RenderedArtifact> _result;
 
     void Establish()
     {
         _slice = new VerticalSlice("PlaceOrder", VerticalSliceType.StateChange, null, null, [], [], []);
         _subFeatureContext = new CodeGenerationContext("Orders", "Ordering", ["Placing"]);
-        _expectedFile = new GeneratedFile("Orders/Ordering/Placing/PlaceOrder.cs", "// code");
+        _expectedFile = new RenderedArtifact("Orders/Ordering/Placing/PlaceOrder.cs", "// code");
         _stateChangeGenerator
             .Generate(Arg.Any<VerticalSlice>(), Arg.Any<CodeGenerationContext>(), Arg.Any<ArtifactRenderSet>())
             .Returns([_expectedFile]);

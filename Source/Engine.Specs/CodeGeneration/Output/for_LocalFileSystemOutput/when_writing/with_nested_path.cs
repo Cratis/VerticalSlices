@@ -9,14 +9,14 @@ public class with_nested_path : Specification
 {
     LocalFileSystemOutput _output;
     string _outputRoot;
-    GeneratedFile _file;
+    RenderedArtifact _file;
 
     void Establish()
     {
         _outputRoot = Path.Combine(Path.GetTempPath(), $"lfs_test_{Guid.NewGuid():N}");
         Directory.CreateDirectory(_outputRoot);
         _output = new LocalFileSystemOutput(_outputRoot, NullLogger<LocalFileSystemOutput>.Instance);
-        _file = new GeneratedFile(Path.Combine("Orders", "Placing", "PlaceOrder.cs"), "// command");
+        _file = new RenderedArtifact(Path.Combine("Orders", "Placing", "PlaceOrder.cs"), "// command");
     }
 
     async Task Because() => await _output.Write([_file]);

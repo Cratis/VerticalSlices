@@ -11,10 +11,10 @@ namespace Cratis.VerticalSlices;
 /// Returned by the internal collection pass in <see cref="VerticalSlicesEngine"/> so that
 /// no mutable lists need to be passed by reference between recursive calls.
 /// </summary>
-/// <param name="Files">The generated source files.</param>
+/// <param name="Artifacts">The rendered artifacts produced for all vertical slices.</param>
 /// <param name="EventDescriptors">The event type descriptors gathered for Chronicle registration.</param>
 /// <param name="ReadModelDescriptors">The read model descriptors gathered for Chronicle registration.</param>
 public record CollectedArtifacts(
-    IReadOnlyList<GeneratedFile> Files,
+    IReadOnlyList<RenderedArtifact> Artifacts,
     IReadOnlyList<EventTypeDescriptor> EventDescriptors,
     IReadOnlyList<ReadModelDescriptor> ReadModelDescriptors);

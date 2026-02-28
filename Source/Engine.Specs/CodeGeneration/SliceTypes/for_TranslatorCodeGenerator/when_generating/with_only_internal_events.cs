@@ -13,15 +13,15 @@ public class with_only_internal_events : given.a_slice_type_code_generator
 {
     TranslatorCodeGenerator _generator;
     VerticalSlice _slice;
-    GeneratedFile _eventFile;
-    IEnumerable<GeneratedFile> _result;
+    RenderedArtifact _eventFile;
+    IEnumerable<RenderedArtifact> _result;
 
     void Establish()
     {
         _generator = new TranslatorCodeGenerator();
         var internalEvent = new EventType("OrderNormalised", "Order normalised to internal format", [], EventKind.Internal);
         _slice = new VerticalSlice("Normalisation", VerticalSliceType.Translator, null, null, [], [], [internalEvent]);
-        _eventFile = new GeneratedFile("Test/OrderNormalised.cs", "// event");
+        _eventFile = new RenderedArtifact("Test/OrderNormalised.cs", "// event");
         _eventTypeRenderer.Render(Arg.Any<EventTypeDescriptor>(), Arg.Any<CodeGenerationContext>()).Returns([_eventFile]);
     }
 

@@ -9,7 +9,7 @@ public class with_correct_relative_path : given.a_context
 {
     ModelBoundEventTypeRenderer _renderer;
     EventTypeDescriptor _descriptor;
-    GeneratedFile _result;
+    RenderedArtifact _result;
 
     void Establish()
     {
@@ -20,5 +20,5 @@ public class with_correct_relative_path : given.a_context
     void Because() => _result = _renderer.Render(_descriptor, _context).Single();
 
     [Fact] void should_place_file_under_context_relative_path() =>
-        _result.RelativePath.ShouldEqual(Path.Combine(_context.RelativePath, "OrderPlaced.cs"));
+        _result.ArtifactPath.ShouldEqual(Path.Combine(_context.RelativePath, "OrderPlaced.cs"));
 }

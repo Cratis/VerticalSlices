@@ -9,17 +9,17 @@ namespace Cratis.VerticalSlices.CodeGeneration.Output;
 /// </summary>
 public class InMemoryOutput : ICodeOutput
 {
-    readonly List<GeneratedFile> _files = [];
+    readonly List<RenderedArtifact> _artifacts = [];
 
     /// <summary>
-    /// Gets the generated files that have been collected.
+    /// Gets the rendered artifacts that have been collected.
     /// </summary>
-    public IReadOnlyList<GeneratedFile> Files => _files;
+    public IReadOnlyList<RenderedArtifact> Artifacts => _artifacts;
 
     /// <inheritdoc/>
-    public Task Write(IEnumerable<GeneratedFile> files, CancellationToken ct = default)
+    public Task Write(IEnumerable<RenderedArtifact> artifacts, CancellationToken ct = default)
     {
-        _files.AddRange(files);
+        _artifacts.AddRange(artifacts);
 
         return Task.CompletedTask;
     }
@@ -27,5 +27,5 @@ public class InMemoryOutput : ICodeOutput
     /// <summary>
     /// Clears all collected files.
     /// </summary>
-    public void Clear() => _files.Clear();
+    public void Clear() => _artifacts.Clear();
 }

@@ -23,9 +23,10 @@ public class without_description : given.a_context
 
     void Because() =>
         _projectionContent = _renderer.Render(_descriptor, _context)
-            .Single(f => f.RelativePath.EndsWith("OrderSummary.cs"))
+            .Single(f => f.ArtifactPath.EndsWith("OrderSummary.cs"))
             .Content;
 
-    [Fact] void should_not_emit_xml_summary_comment() => _projectionContent.ShouldNotContain("/// <summary>");
-    [Fact] void should_still_emit_record_declaration() => _projectionContent.ShouldContain("public record OrderSummary(");
+    [Fact] void should_not_emit_type_level_summary_comment() =>
+        _projectionContent.Split("[ReadModel]")[0].ShouldNotContain("/// <summary>");
+    [Fact] void should_still_emit_record_declaration() => _projectionContent.ShouldContain("public partial record OrderSummary(");
 }

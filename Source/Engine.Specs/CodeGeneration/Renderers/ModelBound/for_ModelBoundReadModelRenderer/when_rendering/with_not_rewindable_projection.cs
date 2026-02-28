@@ -23,7 +23,7 @@ public class with_not_rewindable_projection : given.a_context
     }
 
     void Because() => _projectionContent = _renderer.Render(_descriptor, _context)
-        .Single(f => f.RelativePath.EndsWith("AuditLog.cs")).Content;
+        .Single(f => f.ArtifactPath.EndsWith("AuditLog.cs")).Content;
 
     [Fact] void should_emit_not_rewindable_attribute() => _projectionContent.ShouldContain("[NotRewindable]");
 }

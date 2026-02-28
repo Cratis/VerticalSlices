@@ -32,7 +32,7 @@ public class with_no_generated_files : given.all_dependencies
 
     async Task Because() => await _engine.Process(_modules, _output, _chronicle);
 
-    [Fact] void should_not_write_to_output() => _output.DidNotReceive().Write(Arg.Any<IEnumerable<GeneratedFile>>(), Arg.Any<CancellationToken>());
+    [Fact] void should_not_write_to_output() => _output.DidNotReceive().Write(Arg.Any<IEnumerable<RenderedArtifact>>(), Arg.Any<CancellationToken>());
     [Fact] void should_not_register_any_event_types() => _chronicle.DidNotReceive().RegisterEventTypes(Arg.Any<IEnumerable<EventTypeDescriptor>>(), Arg.Any<CancellationToken>());
     [Fact] void should_not_register_any_projections() => _chronicle.DidNotReceive().RegisterProjections(Arg.Any<IEnumerable<ReadModelDescriptor>>(), Arg.Any<CancellationToken>());
 }

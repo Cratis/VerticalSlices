@@ -17,5 +17,5 @@ public interface IVerticalSliceCodeGenerator
     /// <param name="context">The code generation context carrying namespace hierarchy.</param>
     /// <param name="renderSet">The artifact render set to use. Defaults to model-bound when null.</param>
     /// <returns>A collection of all generated files.</returns>
-    IEnumerable<GeneratedFile> Generate(VerticalSlice slice, CodeGenerationContext context, ArtifactRenderSet? renderSet = null);
+    IEnumerable<RenderedArtifact> Generate(VerticalSlice slice, CodeGenerationContext context, ArtifactRenderSet? renderSet = null);
 }

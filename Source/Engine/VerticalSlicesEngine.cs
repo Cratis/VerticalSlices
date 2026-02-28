@@ -26,15 +26,16 @@ public partial class VerticalSlicesEngine(
         ICodeOutput? output = null,
         IChronicleRegistration? chronicle = null,
         ArtifactRenderSet? renderSet = null,
+        CodeGenerationOptions? options = null,
         CancellationToken ct = default)
     {
         renderSet ??= ArtifactRenderSet.ModelBound;
-        var collected = CollectFromModules(modules, renderSet);
+        var collected = CollectFromModules(modules, renderSet, options);
 
-        if (output is not null && collected.Files.Count > 0)
+        if (output is not null && collected.Artifacts.Count > 0)
         {
-            LogWritingFiles(collected.Files.Count);
-            await output.Write(collected.Files, ct);
+            LogWritingFiles(collected.Artifacts.Count);
+            await output.Write(collected.Artifacts, ct);
         }
 
         if (chronicle is not null)
@@ -55,17 +56,17 @@ public partial class VerticalSlicesEngine(
     }
 
     /// <inheritdoc/>
-    public IEnumerable<GeneratedFile> Preview(IEnumerable<Module> modules, ArtifactRenderSet? renderSet = null)
+    public IEnumerable<RenderedArtifact> Preview(IEnumerable<Module> modules, ArtifactRenderSet? renderSet = null, CodeGenerationOptions? options = null)
     {
         renderSet ??= ArtifactRenderSet.ModelBound;
-        return CollectFromModules(modules, renderSet).Files;
+        return CollectFromModules(modules, renderSet, options).Artifacts;
     }
 
-    CollectedArtifacts CollectFromModules(IEnumerable<Module> modules, ArtifactRenderSet renderSet)
+    CollectedArtifacts CollectFromModules(IEnumerable<Module> modules, ArtifactRenderSet renderSet, CodeGenerationOptions? options)
     {
         SliceValidator.Validate(modules);
 
-        var files = new List<GeneratedFile>();
+        var artifacts = new List<RenderedArtifact>();
         var eventDescriptors = new List<EventTypeDescriptor>();
         var readModelDescriptors = new List<ReadModelDescriptor>();
 
@@ -73,24 +74,25 @@ public partial class VerticalSlicesEngine(
         {
             foreach (var concept in module.Concepts)
             {
-                var context = new CodeGenerationContext(module.Name, string.Empty, []);
+                var context = new CodeGenerationContext(module.Name, string.Empty, [], options);
                 var descriptor = ConceptDescriptor.FromConcept(concept);
-                files.AddRange(renderSet.Concept.Render(descriptor, context));
+                artifacts.AddRange(renderSet.Concept.Render(descriptor, context));
             }
 
-            CollectFromFeatures(module.Features, renderSet, files, eventDescriptors, readModelDescriptors, [module.Name]);
+            CollectFromFeatures(module.Features, renderSet, artifacts, eventDescriptors, readModelDescriptors, [module.Name], options);
         }
 
-        return new CollectedArtifacts(files, eventDescriptors, readModelDescriptors);
+        return new CollectedArtifacts(artifacts, eventDescriptors, readModelDescriptors);
     }
 
     void CollectFromFeatures(
         IEnumerable<Feature> features,
         ArtifactRenderSet renderSet,
-        List<GeneratedFile> files,
+        List<RenderedArtifact> artifacts,
         List<EventTypeDescriptor> eventDescriptors,
         List<ReadModelDescriptor> readModelDescriptors,
-        IReadOnlyList<string> parentPath)
+        IReadOnlyList<string> parentPath,
+        CodeGenerationOptions? options = null)
     {
         foreach (var feature in features)
         {
@@ -98,15 +100,15 @@ public partial class VerticalSlicesEngine(
 
             foreach (var concept in feature.Concepts)
             {
-                var conceptContext = new CodeGenerationContext(feature.Name, string.Empty, parentPath);
+                var conceptContext = new CodeGenerationContext(feature.Name, string.Empty, parentPath, options);
                 var descriptor = ConceptDescriptor.FromConcept(concept);
-                files.AddRange(renderSet.Concept.Render(descriptor, conceptContext));
+                artifacts.AddRange(renderSet.Concept.Render(descriptor, conceptContext));
             }
 
             foreach (var slice in feature.VerticalSlices)
             {
-                var context = new CodeGenerationContext(feature.Name, slice.Name, parentPath);
-                files.AddRange(codeGenerator.Generate(slice, context, renderSet));
+                var context = new CodeGenerationContext(feature.Name, slice.Name, parentPath, options);
+                artifacts.AddRange(codeGenerator.Generate(slice, context, renderSet));
 
                 foreach (var eventType in slice.Events.Where(e => e.Kind == EventKind.Internal))
                 {
@@ -122,7 +124,7 @@ public partial class VerticalSlicesEngine(
             if (feature.Features.Any())
             {
                 var subPath = new List<string>(parentPath) { feature.Name };
-                CollectFromFeatures(feature.Features, renderSet, files, eventDescriptors, readModelDescriptors, subPath);
+                CollectFromFeatures(feature.Features, renderSet, artifacts, eventDescriptors, readModelDescriptors, subPath, options);
             }
         }
     }

@@ -9,14 +9,14 @@ public class with_generated_files : Specification
 {
     LocalFileSystemOutput _output;
     string _outputRoot;
-    GeneratedFile _file;
+    RenderedArtifact _file;
 
     void Establish()
     {
         _outputRoot = Path.Combine(Path.GetTempPath(), $"lfs_test_{Guid.NewGuid():N}");
         Directory.CreateDirectory(_outputRoot);
         _output = new LocalFileSystemOutput(_outputRoot, NullLogger<LocalFileSystemOutput>.Instance);
-        _file = new GeneratedFile("PlaceOrder.cs", "// generated command");
+        _file = new RenderedArtifact("PlaceOrder.cs", "// generated command");
     }
 
     async Task Because() => await _output.Write([_file]);

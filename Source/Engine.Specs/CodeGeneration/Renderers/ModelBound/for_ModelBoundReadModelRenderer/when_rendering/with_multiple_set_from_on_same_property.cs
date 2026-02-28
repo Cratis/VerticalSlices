@@ -34,7 +34,7 @@ public class with_multiple_set_from_on_same_property : given.a_context
     }
 
     void Because() => _projectionContent = _renderer.Render(_descriptor, _context)
-        .Single(f => f.RelativePath.EndsWith("AccountView.cs")).Content;
+        .Single(f => f.ArtifactPath.EndsWith("AccountView.cs")).Content;
 
     [Fact] void should_emit_set_from_created_attribute() => _projectionContent.ShouldContain("[SetFrom<AccountCreated>");
     [Fact] void should_emit_set_from_renamed_attribute() => _projectionContent.ShouldContain("[SetFrom<AccountRenamed>");

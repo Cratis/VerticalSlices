@@ -28,6 +28,6 @@ public class with_feature_level_concepts : given.all_dependencies
     async Task Because() => await _engine.Process(_modules, _output);
 
     [Fact] void should_write_concept_files_to_output() =>
-        _output.Received(1).Write(Arg.Is<IEnumerable<GeneratedFile>>(files =>
-            files.Any(f => f.RelativePath.EndsWith("EmployeeName.cs"))), Arg.Any<CancellationToken>());
+        _output.Received(1).Write(Arg.Is<IEnumerable<RenderedArtifact>>(artifacts =>
+            artifacts.Any(a => a.ArtifactPath.EndsWith("EmployeeName.cs"))), Arg.Any<CancellationToken>());
 }

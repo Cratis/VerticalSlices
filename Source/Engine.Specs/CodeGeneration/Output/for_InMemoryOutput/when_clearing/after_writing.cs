@@ -11,9 +11,9 @@ public class after_writing : Specification
 
     async Task Because()
     {
-        await _output.Write([new GeneratedFile("Orders/PlaceOrder.cs", "// code")]);
+        await _output.Write([new RenderedArtifact("Orders/PlaceOrder.cs", "// code")]);
         _output.Clear();
     }
 
-    [Fact] void should_have_no_files() => _output.Files.ShouldBeEmpty();
+    [Fact] void should_have_no_files() => _output.Artifacts.ShouldBeEmpty();
 }

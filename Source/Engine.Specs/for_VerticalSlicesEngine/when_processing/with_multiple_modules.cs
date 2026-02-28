@@ -14,16 +14,16 @@ namespace Cratis.VerticalSlices.for_VerticalSlicesEngine.when_processing;
 public class with_multiple_modules : given.all_dependencies
 {
     IEnumerable<Module> _modules;
-    IEnumerable<GeneratedFile> _capturedFiles;
+    IEnumerable<RenderedArtifact> _capturedFiles;
     ICodeOutput _output;
     VerticalSlicesEngine _engine;
-    GeneratedFile _module1File;
-    GeneratedFile _module2File;
+    RenderedArtifact _module1File;
+    RenderedArtifact _module2File;
 
     void Establish()
     {
-        _module1File = new GeneratedFile("ModuleA/Feature1/Slice1/Event1.cs", "// m1");
-        _module2File = new GeneratedFile("ModuleB/Feature2/Slice2/Event2.cs", "// m2");
+        _module1File = new RenderedArtifact("ModuleA/Feature1/Slice1/Event1.cs", "// m1");
+        _module2File = new RenderedArtifact("ModuleB/Feature2/Slice2/Event2.cs", "// m2");
 
         var event1 = new EventType("Event1", "Event 1", []);
         var event2 = new EventType("Event2", "Event 2", []);
@@ -50,7 +50,7 @@ public class with_multiple_modules : given.all_dependencies
 
         _output = Substitute.For<ICodeOutput>();
         _output
-            .Write(Arg.Do<IEnumerable<GeneratedFile>>(files => _capturedFiles = files.ToList()), Arg.Any<CancellationToken>())
+            .Write(Arg.Do<IEnumerable<RenderedArtifact>>(files => _capturedFiles = files.ToList()), Arg.Any<CancellationToken>())
             .Returns(Task.CompletedTask);
 
         _engine = new VerticalSlicesEngine(_codeGenerator, _logger);

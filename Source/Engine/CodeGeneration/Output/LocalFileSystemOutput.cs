@@ -13,13 +13,13 @@ namespace Cratis.VerticalSlices.CodeGeneration.Output;
 public partial class LocalFileSystemOutput(string outputRoot, ILogger<LocalFileSystemOutput> logger) : ICodeOutput
 {
     /// <inheritdoc/>
-    public async Task Write(IEnumerable<GeneratedFile> files, CancellationToken ct = default)
+    public async Task Write(IEnumerable<RenderedArtifact> artifacts, CancellationToken ct = default)
     {
-        foreach (var file in files)
+        foreach (var artifact in artifacts)
         {
             ct.ThrowIfCancellationRequested();
 
-            var fullPath = Path.Combine(outputRoot, file.RelativePath);
+            var fullPath = Path.Combine(outputRoot, artifact.ArtifactPath);
             var directory = Path.GetDirectoryName(fullPath);
 
             if (directory is not null && !Directory.Exists(directory))
@@ -27,12 +27,12 @@ public partial class LocalFileSystemOutput(string outputRoot, ILogger<LocalFileS
                 Directory.CreateDirectory(directory);
             }
 
-            await File.WriteAllTextAsync(fullPath, file.Content, ct);
+            await File.WriteAllTextAsync(fullPath, artifact.Content, ct);
 
-            LogWroteFile(file.RelativePath, fullPath);
+            LogWroteArtifact(artifact.ArtifactPath, fullPath);
         }
     }
 
-    [LoggerMessage(LogLevel.Debug, "Wrote generated file {RelativePath} to {FullPath}")]
-    partial void LogWroteFile(string relativePath, string fullPath);
+    [LoggerMessage(LogLevel.Debug, "Wrote rendered artifact {ArtifactPath} to {FullPath}")]
+    partial void LogWroteArtifact(string artifactPath, string fullPath);
 }

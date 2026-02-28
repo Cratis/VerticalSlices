@@ -7,7 +7,7 @@ public class with_only_external_events : given.a_slice_type_code_generator
 {
     TranslatorCodeGenerator _generator;
     VerticalSlice _slice;
-    IEnumerable<GeneratedFile> _result;
+    IEnumerable<RenderedArtifact> _result;
 
     void Establish()
     {

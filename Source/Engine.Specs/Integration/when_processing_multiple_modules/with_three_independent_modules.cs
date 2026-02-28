@@ -104,28 +104,37 @@ public class with_three_independent_modules : given.a_real_engine
             [new Property("TrackingNumber", "string")],
             "OrderId");
 
-        var orderStateChange = new VerticalSlice(
-            "OrderLifecycle",
+        var placeOrderSlice = new VerticalSlice(
+            "PlaceOrder",
             VerticalSliceType.StateChange,
             null,
             null,
-            [placeOrderCommand, shipOrderCommand],
+            [placeOrderCommand],
             [],
-            [orderPlacedEvent, orderShippedEvent]);
+            [orderPlacedEvent]);
+
+        var shipOrderSlice = new VerticalSlice(
+            "ShipOrder",
+            VerticalSliceType.StateChange,
+            null,
+            null,
+            [shipOrderCommand],
+            [],
+            [orderShippedEvent]);
 
         var orderIdForView = new[] { new EventPropertyMapping("OrderPlaced", EventPropertyMappingKind.Set, "OrderId") };
         var customerIdMappings = new[] { new EventPropertyMapping("OrderPlaced", EventPropertyMappingKind.Set, "CustomerId") };
         var totalMappings = new[] { new EventPropertyMapping("OrderPlaced", EventPropertyMappingKind.Set, "TotalAmount") };
-        var orderCountMappings = new[] { new EventPropertyMapping("OrderPlaced", EventPropertyMappingKind.Count) };
+        var trackingNumberMappings = new[] { new EventPropertyMapping("OrderShipped", EventPropertyMappingKind.Set, "TrackingNumber") };
 
         var orderSummary = new ReadModel(
             "OrderSummary",
-            "A summary of a placed order",
+            "A summary of a placed order, enriched with tracking info once shipped",
             [
                 new ReadModelProperty("OrderId", "string", orderIdForView),
                 new ReadModelProperty("CustomerId", "string", customerIdMappings),
                 new ReadModelProperty("TotalAmount", "decimal", totalMappings),
-                new ReadModelProperty("OrderCount", "int", orderCountMappings)
+                new ReadModelProperty("TrackingNumber", "string", trackingNumberMappings)
             ]);
 
         var orderView = new VerticalSlice(
@@ -135,9 +144,9 @@ public class with_three_independent_modules : given.a_real_engine
             null,
             [],
             [orderSummary],
-            [orderPlacedEvent]);
+            [orderPlacedEvent, orderShippedEvent]);
 
-        var ordersFeature = new Feature("Orders", [], [], [orderStateChange, orderView]);
+        var ordersFeature = new Feature("Orders", [], [], [placeOrderSlice, shipOrderSlice, orderView]);
         var ordersModule = new Module("Orders", [orderId], [ordersFeature]);
 
         // ── Notifications module ─────────────────────────────────────────────────
@@ -206,29 +215,29 @@ public class with_three_independent_modules : given.a_real_engine
     {
         await _engine.Process(_modules, _output);
         _generatedFiles = _engine.Preview(_modules);
-        AddGlobalUsingsFromGeneratedFiles();
+        AddGlobalUsingsFromRenderedArtifacts();
         _buildExitCode = await RunDotnet("build");
     }
 
     [Fact] void should_generate_catalog_module_files() =>
-        new[] { "ProductListed.cs", "ListProduct.cs", "CatalogEntry.cs", "AllCatalogEntrys.cs" }
-            .All(n => _generatedFiles.Any(f => f.RelativePath.EndsWith(n)))
+        new[] { "ProductListed.cs", "ListProduct.cs", "CatalogEntry.cs" }
+            .All(n => _generatedFiles.Any(f => f.ArtifactPath.EndsWith(n)))
             .ShouldBeTrue();
 
     [Fact] void should_generate_orders_module_files() =>
-        new[] { "OrderId.cs", "OrderPlaced.cs", "OrderShipped.cs", "PlaceOrder.cs", "ShipOrder.cs", "OrderSummary.cs", "AllOrderSummarys.cs" }
-            .All(n => _generatedFiles.Any(f => f.RelativePath.EndsWith(n)))
+        new[] { "OrderId.cs", "OrderPlaced.cs", "OrderShipped.cs", "PlaceOrder.cs", "ShipOrder.cs", "OrderSummary.cs" }
+            .All(n => _generatedFiles.Any(f => f.ArtifactPath.EndsWith(n)))
             .ShouldBeTrue();
 
     [Fact] void should_generate_notifications_module_internal_event_file() =>
-        _generatedFiles.Any(f => f.RelativePath.EndsWith("EmailDelivered.cs")).ShouldBeTrue();
+        _generatedFiles.Any(f => f.ArtifactPath.EndsWith("EmailDelivered.cs")).ShouldBeTrue();
 
     [Fact] void should_not_generate_external_event_file() =>
-        _generatedFiles.Any(f => f.RelativePath.EndsWith("ExternalEmailDelivered.cs")).ShouldBeFalse();
+        _generatedFiles.Any(f => f.ArtifactPath.EndsWith("ExternalEmailDelivered.cs")).ShouldBeFalse();
 
     [Fact] void should_generate_notifications_automation_files() =>
-        new[] { "DeliveredNotification.cs", "AllDeliveredNotifications.cs", "RetryNotification.cs" }
-            .All(n => _generatedFiles.Any(f => f.RelativePath.EndsWith(n)))
+        new[] { "DeliveredNotification.cs", "RetryNotification.cs" }
+            .All(n => _generatedFiles.Any(f => f.ArtifactPath.EndsWith(n)))
             .ShouldBeTrue();
 
     [Fact] void should_compile_successfully() => _buildExitCode.ShouldEqual(0);

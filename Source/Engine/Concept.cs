@@ -12,8 +12,10 @@ namespace Cratis.VerticalSlices;
 /// <param name="UnderlyingType">The primitive type the concept wraps (e.g., string, Guid, int).</param>
 /// <param name="Description">A description of what the concept represents.</param>
 /// <param name="ValidationRules">The validation rules that apply to this concept.</param>
+/// <param name="IsEventSourceId">When <see langword="true"/>, the concept inherits from <c>EventSourceId</c> rather than <c>ConceptAs&lt;T&gt;</c>, acting as a typed event source identifier.</param>
 public record Concept(
     string Name,
     string UnderlyingType,
     string Description,
-    IEnumerable<ConceptValidationRule> ValidationRules);
+    IEnumerable<ConceptValidationRule> ValidationRules,
+    bool IsEventSourceId = false);

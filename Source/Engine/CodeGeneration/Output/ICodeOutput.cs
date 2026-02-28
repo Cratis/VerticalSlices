@@ -12,8 +12,8 @@ public interface ICodeOutput
     /// <summary>
     /// Writes the generated files to the output target.
     /// </summary>
-    /// <param name="files">The generated files to write.</param>
+    /// <param name="artifacts">The rendered artifacts to write.</param>
     /// <param name="ct">The cancellation token.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    Task Write(IEnumerable<GeneratedFile> files, CancellationToken ct = default);
+    Task Write(IEnumerable<RenderedArtifact> artifacts, CancellationToken ct = default);
 }

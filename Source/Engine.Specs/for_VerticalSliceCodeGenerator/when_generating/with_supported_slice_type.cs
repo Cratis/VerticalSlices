@@ -9,13 +9,13 @@ namespace Cratis.VerticalSlices.for_VerticalSliceCodeGenerator.when_generating;
 public class with_supported_slice_type : given.all_dependencies
 {
     VerticalSlice _slice;
-    GeneratedFile _expectedFile;
-    IEnumerable<GeneratedFile> _result;
+    RenderedArtifact _expectedFile;
+    IEnumerable<RenderedArtifact> _result;
 
     void Establish()
     {
         _slice = new VerticalSlice("MySlice", VerticalSliceType.StateChange, null, null, [], [], []);
-        _expectedFile = new GeneratedFile("MySlice/Command.cs", "// code");
+        _expectedFile = new RenderedArtifact("MySlice/Command.cs", "// code");
         _stateChangeGenerator
             .Generate(Arg.Any<VerticalSlice>(), Arg.Any<CodeGenerationContext>(), Arg.Any<ArtifactRenderSet>())
             .Returns([_expectedFile]);

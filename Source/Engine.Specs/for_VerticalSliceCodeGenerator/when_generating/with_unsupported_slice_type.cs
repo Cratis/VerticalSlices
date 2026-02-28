@@ -9,7 +9,7 @@ namespace Cratis.VerticalSlices.for_VerticalSliceCodeGenerator.when_generating;
 public class with_unsupported_slice_type : given.all_dependencies
 {
     VerticalSlice _slice;
-    IEnumerable<GeneratedFile> _result;
+    IEnumerable<RenderedArtifact> _result;
 
     void Establish() => _slice = new VerticalSlice("MySlice", VerticalSliceType.Automation, null, null, [], [], []);
 

@@ -13,14 +13,14 @@ public class with_sub_features : given.all_dependencies
 {
     VerticalSlicesEngine _engine;
     IEnumerable<Module> _modules;
-    IEnumerable<GeneratedFile> _result;
-    GeneratedFile _subFeatureFile;
+    IEnumerable<RenderedArtifact> _result;
+    RenderedArtifact _subFeatureFile;
 
     void Establish()
     {
         _engine = new VerticalSlicesEngine(_codeGenerator, _logger);
 
-        _subFeatureFile = new GeneratedFile("Orders/Ordering/PlaceOrder/PlaceOrderCommand.cs", "// generated");
+        _subFeatureFile = new RenderedArtifact("Orders/Ordering/PlaceOrder/PlaceOrderCommand.cs", "// generated");
 
         var slice = new VerticalSlice("PlaceOrder", VerticalSliceType.StateChange, null, null, [], [], []);
         var subFeature = new Feature("PlaceOrder", [], [], [slice]);

@@ -9,8 +9,8 @@ public class with_read_models : given.a_slice_type_code_generator
 {
     TranslatorCodeGenerator _generator;
     VerticalSlice _slice;
-    GeneratedFile _readModelFile;
-    IEnumerable<GeneratedFile> _result;
+    RenderedArtifact _readModelFile;
+    IEnumerable<RenderedArtifact> _result;
 
     void Establish()
     {
@@ -18,7 +18,7 @@ public class with_read_models : given.a_slice_type_code_generator
         var externalEvent = new EventType("ExternalOrderPlaced", "External source event", [], EventKind.External);
         var taskList = new ReadModel("ImportQueue", "Pending imports", []);
         _slice = new VerticalSlice("ImportOrder", VerticalSliceType.Translator, null, null, [], [taskList], [externalEvent]);
-        _readModelFile = new GeneratedFile("Test/ImportQueue.cs", "// queue");
+        _readModelFile = new RenderedArtifact("Test/ImportQueue.cs", "// queue");
         _readModelRenderer.Render(Arg.Any<ReadModelDescriptor>(), Arg.Any<CodeGenerationContext>()).Returns([_readModelFile]);
     }
 

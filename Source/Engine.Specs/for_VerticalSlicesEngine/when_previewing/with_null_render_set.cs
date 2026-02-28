@@ -9,7 +9,7 @@ namespace Cratis.VerticalSlices.for_VerticalSlicesEngine.when_previewing;
 public class with_null_render_set : given.a_module_with_a_slice_producing_files
 {
     VerticalSlicesEngine _engine;
-    IEnumerable<GeneratedFile> _result;
+    IEnumerable<RenderedArtifact> _result;
     ArtifactRenderSet _capturedRenderSet;
 
     void Establish()

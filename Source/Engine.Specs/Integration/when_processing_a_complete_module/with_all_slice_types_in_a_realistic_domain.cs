@@ -144,9 +144,18 @@ public class with_all_slice_types_in_a_realistic_domain : given.a_real_engine
             VerticalSliceType.StateChange,
             null,
             null,
-            [scheduleCommand, cancelCommand],
+            [scheduleCommand],
             [],
-            [appointmentScheduled, appointmentCancelled]);
+            [appointmentScheduled]);
+
+        var cancelSlice = new VerticalSlice(
+            "CancelAppointment",
+            VerticalSliceType.StateChange,
+            null,
+            null,
+            [cancelCommand],
+            [],
+            [appointmentCancelled]);
 
         var apptIdMappings = new[] { new EventPropertyMapping("AppointmentScheduled", EventPropertyMappingKind.Set, "AppointmentId") };
         var apptPatientMappings = new[] { new EventPropertyMapping("AppointmentScheduled", EventPropertyMappingKind.Set, "PatientId") };
@@ -187,7 +196,7 @@ public class with_all_slice_types_in_a_realistic_domain : given.a_real_engine
             [],
             [externalCalendarEvent, calendarEventSynced]);
 
-        var schedulingSubFeature = new Feature("Scheduling", [], [], [schedulingSlice, remindersSlice]);
+        var schedulingSubFeature = new Feature("Scheduling", [], [], [schedulingSlice, cancelSlice, remindersSlice]);
         var externalSyncSubFeature = new Feature("ExternalSync", [], [], [translatorSlice]);
 
         var appointmentsFeature = new Feature(
@@ -203,40 +212,40 @@ public class with_all_slice_types_in_a_realistic_domain : given.a_real_engine
     {
         await _engine.Process(_modules, _output);
         _generatedFiles = _engine.Preview(_modules);
-        AddGlobalUsingsFromGeneratedFiles();
+        AddGlobalUsingsFromRenderedArtifacts();
         _buildExitCode = await RunDotnet("build");
     }
 
     [Fact] void should_generate_module_level_concept_files() =>
         new[] { "PatientId.cs", "DoctorId.cs" }
-            .All(n => _generatedFiles.Any(f => f.RelativePath.EndsWith(n)))
+            .All(n => _generatedFiles.Any(f => f.ArtifactPath.EndsWith(n)))
             .ShouldBeTrue();
 
     [Fact] void should_generate_feature_level_concept_with_validator() =>
         new[] { "PatientName.cs", "PatientNameValidator.cs" }
-            .All(n => _generatedFiles.Any(f => f.RelativePath.EndsWith(n)))
+            .All(n => _generatedFiles.Any(f => f.ArtifactPath.EndsWith(n)))
             .ShouldBeTrue();
 
     [Fact] void should_generate_state_change_files() =>
         new[] { "PatientRegistered.cs", "RegisterPatient.cs", "AppointmentScheduled.cs", "AppointmentCancelled.cs", "ScheduleAppointment.cs", "CancelAppointment.cs" }
-            .All(n => _generatedFiles.Any(f => f.RelativePath.EndsWith(n)))
+            .All(n => _generatedFiles.Any(f => f.ArtifactPath.EndsWith(n)))
             .ShouldBeTrue();
 
     [Fact] void should_generate_state_view_files() =>
-        new[] { "PatientSummary.cs", "AllPatientSummarys.cs" }
-            .All(n => _generatedFiles.Any(f => f.RelativePath.EndsWith(n)))
+        new[] { "PatientSummary.cs" }
+            .All(n => _generatedFiles.Any(f => f.ArtifactPath.EndsWith(n)))
             .ShouldBeTrue();
 
     [Fact] void should_generate_automation_files() =>
-        new[] { "UpcomingAppointment.cs", "AllUpcomingAppointments.cs", "SendAppointmentReminder.cs" }
-            .All(n => _generatedFiles.Any(f => f.RelativePath.EndsWith(n)))
+        new[] { "UpcomingAppointment.cs", "SendAppointmentReminder.cs" }
+            .All(n => _generatedFiles.Any(f => f.ArtifactPath.EndsWith(n)))
             .ShouldBeTrue();
 
     [Fact] void should_generate_internal_translator_event_file() =>
-        _generatedFiles.Any(f => f.RelativePath.EndsWith("CalendarEventSynced.cs")).ShouldBeTrue();
+        _generatedFiles.Any(f => f.ArtifactPath.EndsWith("CalendarEventSynced.cs")).ShouldBeTrue();
 
     [Fact] void should_not_generate_external_event_file() =>
-        _generatedFiles.Any(f => f.RelativePath.EndsWith("ExternalCalendarEvent.cs")).ShouldBeFalse();
+        _generatedFiles.Any(f => f.ArtifactPath.EndsWith("ExternalCalendarEvent.cs")).ShouldBeFalse();
 
     [Fact] void should_compile_successfully() => _buildExitCode.ShouldEqual(0);
 }

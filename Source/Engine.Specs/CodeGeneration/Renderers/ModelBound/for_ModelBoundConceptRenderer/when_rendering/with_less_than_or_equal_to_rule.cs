@@ -22,7 +22,7 @@ public class with_less_than_or_equal_to_rule : given.a_context
     }
 
     void Because() => _validatorContent = _renderer.Render(_descriptor, _context)
-        .Single(f => f.RelativePath.EndsWith("CappedPercentValidator.cs")).Content;
+        .Single(f => f.ArtifactPath.EndsWith("CappedPercentValidator.cs")).Content;
 
     [Fact] void should_emit_less_than_or_equal_to_rule() => _validatorContent.ShouldContain(".LessThanOrEqualTo(100)");
 }

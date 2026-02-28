@@ -9,7 +9,7 @@ public class with_an_event_type_and_properties : given.a_context
 {
     ModelBoundEventTypeRenderer _renderer;
     EventTypeDescriptor _descriptor;
-    IEnumerable<GeneratedFile> _result;
+    IEnumerable<RenderedArtifact> _result;
 
     void Establish()
     {
@@ -23,8 +23,8 @@ public class with_an_event_type_and_properties : given.a_context
     void Because() => _result = _renderer.Render(_descriptor, _context);
 
     [Fact] void should_return_one_file() => _result.Count().ShouldEqual(1);
-    [Fact] void should_name_file_after_event_type() => _result.Single().RelativePath.EndsWith("OrderPlaced.cs").ShouldBeTrue();
-    [Fact] void should_place_file_in_context_relative_path() => _result.Single().RelativePath.StartsWith("MyModule").ShouldBeTrue();
+    [Fact] void should_name_file_after_event_type() => _result.Single().ArtifactPath.EndsWith("OrderPlaced.cs").ShouldBeTrue();
+    [Fact] void should_place_file_in_context_relative_path() => _result.Single().ArtifactPath.StartsWith("MyModule").ShouldBeTrue();
     [Fact] void should_emit_event_type_attribute() => _result.Single().Content.ShouldContain("[EventType]");
     [Fact] void should_emit_record_declaration() => _result.Single().Content.ShouldContain("public record OrderPlaced(");
     [Fact] void should_include_first_property() => _result.Single().Content.ShouldContain("Guid OrderId");

@@ -22,7 +22,7 @@ public class with_not_empty_rule : given.a_context
     }
 
     void Because() => _validatorContent = _renderer.Render(_descriptor, _context)
-        .Single(f => f.RelativePath.EndsWith("NonEmptyNameValidator.cs")).Content;
+        .Single(f => f.ArtifactPath.EndsWith("NonEmptyNameValidator.cs")).Content;
 
     [Fact] void should_emit_not_empty_rule() =>
         _validatorContent.ShouldContain(".NotEmpty()");

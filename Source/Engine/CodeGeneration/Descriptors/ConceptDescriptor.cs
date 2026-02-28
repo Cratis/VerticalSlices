@@ -10,11 +10,13 @@ namespace Cratis.VerticalSlices.CodeGeneration.Descriptors;
 /// <param name="UnderlyingType">The primitive type the concept wraps.</param>
 /// <param name="Description">A description of what the concept represents.</param>
 /// <param name="ValidationRules">The validation rules to generate.</param>
+/// <param name="IsEventSourceId">When <see langword="true"/>, the concept inherits from <c>EventSourceId</c> rather than <c>ConceptAs&lt;T&gt;</c>.</param>
 public record ConceptDescriptor(
     string Name,
     string UnderlyingType,
     string Description,
-    IEnumerable<ConceptValidationRule> ValidationRules)
+    IEnumerable<ConceptValidationRule> ValidationRules,
+    bool IsEventSourceId = false)
 {
     /// <summary>
     /// Gets whether this concept has any validation rules defined.
@@ -27,5 +29,5 @@ public record ConceptDescriptor(
     /// <param name="concept">The concept to create a descriptor from.</param>
     /// <returns>A new <see cref="ConceptDescriptor"/>.</returns>
     public static ConceptDescriptor FromConcept(Concept concept) =>
-        new(concept.Name, concept.UnderlyingType, concept.Description, concept.ValidationRules);
+        new(concept.Name, concept.UnderlyingType, concept.Description, concept.ValidationRules, concept.IsEventSourceId);
 }

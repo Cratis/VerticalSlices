@@ -23,7 +23,7 @@ public class with_description : given.a_context
 
     void Because() =>
         _projectionContent = _renderer.Render(_descriptor, _context)
-            .Single(f => f.RelativePath.EndsWith("OrderSummary.cs"))
+            .Single(f => f.ArtifactPath.EndsWith("OrderSummary.cs"))
             .Content;
 
     [Fact] void should_emit_xml_summary_start() => _projectionContent.ShouldContain("/// <summary>");

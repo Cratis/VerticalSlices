@@ -27,8 +27,8 @@ public class with_multiple_produced_events : given.a_context
 
     void Because() => _content = _renderer.Render(_descriptor, _context).Single().Content;
 
-    [Fact] void should_include_stub_comment_for_first_event() => _content.ShouldContain("new EmployeeRegistered(");
-    [Fact] void should_include_stub_comment_for_second_event() => _content.ShouldContain("new EmployeeWelcomed(");
+    [Fact] void should_include_constructor_call_for_first_event() => _content.ShouldContain("new EmployeeRegistered(");
+    [Fact] void should_include_constructor_call_for_second_event() => _content.ShouldContain("new EmployeeWelcomed(");
     [Fact] void should_emit_ienumerable_object_handle_method() => _content.ShouldContain("public IEnumerable<object> Handle()");
     [Fact] void should_not_emit_ieventlog_parameter() => _content.ShouldNotContain("IEventLog");
 }

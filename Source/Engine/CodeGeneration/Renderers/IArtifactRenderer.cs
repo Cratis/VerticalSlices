@@ -16,5 +16,5 @@ public interface IArtifactRenderer<in TDescriptor>
     /// <param name="descriptor">The artifact descriptor to render.</param>
     /// <param name="context">The code generation context carrying namespace hierarchy.</param>
     /// <returns>A collection of generated files.</returns>
-    IEnumerable<GeneratedFile> Render(TDescriptor descriptor, CodeGenerationContext context);
+    IEnumerable<RenderedArtifact> Render(TDescriptor descriptor, CodeGenerationContext context);
 }

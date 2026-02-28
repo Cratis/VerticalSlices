@@ -18,7 +18,7 @@ public class with_guid_underlying_type : given.a_context
     }
 
     void Because() => _conceptContent = _renderer.Render(_descriptor, _context)
-        .Single(f => f.RelativePath.EndsWith("EmployeeId.cs")).Content;
+        .Single(f => f.ArtifactPath.EndsWith("EmployeeId.cs")).Content;
 
     [Fact] void should_emit_concept_record() => _conceptContent.ShouldContain("public record EmployeeId(Guid Value) : ConceptAs<Guid>(Value)");
     [Fact] void should_emit_not_set_with_guid_empty() => _conceptContent.ShouldContain("NotSet = new(Guid.Empty)");

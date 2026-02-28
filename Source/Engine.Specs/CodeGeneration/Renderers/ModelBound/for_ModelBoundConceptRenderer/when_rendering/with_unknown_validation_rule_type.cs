@@ -25,7 +25,7 @@ public class with_unknown_validation_rule_type : given.a_context
     }
 
     void Because() => _validatorContent = _renderer.Render(_descriptor, _context)
-        .Single(f => f.RelativePath.EndsWith("CustomValueValidator.cs")).Content;
+        .Single(f => f.ArtifactPath.EndsWith("CustomValueValidator.cs")).Content;
 
     [Fact] void should_generate_validator_file() =>
         _validatorContent.ShouldNotBeNull();

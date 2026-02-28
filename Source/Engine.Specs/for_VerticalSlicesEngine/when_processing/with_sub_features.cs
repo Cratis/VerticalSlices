@@ -16,14 +16,14 @@ public class with_sub_features : given.all_dependencies
     ICodeOutput _output;
     VerticalSlicesEngine _engine;
     IEnumerable<Module> _modules;
-    GeneratedFile _subFeatureFile;
+    RenderedArtifact _subFeatureFile;
 
     void Establish()
     {
         _output = Substitute.For<ICodeOutput>();
         _engine = new VerticalSlicesEngine(_codeGenerator, _logger);
 
-        _subFeatureFile = new GeneratedFile("Orders/Ordering/PlaceOrder/OrderPlaced.cs", "// generated");
+        _subFeatureFile = new RenderedArtifact("Orders/Ordering/PlaceOrder/OrderPlaced.cs", "// generated");
 
         var slice = new VerticalSlice("PlaceOrder", VerticalSliceType.StateChange, null, null, [], [], []);
         var subFeature = new Feature("PlaceOrder", [], [], [slice]);
@@ -41,6 +41,6 @@ public class with_sub_features : given.all_dependencies
         _codeGenerator.Received(1).Generate(Arg.Any<VerticalSlice>(), Arg.Any<CodeGenerationContext>(), Arg.Any<ArtifactRenderSet>());
 
     [Fact] void should_write_sub_feature_files_to_output() =>
-        _output.Received(1).Write(Arg.Is<IEnumerable<GeneratedFile>>(files =>
+        _output.Received(1).Write(Arg.Is<IEnumerable<RenderedArtifact>>(files =>
             files.Contains(_subFeatureFile)), Arg.Any<CancellationToken>());
 }

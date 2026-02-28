@@ -30,7 +30,7 @@ public class with_second_property_not_marked_as_key : given.a_context
     }
 
     void Because() => _projectionContent = _renderer.Render(_descriptor, _context)
-        .Single(f => f.RelativePath.EndsWith("Product.cs")).Content;
+        .Single(f => f.ArtifactPath.EndsWith("Product.cs")).Content;
 
     [Fact] void should_emit_key_attribute_exactly_once() =>
         _projectionContent

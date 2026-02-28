@@ -9,15 +9,15 @@ public class with_one_event : given.a_slice_type_code_generator
 {
     StateChangeCodeGenerator _generator;
     VerticalSlice _slice;
-    GeneratedFile _expectedFile;
-    IEnumerable<GeneratedFile> _result;
+    RenderedArtifact _expectedFile;
+    IEnumerable<RenderedArtifact> _result;
 
     void Establish()
     {
         _generator = new StateChangeCodeGenerator();
         var orderPlaced = new EventType("OrderPlaced", "An order was placed", [new Property("OrderId", "string")]);
         _slice = new VerticalSlice("PlaceOrder", VerticalSliceType.StateChange, null, null, [], [], [orderPlaced]);
-        _expectedFile = new GeneratedFile("Test/OrderPlaced.cs", "// generated");
+        _expectedFile = new RenderedArtifact("Test/OrderPlaced.cs", "// generated");
         _eventTypeRenderer.Render(Arg.Any<EventTypeDescriptor>(), Arg.Any<CodeGenerationContext>()).Returns([_expectedFile]);
     }
 

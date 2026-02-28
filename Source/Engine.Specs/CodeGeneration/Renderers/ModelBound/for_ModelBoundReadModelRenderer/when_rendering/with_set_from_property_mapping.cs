@@ -23,8 +23,8 @@ public class with_set_from_property_mapping : given.a_context
     }
 
     void Because() => _projectionContent = _renderer.Render(_descriptor, _context)
-        .Single(f => f.RelativePath.EndsWith("Employee.cs")).Content;
+        .Single(f => f.ArtifactPath.EndsWith("Employee.cs")).Content;
 
-    [Fact] void should_emit_set_from_attribute() => _projectionContent.ShouldContain("[SetFrom<EmployeeRegistered>(");
-    [Fact] void should_reference_event_property_by_nameof() => _projectionContent.ShouldContain("nameof(EmployeeRegistered.EmployeeId)");
+    [Fact] void should_emit_from_event_attribute() => _projectionContent.ShouldContain("[FromEvent<EmployeeRegistered>]");
+    [Fact] void should_not_emit_set_from_attribute() => _projectionContent.ShouldNotContain("[SetFrom<EmployeeRegistered>");
 }

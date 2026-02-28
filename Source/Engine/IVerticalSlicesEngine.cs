@@ -22,6 +22,7 @@ public interface IVerticalSlicesEngine
     /// <param name="output">The output target for generated code. When null, code generation is skipped.</param>
     /// <param name="chronicle">The Chronicle registration target. When null, registration is skipped.</param>
     /// <param name="renderSet">The artifact render set to use. Defaults to model-bound when null.</param>
+    /// <param name="options">The code generation options that control how output is emitted. Defaults to per-file usings when null.</param>
     /// <param name="ct">The cancellation token.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     Task Process(
@@ -29,6 +30,7 @@ public interface IVerticalSlicesEngine
         ICodeOutput? output = null,
         IChronicleRegistration? chronicle = null,
         ArtifactRenderSet? renderSet = null,
+        CodeGenerationOptions? options = null,
         CancellationToken ct = default);
 
     /// <summary>
@@ -37,6 +39,7 @@ public interface IVerticalSlicesEngine
     /// </summary>
     /// <param name="modules">The modules containing features and vertical slices.</param>
     /// <param name="renderSet">The artifact render set to use. Defaults to model-bound when null.</param>
+    /// <param name="options">The code generation options that control how output is emitted. Defaults to per-file usings when null.</param>
     /// <returns>The generated files.</returns>
-    IEnumerable<GeneratedFile> Preview(IEnumerable<Module> modules, ArtifactRenderSet? renderSet = null);
+    IEnumerable<RenderedArtifact> Preview(IEnumerable<Module> modules, ArtifactRenderSet? renderSet = null, CodeGenerationOptions? options = null);
 }

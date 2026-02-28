@@ -19,5 +19,5 @@ public class with_output : given.a_module_with_a_slice_producing_files
 
     async Task Because() => await _engine.Process(_modules, _output);
 
-    [Fact] void should_write_generated_files_to_output() => _output.Received(1).Write(Arg.Is<IEnumerable<GeneratedFile>>(f => f.Contains(_generatedFile)), Arg.Any<CancellationToken>());
+    [Fact] void should_write_generated_files_to_output() => _output.Received(1).Write(Arg.Is<IEnumerable<RenderedArtifact>>(f => f.Contains(_generatedFile)), Arg.Any<CancellationToken>());
 }

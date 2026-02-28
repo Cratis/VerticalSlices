@@ -9,9 +9,9 @@ public class with_multiple_read_models : given.a_slice_type_code_generator
 {
     StateViewCodeGenerator _generator;
     VerticalSlice _slice;
-    GeneratedFile _file1;
-    GeneratedFile _file2;
-    IEnumerable<GeneratedFile> _result;
+    RenderedArtifact _file1;
+    RenderedArtifact _file2;
+    IEnumerable<RenderedArtifact> _result;
 
     void Establish()
     {
@@ -19,8 +19,8 @@ public class with_multiple_read_models : given.a_slice_type_code_generator
         var readModel1 = new ReadModel("Employee", "An employee", []);
         var readModel2 = new ReadModel("Department", "A department", []);
         _slice = new VerticalSlice("HR", VerticalSliceType.StateView, null, null, [], [readModel1, readModel2], []);
-        _file1 = new GeneratedFile("Test/Employee.cs", "// rm1");
-        _file2 = new GeneratedFile("Test/Department.cs", "// rm2");
+        _file1 = new RenderedArtifact("Test/Employee.cs", "// rm1");
+        _file2 = new RenderedArtifact("Test/Department.cs", "// rm2");
         _readModelRenderer.Render(Arg.Any<ReadModelDescriptor>(), Arg.Any<CodeGenerationContext>())
             .Returns([_file1], [_file2]);
     }

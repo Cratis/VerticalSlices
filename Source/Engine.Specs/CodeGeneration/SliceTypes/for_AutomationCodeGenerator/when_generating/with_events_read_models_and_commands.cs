@@ -9,10 +9,10 @@ public class with_events_read_models_and_commands : given.a_slice_type_code_gene
 {
     AutomationCodeGenerator _generator;
     VerticalSlice _slice;
-    GeneratedFile _eventFile;
-    GeneratedFile _readModelFile;
-    GeneratedFile _commandFile;
-    IEnumerable<GeneratedFile> _result;
+    RenderedArtifact _eventFile;
+    RenderedArtifact _readModelFile;
+    RenderedArtifact _commandFile;
+    IEnumerable<RenderedArtifact> _result;
 
     void Establish()
     {
@@ -21,9 +21,9 @@ public class with_events_read_models_and_commands : given.a_slice_type_code_gene
         var taskList = new ReadModel("PendingInvoices", "Invoices awaiting review", []);
         var command = new Command("ApproveInvoice", "Approves an invoice", [], "Id");
         _slice = new VerticalSlice("ReviewInvoice", VerticalSliceType.Automation, null, null, [command], [taskList], [domainEvent]);
-        _eventFile = new GeneratedFile("Test/InvoiceReceived.cs", "// event");
-        _readModelFile = new GeneratedFile("Test/PendingInvoices.cs", "// rm");
-        _commandFile = new GeneratedFile("Test/ApproveInvoice.cs", "// cmd");
+        _eventFile = new RenderedArtifact("Test/InvoiceReceived.cs", "// event");
+        _readModelFile = new RenderedArtifact("Test/PendingInvoices.cs", "// rm");
+        _commandFile = new RenderedArtifact("Test/ApproveInvoice.cs", "// cmd");
         _eventTypeRenderer.Render(Arg.Any<EventTypeDescriptor>(), Arg.Any<CodeGenerationContext>()).Returns([_eventFile]);
         _readModelRenderer.Render(Arg.Any<ReadModelDescriptor>(), Arg.Any<CodeGenerationContext>()).Returns([_readModelFile]);
         _commandRenderer.Render(Arg.Any<CommandDescriptor>(), Arg.Any<CodeGenerationContext>()).Returns([_commandFile]);

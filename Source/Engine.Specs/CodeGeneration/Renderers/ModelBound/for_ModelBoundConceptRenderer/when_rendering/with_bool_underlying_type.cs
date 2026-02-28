@@ -21,7 +21,7 @@ public class with_bool_underlying_type : given.a_context
     }
 
     void Because() => _conceptContent = _renderer.Render(_descriptor, _context)
-        .Single(f => f.RelativePath.EndsWith("FeatureFlag.cs")).Content;
+        .Single(f => f.ArtifactPath.EndsWith("FeatureFlag.cs")).Content;
 
     [Fact] void should_not_emit_not_set_field() =>
         _conceptContent.ShouldNotContain("NotSet");

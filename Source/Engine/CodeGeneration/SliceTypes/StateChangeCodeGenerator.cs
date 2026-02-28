@@ -17,22 +17,22 @@ public class StateChangeCodeGenerator : ISliceTypeCodeGenerator
     public VerticalSliceType SliceType => VerticalSliceType.StateChange;
 
     /// <inheritdoc/>
-    public IEnumerable<GeneratedFile> Generate(VerticalSlice slice, CodeGenerationContext context, ArtifactRenderSet renderSet)
+    public IEnumerable<RenderedArtifact> Generate(VerticalSlice slice, CodeGenerationContext context, ArtifactRenderSet renderSet)
     {
-        var files = new List<GeneratedFile>();
+        var artifacts = new List<RenderedArtifact>();
 
         foreach (var eventType in slice.Events)
         {
             var descriptor = EventTypeDescriptor.FromEventType(eventType);
-            files.AddRange(renderSet.EventType.Render(descriptor, context));
+            artifacts.AddRange(renderSet.EventType.Render(descriptor, context));
         }
 
         foreach (var command in slice.Commands)
         {
             var descriptor = CommandDescriptor.FromCommand(command, slice.Events, slice.Screen);
-            files.AddRange(renderSet.Command.Render(descriptor, context));
+            artifacts.AddRange(renderSet.Command.Render(descriptor, context));
         }
 
-        return files;
+        return artifacts;
     }
 }

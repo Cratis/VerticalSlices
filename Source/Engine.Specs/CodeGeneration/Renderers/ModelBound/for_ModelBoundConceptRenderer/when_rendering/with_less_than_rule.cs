@@ -22,7 +22,7 @@ public class with_less_than_rule : given.a_context
     }
 
     void Because() => _validatorContent = _renderer.Render(_descriptor, _context)
-        .Single(f => f.RelativePath.EndsWith("BoundedAgeValidator.cs")).Content;
+        .Single(f => f.ArtifactPath.EndsWith("BoundedAgeValidator.cs")).Content;
 
     [Fact] void should_emit_less_than_rule() => _validatorContent.ShouldContain(".LessThan(100)");
 }

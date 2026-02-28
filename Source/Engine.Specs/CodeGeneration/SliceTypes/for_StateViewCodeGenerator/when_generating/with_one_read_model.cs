@@ -9,17 +9,17 @@ public class with_one_read_model : given.a_slice_type_code_generator
 {
     StateViewCodeGenerator _generator;
     VerticalSlice _slice;
-    GeneratedFile _projectionFile;
-    GeneratedFile _queryFile;
-    IEnumerable<GeneratedFile> _result;
+    RenderedArtifact _projectionFile;
+    RenderedArtifact _queryFile;
+    IEnumerable<RenderedArtifact> _result;
 
     void Establish()
     {
         _generator = new StateViewCodeGenerator();
         var readModel = new ReadModel("Employee", "An employee", []);
         _slice = new VerticalSlice("Employees", VerticalSliceType.StateView, null, null, [], [readModel], []);
-        _projectionFile = new GeneratedFile("Test/Employee.cs", "// projection");
-        _queryFile = new GeneratedFile("Test/AllEmployees.cs", "// query");
+        _projectionFile = new RenderedArtifact("Test/Employee.cs", "// projection");
+        _queryFile = new RenderedArtifact("Test/AllEmployees.cs", "// query");
         _readModelRenderer.Render(Arg.Any<ReadModelDescriptor>(), Arg.Any<CodeGenerationContext>())
             .Returns([_projectionFile, _queryFile]);
     }

@@ -24,11 +24,6 @@ public class with_correct_relative_path : given.a_context
 
     [Fact] void should_place_projection_file_under_context_relative_path() =>
         _renderer.Render(_descriptor, _context)
-            .Single(f => f.RelativePath.EndsWith("Employee.cs"))
-            .RelativePath.ShouldEqual(Path.Combine(_context.RelativePath, "Employee.cs"));
-
-    [Fact] void should_place_query_file_under_context_relative_path() =>
-        _renderer.Render(_descriptor, _context)
-            .Single(f => f.RelativePath.EndsWith("AllEmployees.cs"))
-            .RelativePath.ShouldEqual(Path.Combine(_context.RelativePath, "AllEmployees.cs"));
+            .Single()
+            .ArtifactPath.ShouldEqual(Path.Combine(_context.RelativePath, "Employee.cs"));
 }

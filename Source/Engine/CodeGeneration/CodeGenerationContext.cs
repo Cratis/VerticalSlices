@@ -9,7 +9,8 @@ namespace Cratis.VerticalSlices.CodeGeneration;
 /// <param name="Module">The top-level module name.</param>
 /// <param name="Feature">The feature name.</param>
 /// <param name="SubFeatures">Any sub-feature names forming the hierarchy.</param>
-public record CodeGenerationContext(string Module, string Feature, IEnumerable<string> SubFeatures)
+/// <param name="Options">The code generation options that control how output is emitted.</param>
+public record CodeGenerationContext(string Module, string Feature, IEnumerable<string> SubFeatures, CodeGenerationOptions? Options = null)
 {
     /// <summary>
     /// Gets the base namespace for generated code.
@@ -43,7 +44,8 @@ public record CodeGenerationContext(string Module, string Feature, IEnumerable<s
     /// Creates a context with no hierarchy, using only the provided namespace directly.
     /// </summary>
     /// <param name="rootNamespace">The root namespace.</param>
+    /// <param name="options">The code generation options. Defaults to per-file usings when <see langword="null"/>.</param>
     /// <returns>A new <see cref="CodeGenerationContext"/>.</returns>
-    public static CodeGenerationContext FromNamespace(string rootNamespace) =>
-        new(rootNamespace, string.Empty, []);
+    public static CodeGenerationContext FromNamespace(string rootNamespace, CodeGenerationOptions? options = null) =>
+        new(rootNamespace, string.Empty, [], options);
 }

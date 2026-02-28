@@ -6,8 +6,8 @@ using Cratis.VerticalSlices.CodeGeneration.Descriptors;
 namespace Cratis.VerticalSlices.CodeGeneration.Renderers.ModelBound.for_ModelBoundReadModelRenderer.when_rendering;
 
 /// <summary>
-/// The GetAll method on the observable query must call .Observe() on the IMongoCollection
-/// to return a live reactive stream consumable by Chronicle's query infrastructure.
+/// The GetAll method on the observable query must call Watch&lt;T&gt;().ToObservableReadModel()
+/// on IReadModels to return a live reactive stream consumable by Chronicle's query infrastructure.
 /// </summary>
 public class with_observable_query_observe_method_call : given.a_context
 {
@@ -26,8 +26,8 @@ public class with_observable_query_observe_method_call : given.a_context
     }
 
     void Because() => _queryContent = _renderer.Render(_descriptor, _context)
-        .Single(f => f.RelativePath.EndsWith("AllShipments.cs")).Content;
+        .Single(f => f.ArtifactPath.EndsWith("Shipment.cs")).Content;
 
-    [Fact] void should_call_observe_on_collection() => _queryContent.ShouldContain("collection.Observe()");
+    [Fact] void should_call_watch_and_to_observable_read_model() => _queryContent.ShouldContain("Watch<Shipment>().ToObservableReadModel()");
     [Fact] void should_be_expression_bodied() => _queryContent.ShouldContain("=>");
 }

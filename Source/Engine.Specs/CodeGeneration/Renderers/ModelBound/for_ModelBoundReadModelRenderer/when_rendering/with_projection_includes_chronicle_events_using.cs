@@ -26,7 +26,7 @@ public class with_projection_includes_chronicle_events_using : given.a_context
     }
 
     void Because() => _projectionContent = _renderer.Render(_descriptor, _context)
-        .Single(f => f.RelativePath.EndsWith("Ledger.cs")).Content;
+        .Single(f => f.ArtifactPath.EndsWith("Ledger.cs")).Content;
 
     [Fact] void should_include_chronicle_events_using() => _projectionContent.ShouldContain("using Cratis.Chronicle.Events;");
     [Fact] void should_include_chronicle_keys_using() => _projectionContent.ShouldContain("using Cratis.Chronicle.Keys;");

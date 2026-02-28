@@ -23,7 +23,7 @@ public class with_add_from_property_mapping : given.a_context
     }
 
     void Because() => _projectionContent = _renderer.Render(_descriptor, _context)
-        .Single(f => f.RelativePath.EndsWith("InventoryItem.cs")).Content;
+        .Single(f => f.ArtifactPath.EndsWith("InventoryItem.cs")).Content;
 
     [Fact] void should_emit_add_from_attribute() => _projectionContent.ShouldContain("[AddFrom<InventoryAdded>(");
     [Fact] void should_reference_event_property_by_nameof() => _projectionContent.ShouldContain("nameof(InventoryAdded.Quantity)");

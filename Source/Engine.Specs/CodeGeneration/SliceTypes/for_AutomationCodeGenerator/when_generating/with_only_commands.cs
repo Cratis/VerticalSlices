@@ -13,15 +13,15 @@ public class with_only_commands : given.a_slice_type_code_generator
 {
     AutomationCodeGenerator _generator;
     VerticalSlice _slice;
-    GeneratedFile _commandFile;
-    IEnumerable<GeneratedFile> _result;
+    RenderedArtifact _commandFile;
+    IEnumerable<RenderedArtifact> _result;
 
     void Establish()
     {
         _generator = new AutomationCodeGenerator();
         var command = new Command("SendReminder", "Sends a reminder to the user", [], "Id");
         _slice = new VerticalSlice("Reminders", VerticalSliceType.Automation, null, null, [command], [], []);
-        _commandFile = new GeneratedFile("Test/SendReminder.cs", "// cmd");
+        _commandFile = new RenderedArtifact("Test/SendReminder.cs", "// cmd");
         _commandRenderer.Render(Arg.Any<CommandDescriptor>(), Arg.Any<CodeGenerationContext>()).Returns([_commandFile]);
     }
 

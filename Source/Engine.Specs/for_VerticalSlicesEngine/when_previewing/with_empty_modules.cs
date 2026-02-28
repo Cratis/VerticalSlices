@@ -8,7 +8,7 @@ namespace Cratis.VerticalSlices.for_VerticalSlicesEngine.when_previewing;
 public class with_empty_modules : given.all_dependencies
 {
     VerticalSlicesEngine _engine;
-    IEnumerable<GeneratedFile> _result;
+    IEnumerable<RenderedArtifact> _result;
 
     void Establish() => _engine = new VerticalSlicesEngine(_codeGenerator, _logger);
 

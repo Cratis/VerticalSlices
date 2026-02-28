@@ -23,7 +23,7 @@ public class with_removal_descriptor : given.a_context
     }
 
     void Because() => _projectionContent = _renderer.Render(_descriptor, _context)
-        .Single(f => f.RelativePath.EndsWith("Employee.cs")).Content;
+        .Single(f => f.ArtifactPath.EndsWith("Employee.cs")).Content;
 
     [Fact] void should_emit_removed_with_attribute() => _projectionContent.ShouldContain("[RemovedWith<EmployeeDeleted>]");
 }

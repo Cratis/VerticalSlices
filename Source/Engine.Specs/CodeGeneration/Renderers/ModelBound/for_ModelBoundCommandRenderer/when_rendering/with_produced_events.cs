@@ -26,7 +26,9 @@ public class with_produced_events : given.a_context
     void Because() => _content = _renderer.Render(_descriptor, _context).Single().Content;
 
     [Fact] void should_emit_handle_returning_event_type() => _content.ShouldContain("public OrderPlaced Handle()");
-    [Fact] void should_include_stub_comment_for_produced_event() => _content.ShouldContain("new OrderPlaced(");
+    [Fact] void should_include_constructor_call_for_produced_event() => _content.ShouldContain("new OrderPlaced(");
     [Fact] void should_not_emit_void_handle_method() => _content.ShouldNotContain("public void Handle()");
     [Fact] void should_not_emit_ieventlog_parameter() => _content.ShouldNotContain("IEventLog");
+    [Fact] void should_not_emit_throw_not_implemented() => _content.ShouldNotContain("throw new NotImplementedException");
+    [Fact] void should_not_emit_todo_comment() => _content.ShouldNotContain("// TODO");
 }

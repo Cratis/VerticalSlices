@@ -21,7 +21,7 @@ public class with_datetime_underlying_type : given.a_context
     }
 
     void Because() => _conceptContent = _renderer.Render(_descriptor, _context)
-        .Single(f => f.RelativePath.EndsWith("EventTimestamp.cs")).Content;
+        .Single(f => f.ArtifactPath.EndsWith("EventTimestamp.cs")).Content;
 
     [Fact] void should_emit_not_set_field_with_min_value() =>
         _conceptContent.ShouldContain("public static readonly EventTimestamp NotSet = new(DateTime.MinValue);");

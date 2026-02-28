@@ -6,8 +6,8 @@ using Cratis.VerticalSlices.CodeGeneration.Descriptors;
 namespace Cratis.VerticalSlices.CodeGeneration.Renderers.ModelBound.for_ModelBoundReadModelRenderer.when_rendering;
 
 /// <summary>
-/// The GetAll method on the observable query takes an IMongoCollection&lt;T&gt; parameter
-/// where T matches the read model record type, wiring the query to MongoDB.
+/// The GetAll method on the observable query takes a non-generic IReadModels parameter
+/// so Chronicle can locate the projection or reducer backing the read model.
 /// </summary>
 public class with_observable_query_mongo_collection_parameter : given.a_context
 {
@@ -26,8 +26,8 @@ public class with_observable_query_mongo_collection_parameter : given.a_context
     }
 
     void Because() => _queryContent = _renderer.Render(_descriptor, _context)
-        .Single(f => f.RelativePath.EndsWith("AllTransactions.cs")).Content;
+        .Single(f => f.ArtifactPath.EndsWith("Transaction.cs")).Content;
 
-    [Fact] void should_take_imongo_collection_parameter() => _queryContent.ShouldContain("IMongoCollection<Transaction>");
-    [Fact] void should_name_parameter_collection() => _queryContent.ShouldContain("collection)");
+    [Fact] void should_take_iread_models_parameter() => _queryContent.ShouldContain("IReadModels readModels");
+    [Fact] void should_name_parameter_read_models() => _queryContent.ShouldContain("readModels)");
 }

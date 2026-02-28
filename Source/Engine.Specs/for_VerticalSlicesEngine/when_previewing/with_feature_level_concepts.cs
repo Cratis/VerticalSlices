@@ -12,7 +12,7 @@ public class with_feature_level_concepts : given.all_dependencies
 {
     VerticalSlicesEngine _engine;
     IEnumerable<Module> _modules;
-    IEnumerable<GeneratedFile> _result;
+    IEnumerable<RenderedArtifact> _result;
 
     void Establish()
     {
@@ -25,5 +25,5 @@ public class with_feature_level_concepts : given.all_dependencies
 
     void Because() => _result = _engine.Preview(_modules);
 
-    [Fact] void should_include_concept_file() => _result.Any(f => f.RelativePath.EndsWith("EmployeeName.cs")).ShouldBeTrue();
+    [Fact] void should_include_concept_file() => _result.Any(f => f.ArtifactPath.EndsWith("EmployeeName.cs")).ShouldBeTrue();
 }

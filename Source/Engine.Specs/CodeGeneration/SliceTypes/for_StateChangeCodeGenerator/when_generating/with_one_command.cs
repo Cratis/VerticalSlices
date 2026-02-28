@@ -9,15 +9,15 @@ public class with_one_command : given.a_slice_type_code_generator
 {
     StateChangeCodeGenerator _generator;
     VerticalSlice _slice;
-    GeneratedFile _expectedFile;
-    IEnumerable<GeneratedFile> _result;
+    RenderedArtifact _expectedFile;
+    IEnumerable<RenderedArtifact> _result;
 
     void Establish()
     {
         _generator = new StateChangeCodeGenerator();
         var command = new Command("PlaceOrder", "Places an order", [new Property("OrderId", "string")], "OrderId");
         _slice = new VerticalSlice("PlaceOrder", VerticalSliceType.StateChange, null, null, [command], [], []);
-        _expectedFile = new GeneratedFile("Test/PlaceOrder.cs", "// generated");
+        _expectedFile = new RenderedArtifact("Test/PlaceOrder.cs", "// generated");
         _commandRenderer.Render(Arg.Any<CommandDescriptor>(), Arg.Any<CodeGenerationContext>()).Returns([_expectedFile]);
     }
 

@@ -9,10 +9,10 @@ public class with_multiple_events_and_commands : given.a_slice_type_code_generat
 {
     StateChangeCodeGenerator _generator;
     VerticalSlice _slice;
-    GeneratedFile _eventFile1;
-    GeneratedFile _eventFile2;
-    GeneratedFile _commandFile;
-    IEnumerable<GeneratedFile> _result;
+    RenderedArtifact _eventFile1;
+    RenderedArtifact _eventFile2;
+    RenderedArtifact _commandFile;
+    IEnumerable<RenderedArtifact> _result;
 
     void Establish()
     {
@@ -21,9 +21,9 @@ public class with_multiple_events_and_commands : given.a_slice_type_code_generat
         var event2 = new EventType("OrderShipped", "An order was shipped", []);
         var command = new Command("PlaceOrder", "Places an order", [], "Id");
         _slice = new VerticalSlice("PlaceOrder", VerticalSliceType.StateChange, null, null, [command], [], [event1, event2]);
-        _eventFile1 = new GeneratedFile("Test/OrderPlaced.cs", "// event1");
-        _eventFile2 = new GeneratedFile("Test/OrderShipped.cs", "// event2");
-        _commandFile = new GeneratedFile("Test/PlaceOrder.cs", "// command");
+        _eventFile1 = new RenderedArtifact("Test/OrderPlaced.cs", "// event1");
+        _eventFile2 = new RenderedArtifact("Test/OrderShipped.cs", "// event2");
+        _commandFile = new RenderedArtifact("Test/PlaceOrder.cs", "// command");
         _eventTypeRenderer.Render(Arg.Any<EventTypeDescriptor>(), Arg.Any<CodeGenerationContext>())
             .Returns([_eventFile1], [_eventFile2]);
         _commandRenderer.Render(Arg.Any<CommandDescriptor>(), Arg.Any<CodeGenerationContext>())

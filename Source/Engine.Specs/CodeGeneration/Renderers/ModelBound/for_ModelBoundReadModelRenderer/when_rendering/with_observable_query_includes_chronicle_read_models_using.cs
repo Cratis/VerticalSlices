@@ -6,10 +6,10 @@ using Cratis.VerticalSlices.CodeGeneration.Descriptors;
 namespace Cratis.VerticalSlices.CodeGeneration.Renderers.ModelBound.for_ModelBoundReadModelRenderer.when_rendering;
 
 /// <summary>
-/// The observable query file generated for a read model must include the
-/// Cratis.Arc.Queries.ModelBound namespace so that the [ReadModel] attribute resolves.
+/// The observable query file must include Cratis.Chronicle.ReadModels so that
+/// IReadModels and ToObservableReadModel() resolve at compile time.
 /// </summary>
-public class with_observable_query_includes_arc_queries_using : given.a_context
+public class with_observable_query_includes_chronicle_read_models_using : given.a_context
 {
     ModelBoundReadModelRenderer _renderer;
     ReadModelDescriptor _descriptor;
@@ -19,14 +19,14 @@ public class with_observable_query_includes_arc_queries_using : given.a_context
     {
         _renderer = new ModelBoundReadModelRenderer();
         _descriptor = new ReadModelDescriptor(
-            "Notification",
-            "A notification",
-            [new ReadModelPropertyDescriptor("NotificationId", "string", IsKey: true, [])],
+            "Report",
+            "A report",
+            [new ReadModelPropertyDescriptor("ReportId", "string", IsKey: true, [])],
             []);
     }
 
     void Because() => _queryContent = _renderer.Render(_descriptor, _context)
-        .Single(f => f.ArtifactPath.EndsWith("Notification.cs")).Content;
+        .Single(f => f.ArtifactPath.EndsWith("Report.cs")).Content;
 
-    [Fact] void should_include_arc_queries_model_bound_using() => _queryContent.ShouldContain("using Cratis.Arc.Queries.ModelBound;");
+    [Fact] void should_include_chronicle_read_models_using() => _queryContent.ShouldContain("using Cratis.Chronicle.ReadModels;");
 }

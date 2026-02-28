@@ -53,9 +53,9 @@ public class with_multiple_properties_with_different_mapping_kinds : given.a_con
     }
 
     void Because() => _projectionContent = _renderer.Render(_descriptor, _context)
-        .Single(f => f.RelativePath.EndsWith("ProjectStats.cs")).Content;
+        .Single(f => f.ArtifactPath.EndsWith("ProjectStats.cs")).Content;
 
-    [Fact] void should_emit_set_from_on_project_id() => _projectionContent.ShouldContain("[SetFrom<ProjectCreated>");
+    [Fact] void should_emit_from_event_on_project_created() => _projectionContent.ShouldContain("[FromEvent<ProjectCreated>]");
     [Fact] void should_emit_add_from_on_total_budget() => _projectionContent.ShouldContain("[AddFrom<BudgetAllocated>");
     [Fact] void should_emit_add_from_on_spent_budget() => _projectionContent.ShouldContain("[AddFrom<ExpenseRecorded>");
     [Fact] void should_emit_subtract_from_on_spent_budget() => _projectionContent.ShouldContain("[SubtractFrom<ExpenseReversed>");

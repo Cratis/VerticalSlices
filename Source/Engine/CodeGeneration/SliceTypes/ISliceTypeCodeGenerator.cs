@@ -22,5 +22,5 @@ public interface ISliceTypeCodeGenerator
     /// <param name="context">The code generation context carrying namespace hierarchy.</param>
     /// <param name="renderSet">The artifact render set defining how each artifact is rendered to code.</param>
     /// <returns>A collection of generated files.</returns>
-    IEnumerable<GeneratedFile> Generate(VerticalSlice slice, CodeGenerationContext context, ArtifactRenderSet renderSet);
+    IEnumerable<RenderedArtifact> Generate(VerticalSlice slice, CodeGenerationContext context, ArtifactRenderSet renderSet);
 }

@@ -1,7 +1,6 @@
 // Copyright (c) Cratis. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System.Text;
 using Cratis.VerticalSlices.CodeGeneration.Descriptors;
 
 namespace Cratis.VerticalSlices.CodeGeneration.Renderers.ModelBound;
@@ -12,9 +11,9 @@ namespace Cratis.VerticalSlices.CodeGeneration.Renderers.ModelBound;
 public class ModelBoundConceptRenderer : IArtifactRenderer<ConceptDescriptor>
 {
     /// <inheritdoc/>
-    public IEnumerable<GeneratedFile> Render(ConceptDescriptor descriptor, CodeGenerationContext context)
+    public IEnumerable<RenderedArtifact> Render(ConceptDescriptor descriptor, CodeGenerationContext context)
     {
-        var files = new List<GeneratedFile>
+        var files = new List<RenderedArtifact>
         {
             RenderConcept(descriptor, context)
         };
@@ -27,77 +26,72 @@ public class ModelBoundConceptRenderer : IArtifactRenderer<ConceptDescriptor>
         return files;
     }
 
-    static GeneratedFile RenderConcept(ConceptDescriptor descriptor, CodeGenerationContext context)
+    static RenderedArtifact RenderConcept(ConceptDescriptor descriptor, CodeGenerationContext context)
     {
-        var builder = new StringBuilder()
-            .AppendLine(CodeWriter.FormatUsings(["Cratis.Concepts"]))
-            .AppendLine()
-            .AppendLine($"namespace {context.Namespace};");
+        var usingNs = descriptor.IsEventSourceId ? "Cratis.Chronicle.Events" : "Cratis.Concepts";
 
-        builder.AppendLine();
+        // EventSourceId is always string-backed in Chronicle regardless of what was specified.
+        var underlyingType = descriptor.IsEventSourceId ? "string" : descriptor.UnderlyingType;
+
+        var baseType = descriptor.IsEventSourceId
+            ? "EventSourceId(Value)"
+            : $"ConceptAs<{descriptor.UnderlyingType}>(Value)";
+
+        var builder = new CSharpCodeBuilder(context)
+            .Using(usingNs)
+            .Namespace(context.Namespace)
+            .BlankLine();
+
         if (!string.IsNullOrWhiteSpace(descriptor.Description))
         {
-            builder
-                .AppendLine("/// <summary>")
-                .AppendLine($"/// {descriptor.Description}")
-                .AppendLine("/// </summary>");
+            builder.Summary(descriptor.Description);
         }
 
         builder
-            .AppendLine($"public record {descriptor.Name}({descriptor.UnderlyingType} Value) : ConceptAs<{descriptor.UnderlyingType}>(Value)")
-            .AppendLine("{")
-            .AppendLine($"    public static implicit operator {descriptor.Name}({descriptor.UnderlyingType} value) => new(value);");
+            .OpenRecord(descriptor.Name, $"{underlyingType} Value", baseType)
+            .Statement($"public static implicit operator {descriptor.Name}({underlyingType} value) => new(value);");
 
-        AppendStaticDefaults(builder, descriptor);
+        AppendStaticDefaults(builder, descriptor, underlyingType);
 
-        builder.AppendLine("}");
+        builder.EndBlock();
 
-        var relativePath = Path.Combine(context.RelativePath, $"{descriptor.Name}.cs");
+        var artifactPath = Path.Combine(context.RelativePath, $"{descriptor.Name}.cs");
 
-        return new GeneratedFile(relativePath, builder.ToString());
+        return new RenderedArtifact(artifactPath, builder.ToString());
     }
 
-    static GeneratedFile RenderValidator(ConceptDescriptor descriptor, CodeGenerationContext context)
+    static RenderedArtifact RenderValidator(ConceptDescriptor descriptor, CodeGenerationContext context)
     {
-        var builder = new StringBuilder()
-            .AppendLine(CodeWriter.FormatUsings(["Cratis.Arc.Validation", "FluentValidation"]))
-            .AppendLine()
-            .AppendLine($"namespace {context.Namespace};");
-
-        builder
-            .AppendLine()
-            .AppendLine("/// <summary>")
-            .AppendLine($"/// Validates the <see cref=\"{descriptor.Name}\"/> concept.")
-            .AppendLine("/// </summary>")
-            .AppendLine($"public class {descriptor.Name}Validator : ConceptValidator<{descriptor.Name}>")
-            .AppendLine("{")
-            .AppendLine("    /// <summary>")
-            .AppendLine($"    /// Initializes a new instance of the <see cref=\"{descriptor.Name}Validator\"/> class.")
-            .AppendLine("    /// </summary>")
-            .AppendLine($"    public {descriptor.Name}Validator()")
-            .AppendLine("    {");
+        var builder = new CSharpCodeBuilder(context)
+            .Using("Cratis.Arc.Validation", "FluentValidation")
+            .Namespace(context.Namespace)
+            .BlankLine()
+            .Summary($"Validates the <see cref=\"{descriptor.Name}\"/> concept.")
+            .OpenClass($"{descriptor.Name}Validator", $"ConceptValidator<{descriptor.Name}>")
+            .Summary($"Initializes a new instance of the <see cref=\"{descriptor.Name}Validator\"/> class.")
+            .OpenConstructor($"{descriptor.Name}Validator");
 
         foreach (var rule in descriptor.ValidationRules)
         {
             var ruleExpression = FormatValidationRule(rule);
             if (ruleExpression is not null)
             {
-                builder.AppendLine($"        RuleFor(x => x.Value){ruleExpression};");
+                builder.Statement($"RuleFor(x => x.Value){ruleExpression};");
             }
         }
 
         builder
-            .AppendLine("    }")
-            .AppendLine("}");
+            .EndBlock()
+            .EndBlock();
 
-        var relativePath = Path.Combine(context.RelativePath, $"{descriptor.Name}Validator.cs");
+        var artifactPath = Path.Combine(context.RelativePath, $"{descriptor.Name}Validator.cs");
 
-        return new GeneratedFile(relativePath, builder.ToString());
+        return new RenderedArtifact(artifactPath, builder.ToString());
     }
 
-    static void AppendStaticDefaults(StringBuilder builder, ConceptDescriptor descriptor)
+    static void AppendStaticDefaults(CSharpCodeBuilder builder, ConceptDescriptor descriptor, string underlyingType)
     {
-        var defaultExpression = descriptor.UnderlyingType switch
+        var defaultExpression = underlyingType switch
         {
             "string" => "new(string.Empty)",
             "Guid" => "new(Guid.Empty)",
@@ -115,8 +109,8 @@ public class ModelBoundConceptRenderer : IArtifactRenderer<ConceptDescriptor>
         if (defaultExpression is not null)
         {
             builder
-                .AppendLine()
-                .AppendLine($"    public static readonly {descriptor.Name} NotSet = {defaultExpression};");
+                .BlankLine()
+                .Statement($"public static readonly {descriptor.Name} NotSet = {defaultExpression};");
         }
     }
 

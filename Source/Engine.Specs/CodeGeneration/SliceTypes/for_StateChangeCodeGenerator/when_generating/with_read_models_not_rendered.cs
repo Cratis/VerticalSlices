@@ -11,7 +11,7 @@ public class with_read_models_not_rendered : given.a_slice_type_code_generator
 {
     StateChangeCodeGenerator _generator;
     VerticalSlice _slice;
-    IEnumerable<GeneratedFile> _result;
+    IEnumerable<RenderedArtifact> _result;
 
     void Establish()
     {

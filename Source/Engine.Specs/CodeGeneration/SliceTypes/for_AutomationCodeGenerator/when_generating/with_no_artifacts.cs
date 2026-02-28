@@ -7,7 +7,7 @@ public class with_no_artifacts : given.a_slice_type_code_generator
 {
     AutomationCodeGenerator _generator;
     VerticalSlice _slice;
-    IEnumerable<GeneratedFile> _result;
+    IEnumerable<RenderedArtifact> _result;
 
     void Establish()
     {

@@ -1,195 +1,178 @@
 // Copyright (c) Cratis. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System.Text;
 using Cratis.VerticalSlices.CodeGeneration.Descriptors;
 
 namespace Cratis.VerticalSlices.CodeGeneration.Renderers.ModelBound;
 
 /// <summary>
-/// Renders a read model descriptor as a Chronicle model-bound projection using
-/// [Key], [SetFrom], [AddFrom], [SubtractFrom], [Count], [Increment], [Decrement],
-/// [SetFromContext], [FromEvery], [FromEvent], [ChildrenFrom], [Join], [RemovedWith],
-/// [Passive], [NotRewindable], and [FromEventSequence] attributes.
-/// Also generates an Observable query for the read model.
+/// Renders a read model descriptor as a Chronicle model-bound projection record that also
+/// embeds the observable <c>GetAll</c> query method. Produces a single partial record
+/// decorated with [ReadModel] and the relevant projection attributes.
 /// </summary>
 public class ModelBoundReadModelRenderer : IArtifactRenderer<ReadModelDescriptor>
 {
     /// <inheritdoc/>
-    public IEnumerable<GeneratedFile> Render(ReadModelDescriptor descriptor, CodeGenerationContext context) =>
-        [
-            RenderProjection(descriptor, context),
-            RenderObservableQuery(descriptor, context)
-        ];
+    public IEnumerable<RenderedArtifact> Render(ReadModelDescriptor descriptor, CodeGenerationContext context) =>
+        [RenderProjection(descriptor, context)];
 
     /// <summary>
-    /// Renders the projection record with Chronicle model-bound attributes.
+    /// Renders the projection record with Chronicle model-bound attributes and an embedded
+    /// observable query method.
     /// </summary>
     /// <param name="descriptor">The read model descriptor.</param>
     /// <param name="context">The code generation context.</param>
-    /// <returns>A generated file for the projection.</returns>
-    static GeneratedFile RenderProjection(ReadModelDescriptor descriptor, CodeGenerationContext context)
+    /// <returns>A rendered artifact for the projection.</returns>
+    static RenderedArtifact RenderProjection(ReadModelDescriptor descriptor, CodeGenerationContext context)
     {
-        var usings = new List<string>
-        {
-            "Cratis.Chronicle.Events",
-            "Cratis.Chronicle.Keys",
-            "Cratis.Chronicle.Projections.ModelBound"
-        };
-
-        var builder = new StringBuilder()
-            .AppendLine(CodeWriter.FormatUsings(usings))
-            .AppendLine()
-            .AppendLine($"namespace {context.Namespace};");
-
-        builder.AppendLine();
+        var builder = new CSharpCodeBuilder(context)
+            .Using(
+                "Cratis.Arc.Queries.ModelBound",
+                "Cratis.Chronicle.Events",
+                "Cratis.Chronicle.Keys",
+                "Cratis.Chronicle.Projections.ModelBound",
+                "Cratis.Chronicle.ReadModels",
+                "System.Reactive.Subjects")
+            .Namespace(context.Namespace)
+            .BlankLine();
 
         if (!string.IsNullOrWhiteSpace(descriptor.Description))
         {
-            builder
-                .AppendLine("/// <summary>")
-                .AppendLine($"/// {descriptor.Description}")
-                .AppendLine("/// </summary>");
+            builder.Summary(descriptor.Description);
         }
 
+        builder.Attribute("ReadModel");
         AppendTypeAttributes(builder, descriptor);
 
         var properties = descriptor.Properties.ToList();
-        builder.AppendLine($"public record {descriptor.Name}(");
+        builder.BeginPrimaryConstructorParameters(descriptor.Name, isPartial: true);
 
         for (var i = 0; i < properties.Count; i++)
         {
             var property = properties[i];
-            var suffix = i < properties.Count - 1 ? "," : ");";
+            var isLast = i == properties.Count - 1;
 
             AppendPropertyAttributes(builder, property);
-            builder.AppendLine($"    {property.Type} {property.Name}{suffix}");
+            builder.ConstructorParameter($"{property.Type} {property.Name}", isLast, openBody: isLast);
 
-            if (i < properties.Count - 1)
+            if (!isLast)
             {
-                builder.AppendLine();
+                builder.BlankLine();
             }
         }
 
-        var relativePath = Path.Combine(context.RelativePath, $"{descriptor.Name}.cs");
+        builder
+            .Summary($"Gets all {descriptor.Name} instances as an observable subject.")
+            .XmlParam("readModels", "The read models provider.")
+            .XmlReturns($"An observable subject of all {descriptor.Name} instances.")
+            .ExpressionMember(
+                $"ISubject<{descriptor.Name}>",
+                "GetAll",
+                $"readModels.Watch<{descriptor.Name}>().ToObservableReadModel();",
+                "IReadModels readModels",
+                isStatic: true)
+            .EndBlock();
 
-        return new GeneratedFile(relativePath, builder.ToString());
-    }
-
-    /// <summary>
-    /// Renders an Observable query for the read model using the Arc [ReadModel] attribute
-    /// with a static method returning ISubject&lt;IEnumerable&lt;T&gt;&gt;.
-    /// </summary>
-    /// <param name="descriptor">The read model descriptor.</param>
-    /// <param name="context">The code generation context.</param>
-    /// <returns>A generated file for the Observable query.</returns>
-    static GeneratedFile RenderObservableQuery(ReadModelDescriptor descriptor, CodeGenerationContext context)
-    {
-        var queryName = $"All{descriptor.Name}s";
-
-        var builder = new StringBuilder()
-            .AppendLine(CodeWriter.FormatUsings(["Cratis.Arc.Queries.ModelBound"]))
-            .AppendLine()
-            .AppendLine($"namespace {context.Namespace};")
-            .AppendLine()
-            .AppendLine("/// <summary>")
-            .AppendLine($"/// Observable query for all {descriptor.Name} instances.")
-            .AppendLine("/// </summary>")
-            .AppendLine("[ReadModel]")
-            .AppendLine($"public partial record {queryName}")
-            .AppendLine("{")
-            .AppendLine("    /// <summary>")
-            .AppendLine($"    /// Gets all {descriptor.Name} instances as an observable subject.")
-            .AppendLine("    /// </summary>")
-            .AppendLine("    /// <param name=\"collection\">The MongoDB collection.</param>")
-            .AppendLine($"    /// <returns>An observable subject of all {descriptor.Name} instances.</returns>")
-            .AppendLine($"    public static ISubject<IEnumerable<{descriptor.Name}>> GetAll(IMongoCollection<{descriptor.Name}> collection) =>")
-            .AppendLine("        collection.Observe();")
-            .AppendLine("}");
-
-        var relativePath = Path.Combine(context.RelativePath, $"{queryName}.cs");
-
-        return new GeneratedFile(relativePath, builder.ToString());
+        var artifactPath = Path.Combine(context.RelativePath, $"{descriptor.Name}.cs");
+        return new RenderedArtifact(artifactPath, builder.ToString());
     }
 
     /// <summary>
     /// Appends record-level attributes such as [Passive], [NotRewindable], [FromEventSequence],
     /// [RemovedWith], and [FromEvent] for auto-mapped events.
     /// </summary>
-    /// <param name="builder">The string builder.</param>
+    /// <param name="builder">The code builder.</param>
     /// <param name="descriptor">The read model descriptor.</param>
-    static void AppendTypeAttributes(StringBuilder builder, ReadModelDescriptor descriptor)
+    static void AppendTypeAttributes(CSharpCodeBuilder builder, ReadModelDescriptor descriptor)
     {
         if (descriptor.IsPassive)
         {
-            builder.AppendLine("[Passive]");
+            builder.Attribute("Passive");
         }
 
         if (descriptor.IsNotRewindable)
         {
-            builder.AppendLine("[NotRewindable]");
+            builder.Attribute("NotRewindable");
         }
 
         if (!string.IsNullOrWhiteSpace(descriptor.EventSequence))
         {
-            builder.AppendLine($"[FromEventSequence(\"{descriptor.EventSequence}\")]");
+            builder.Attribute($"FromEventSequence(\"{descriptor.EventSequence}\")");
         }
 
         if (descriptor.Removal is not null)
         {
-            builder.AppendLine($"[RemovedWith<{descriptor.Removal.EventTypeName}>]");
+            builder.Attribute($"RemovedWith<{descriptor.Removal.EventTypeName}>");
+        }
+
+        // Emit [FromEvent<T>] for every event type that has at least one Set mapping
+        // where the event property name matches the read model property name (auto-mapping).
+        var autoMappedEventTypes = descriptor.Properties
+            .SelectMany(p => p.Mappings
+                .Where(m => m.Kind == PropertyMappingKind.Set && m.EventPropertyName == p.Name)
+                .Select(m => m.EventTypeName))
+            .Distinct();
+
+        foreach (var eventTypeName in autoMappedEventTypes)
+        {
+            builder.Attribute($"FromEvent<{eventTypeName}>");
         }
     }
 
     /// <summary>
     /// Appends per-property attributes based on the property's mappings.
+    /// Set mappings where the event property name matches the read model property name are
+    /// handled by a class-level [FromEvent&lt;T&gt;] attribute and are skipped here.
     /// </summary>
-    /// <param name="builder">The string builder.</param>
+    /// <param name="builder">The code builder.</param>
     /// <param name="property">The property descriptor.</param>
-    static void AppendPropertyAttributes(StringBuilder builder, ReadModelPropertyDescriptor property)
+    static void AppendPropertyAttributes(CSharpCodeBuilder builder, ReadModelPropertyDescriptor property)
     {
         if (property.IsKey)
         {
-            builder.AppendLine("    [Key]");
+            builder.Attribute("Key");
         }
 
         foreach (var mapping in property.Mappings)
         {
+            // Skip Set mappings whose event property name matches the property name —
+            // those are covered by the class-level [FromEvent<T>] attribute.
+            if (mapping.Kind == PropertyMappingKind.Set && mapping.EventPropertyName == property.Name)
+            {
+                continue;
+            }
+
             var attribute = mapping.Kind switch
             {
                 PropertyMappingKind.Set =>
-                    $"[SetFrom<{mapping.EventTypeName}>(nameof({mapping.EventTypeName}.{mapping.EventPropertyName}))]",
+                    $"SetFrom<{mapping.EventTypeName}>(nameof({mapping.EventTypeName}.{mapping.EventPropertyName}))",
 
                 PropertyMappingKind.Add =>
-                    $"[AddFrom<{mapping.EventTypeName}>(nameof({mapping.EventTypeName}.{mapping.EventPropertyName}))]",
+                    $"AddFrom<{mapping.EventTypeName}>(nameof({mapping.EventTypeName}.{mapping.EventPropertyName}))",
 
                 PropertyMappingKind.Subtract =>
-                    $"[SubtractFrom<{mapping.EventTypeName}>(nameof({mapping.EventTypeName}.{mapping.EventPropertyName}))]",
+                    $"SubtractFrom<{mapping.EventTypeName}>(nameof({mapping.EventTypeName}.{mapping.EventPropertyName}))",
 
                 PropertyMappingKind.Count =>
-                    $"[Count<{mapping.EventTypeName}>]",
+                    $"Count<{mapping.EventTypeName}>",
 
                 PropertyMappingKind.Increment =>
-                    $"[Increment<{mapping.EventTypeName}>]",
+                    $"Increment<{mapping.EventTypeName}>",
 
                 PropertyMappingKind.Decrement =>
-                    $"[Decrement<{mapping.EventTypeName}>]",
+                    $"Decrement<{mapping.EventTypeName}>",
 
                 PropertyMappingKind.SetFromContext when mapping.EventTypeName != "*" =>
-                    $"[SetFromContext<{mapping.EventTypeName}>(nameof(EventContext.{mapping.ContextProperty}))]",
+                    $"SetFromContext<{mapping.EventTypeName}>(nameof(EventContext.{mapping.ContextProperty}))",
 
-                PropertyMappingKind.StaticValue =>
-                    null,
-
-                PropertyMappingKind.FromEventSourceId =>
-                    null,
-
+                PropertyMappingKind.StaticValue => null,
+                PropertyMappingKind.FromEventSourceId => null,
                 _ => null
             };
 
             if (attribute is not null)
             {
-                builder.AppendLine($"    {attribute}");
+                builder.Attribute(attribute);
             }
         }
 
@@ -198,7 +181,7 @@ public class ModelBoundReadModelRenderer : IArtifactRenderer<ReadModelDescriptor
 
         foreach (var every in everyMappings)
         {
-            builder.AppendLine($"    [FromEvery(contextProperty: nameof(EventContext.{every.ContextProperty}))]");
+            builder.Attribute($"FromEvery(contextProperty: nameof(EventContext.{every.ContextProperty}))");
         }
     }
 }

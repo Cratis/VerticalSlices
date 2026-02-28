@@ -23,7 +23,7 @@ public class with_subtract_from_property_mapping : given.a_context
     }
 
     void Because() => _projectionContent = _renderer.Render(_descriptor, _context)
-        .Single(f => f.RelativePath.EndsWith("InventoryItem.cs")).Content;
+        .Single(f => f.ArtifactPath.EndsWith("InventoryItem.cs")).Content;
 
     [Fact] void should_emit_subtract_from_attribute() => _projectionContent.ShouldContain("[SubtractFrom<InventoryRemoved>(");
     [Fact] void should_reference_event_property_by_nameof() => _projectionContent.ShouldContain("nameof(InventoryRemoved.Quantity)");

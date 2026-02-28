@@ -20,7 +20,7 @@ public partial class VerticalSliceCodeGenerator(
         sliceTypeGenerators.ToDictionary(g => g.SliceType);
 
     /// <inheritdoc/>
-    public IEnumerable<GeneratedFile> Generate(VerticalSlice slice, CodeGenerationContext context, ArtifactRenderSet? renderSet = null)
+    public IEnumerable<RenderedArtifact> Generate(VerticalSlice slice, CodeGenerationContext context, ArtifactRenderSet? renderSet = null)
     {
         renderSet ??= ArtifactRenderSet.ModelBound;
 

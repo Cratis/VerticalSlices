@@ -9,8 +9,8 @@ public class with_internal_and_external_events : given.a_slice_type_code_generat
 {
     TranslatorCodeGenerator _generator;
     VerticalSlice _slice;
-    GeneratedFile _internalEventFile;
-    IEnumerable<GeneratedFile> _result;
+    RenderedArtifact _internalEventFile;
+    IEnumerable<RenderedArtifact> _result;
 
     void Establish()
     {
@@ -18,7 +18,7 @@ public class with_internal_and_external_events : given.a_slice_type_code_generat
         var externalEvent = new EventType("ExternalOrderPlaced", "External source event", [], EventKind.External);
         var internalEvent = new EventType("OrderImported", "Translated internal event", []);
         _slice = new VerticalSlice("ImportOrder", VerticalSliceType.Translator, null, null, [], [], [externalEvent, internalEvent]);
-        _internalEventFile = new GeneratedFile("Test/OrderImported.cs", "// translated");
+        _internalEventFile = new RenderedArtifact("Test/OrderImported.cs", "// translated");
         _eventTypeRenderer.Render(Arg.Any<EventTypeDescriptor>(), Arg.Any<CodeGenerationContext>()).Returns([_internalEventFile]);
     }
 

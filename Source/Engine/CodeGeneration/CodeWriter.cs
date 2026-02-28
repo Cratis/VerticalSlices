@@ -6,7 +6,8 @@ using System.Text;
 namespace Cratis.VerticalSlices.CodeGeneration;
 
 /// <summary>
-/// Helper for building well-formatted C# source files.
+/// Static helpers for formatting C# declaration fragments such as record primary constructor parameter lists.
+/// For full file construction, use <see cref="CSharpCodeBuilder"/> instead.
 /// </summary>
 public static class CodeWriter
 {
@@ -61,23 +62,6 @@ public static class CodeWriter
             }
 
             builder.AppendLine();
-        }
-
-        return builder.ToString().TrimEnd();
-    }
-
-    /// <summary>
-    /// Builds using directives, sorted alphabetically.
-    /// </summary>
-    /// <param name="namespaces">The namespaces to include.</param>
-    /// <returns>A formatted using directive block.</returns>
-    public static string FormatUsings(IEnumerable<string> namespaces)
-    {
-        var sorted = namespaces.Order(StringComparer.Ordinal);
-        var builder = new StringBuilder();
-        foreach (var ns in sorted)
-        {
-            builder.AppendLine($"using {ns};");
         }
 
         return builder.ToString().TrimEnd();

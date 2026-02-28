@@ -13,15 +13,15 @@ public class with_only_read_models : given.a_slice_type_code_generator
 {
     AutomationCodeGenerator _generator;
     VerticalSlice _slice;
-    GeneratedFile _readModelFile;
-    IEnumerable<GeneratedFile> _result;
+    RenderedArtifact _readModelFile;
+    IEnumerable<RenderedArtifact> _result;
 
     void Establish()
     {
         _generator = new AutomationCodeGenerator();
         var readModel = new ReadModel("TaskSummary", "Summary of automation tasks", []);
         _slice = new VerticalSlice("TaskAutomation", VerticalSliceType.Automation, null, null, [], [readModel], []);
-        _readModelFile = new GeneratedFile("Test/TaskSummary.cs", "// rm");
+        _readModelFile = new RenderedArtifact("Test/TaskSummary.cs", "// rm");
         _readModelRenderer.Render(Arg.Any<ReadModelDescriptor>(), Arg.Any<CodeGenerationContext>()).Returns([_readModelFile]);
     }
 

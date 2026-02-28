@@ -21,5 +21,5 @@ public class with_correct_relative_path : given.a_context
     [Fact] void should_place_concept_file_under_context_relative_path() =>
         _renderer.Render(_descriptor, _context)
             .Single()
-            .RelativePath.ShouldEqual(Path.Combine(_context.RelativePath, "EmployeeId.cs"));
+            .ArtifactPath.ShouldEqual(Path.Combine(_context.RelativePath, "EmployeeId.cs"));
 }

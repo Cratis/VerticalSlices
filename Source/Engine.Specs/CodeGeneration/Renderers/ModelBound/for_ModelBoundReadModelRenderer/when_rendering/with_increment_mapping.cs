@@ -23,7 +23,7 @@ public class with_increment_mapping : given.a_context
     }
 
     void Because() => _projectionContent = _renderer.Render(_descriptor, _context)
-        .Single(f => f.RelativePath.EndsWith("OrderSummary.cs")).Content;
+        .Single(f => f.ArtifactPath.EndsWith("OrderSummary.cs")).Content;
 
     [Fact] void should_emit_increment_attribute() => _projectionContent.ShouldContain("[Increment<OrderPlaced>]");
 }

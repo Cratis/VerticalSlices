@@ -33,7 +33,7 @@ public class with_every_event_mapping_does_not_emit_set_from_context : given.a_c
     }
 
     void Because() => _projectionContent = _renderer.Render(_descriptor, _context)
-        .Single(f => f.RelativePath.EndsWith("AuditRecord.cs")).Content;
+        .Single(f => f.ArtifactPath.EndsWith("AuditRecord.cs")).Content;
 
     [Fact] void should_emit_from_every_attribute() => _projectionContent.ShouldContain("[FromEvery(contextProperty: nameof(EventContext.Occurred))]");
     [Fact] void should_not_emit_set_from_context_with_wildcard() => _projectionContent.ShouldNotContain("[SetFromContext<*>");
