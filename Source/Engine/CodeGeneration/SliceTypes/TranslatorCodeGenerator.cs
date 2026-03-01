@@ -8,11 +8,11 @@ namespace Cratis.VerticalSlices.CodeGeneration.SliceTypes;
 
 /// <summary>
 /// Generates code for Translator slices. A Translator slice consumes external events
-/// and translates them into internal domain events.
+/// and translates them into internal domain events through a command.
 /// Only <see cref="EventKind.Internal"/> events (the outputs) receive generated code and
 /// Chronicle registration. <see cref="EventKind.External"/> events (the inputs) are
-/// structural documentation only.
-/// Flow: External EventType(s) → translated internal EventType(s).
+/// structural documentation only. Commands are matched against internal events only.
+/// Flow: External EventType(s) → Command → internal EventType(s).
 /// </summary>
 public class TranslatorCodeGenerator : ISliceTypeCodeGenerator
 {
@@ -34,6 +34,12 @@ public class TranslatorCodeGenerator : ISliceTypeCodeGenerator
         {
             var descriptor = ReadModelDescriptor.FromReadModel(readModel, slice.Events, slice.Screen);
             artifacts.AddRange(renderSet.ReadModel.Render(descriptor, context));
+        }
+
+        foreach (var command in slice.Commands)
+        {
+            var descriptor = CommandDescriptor.FromCommand(command, slice.Events.Where(e => e.Kind == EventKind.Internal), slice.Screen, context.Concepts);
+            artifacts.AddRange(renderSet.Command.Render(descriptor, context));
         }
 
         return artifacts;

@@ -26,4 +26,5 @@ public class with_internal_and_external_events : given.a_slice_type_code_generat
 
     [Fact] void should_call_event_type_renderer_once_for_the_internal_event() => _eventTypeRenderer.Received(1).Render(Arg.Any<EventTypeDescriptor>(), _context);
     [Fact] void should_return_only_the_internal_event_file() => _result.ShouldContainOnly(_internalEventFile);
+    [Fact] void should_not_call_command_renderer() => _commandRenderer.DidNotReceiveWithAnyArgs().Render(default!, default!);
 }

@@ -61,7 +61,8 @@ public class MultiModuleFixture : given.EngineFixture
             [
                 new ScreenField("Name", "FullName", ScreenFieldType.TextInput, "Full name"),
                 new ScreenField("ContactEmail", "Email", ScreenFieldType.TextInput, "Email address"),
-                new ScreenField("DateOfBirth", "DateTimeOffset", ScreenFieldType.Date, "Date of birth")
+                new ScreenField("DateOfBirth", "DateTimeOffset", ScreenFieldType.Date, "Date of birth"),
+                new ScreenField("Notes", "string", ScreenFieldType.TextArea, "Additional notes")
             ]);
 
         var registerCommand = new Command(
@@ -168,7 +169,46 @@ public class MultiModuleFixture : given.EngineFixture
             [],
             [cancelled]);
 
-        var schedulingSubFeature = new Feature("Scheduling", [], [], [scheduleSlice, cancelSlice]);
+        // Sub-feature: Scheduling > Rescheduling (3rd level depth)
+        var rescheduled = new EventType(
+            "Rescheduled",
+            "An appointment was rescheduled to a new time",
+            [
+                new Property("AppointmentId", "AppointmentId"),
+                new Property("NewScheduledAt", "DateTimeOffset"),
+                new Property("OriginalScheduledAt", "DateTimeOffset")
+            ]);
+
+        var reschedulingNotified = new EventType(
+            "ReschedulingNotified",
+            "A notification was sent about the rescheduling",
+            [
+                new Property("AppointmentId", "AppointmentId"),
+                new Property("SentAt", "DateTimeOffset")
+            ]);
+
+        // Multi-event command: produces 2 events
+        var rescheduleCommand = new Command(
+            "Reschedule",
+            "Reschedules an appointment and notifies",
+            [
+                new Property("NewScheduledAt", "DateTimeOffset"),
+                new Property("OriginalScheduledAt", "DateTimeOffset")
+            ],
+            "AppointmentId");
+
+        var rescheduleSlice = new VerticalSlice(
+            "Reschedule",
+            VerticalSliceType.StateChange,
+            null,
+            null,
+            [rescheduleCommand],
+            [],
+            [rescheduled, reschedulingNotified]);
+
+        var reschedulingSubFeature = new Feature("Rescheduling", [], [], [rescheduleSlice]);
+
+        var schedulingSubFeature = new Feature("Scheduling", [], [reschedulingSubFeature], [scheduleSlice, cancelSlice]);
 
         // Sub-feature: Calendar — Translator
         var externalEvent = new EventType(
@@ -185,13 +225,33 @@ public class MultiModuleFixture : given.EngineFixture
                 new Property("ExternalRef", "string")
             ]);
 
+        var syncCommand = new Command(
+            "Sync",
+            "Translates an external calendar event into an internal synced event",
+            [new Property("ExternalRef", "string")],
+            "AppointmentId");
+
+        // Translator with ReadModel
+        var syncLogIdMappings = new[] { new EventPropertyMapping("Synced", EventPropertyMappingKind.FromEventSourceId) };
+        var syncLogRefMappings = new[] { new EventPropertyMapping("Synced", EventPropertyMappingKind.Set, "ExternalRef") };
+        var syncLogAtMappings = new[] { new EventPropertyMapping("Synced", EventPropertyMappingKind.SetFromContext, "Occurred") };
+
+        var syncLog = new ReadModel(
+            "SyncLog",
+            "Tracks synchronized calendar events",
+            [
+                new ReadModelProperty("AppointmentId", "AppointmentId", syncLogIdMappings),
+                new ReadModelProperty("ExternalRef", "string", syncLogRefMappings),
+                new ReadModelProperty("SyncedAt", "DateTimeOffset", syncLogAtMappings)
+            ]);
+
         var syncSlice = new VerticalSlice(
             "Sync",
             VerticalSliceType.Translator,
             null,
             null,
-            [],
-            [],
+            [syncCommand],
+            [syncLog],
             [externalEvent, synced]);
 
         var calendarSubFeature = new Feature("Calendar", [], [], [syncSlice]);
@@ -237,6 +297,25 @@ public class MultiModuleFixture : given.EngineFixture
                 new Property("CustomerId", "string")
             ]);
 
+        var lineAdded = new EventType(
+            "LineAdded",
+            "A line item was added to an invoice",
+            [
+                new Property("InvoiceId", "InvoiceId"),
+                new Property("LineAmount", "Amount"),
+                new Property("Description", "string")
+            ]);
+
+        var createScreen = new Screen(
+            "CreateInvoiceForm",
+            "Captures new invoice details",
+            [
+                new ScreenField("InvoiceNumber", "InvoiceNumber", ScreenFieldType.TextInput, "Invoice number"),
+                new ScreenField("TotalAmount", "Amount", ScreenFieldType.Number, "Total amount"),
+                new ScreenField("CustomerId", "string", ScreenFieldType.Dropdown, "Customer")
+            ]);
+
+        // Command with explicit ProducedEvents: only Created, not LineAdded
         var createCommand = new Command(
             "Create",
             "Creates a new invoice",
@@ -246,21 +325,26 @@ public class MultiModuleFixture : given.EngineFixture
                 new Property("CustomerId", "string")
             ],
             "InvoiceId",
-            EventSourceIdStrategy.AutoGenerated);
+            EventSourceIdStrategy.AutoGenerated,
+            ProducedEvents: [new ProducedEvent("Created")]);
 
         var createSlice = new VerticalSlice(
             "Create",
             VerticalSliceType.StateChange,
             null,
-            null,
+            createScreen,
             [createCommand],
             [],
-            [created]);
+            [created, lineAdded]);
 
         var overviewIdMappings = new[] { new EventPropertyMapping("Created", EventPropertyMappingKind.FromEventSourceId) };
         var overviewNumberMappings = new[] { new EventPropertyMapping("Created", EventPropertyMappingKind.Set, "InvoiceNumber") };
         var overviewAmountMappings = new[] { new EventPropertyMapping("Created", EventPropertyMappingKind.Set, "TotalAmount") };
         var overviewCustomerMappings = new[] { new EventPropertyMapping("Created", EventPropertyMappingKind.Set, "CustomerId") };
+        var overviewRunningTotalMappings = new[] { new EventPropertyMapping("LineAdded", EventPropertyMappingKind.Add, "LineAmount") };
+        var overviewLineCountMappings = new[] { new EventPropertyMapping("LineAdded", EventPropertyMappingKind.Count) };
+        var overviewUpdateCountMappings = new[] { new EventPropertyMapping("LineAdded", EventPropertyMappingKind.Increment) };
+        var overviewLastActivityMappings = new[] { new EventPropertyMapping("*", EventPropertyMappingKind.SetFromContext, "Occurred") };
 
         var overview = new ReadModel(
             "Overview",
@@ -269,7 +353,11 @@ public class MultiModuleFixture : given.EngineFixture
                 new ReadModelProperty("InvoiceId", "InvoiceId", overviewIdMappings),
                 new ReadModelProperty("InvoiceNumber", "InvoiceNumber", overviewNumberMappings),
                 new ReadModelProperty("TotalAmount", "Amount", overviewAmountMappings),
-                new ReadModelProperty("CustomerId", "string", overviewCustomerMappings)
+                new ReadModelProperty("Customer", "string", overviewCustomerMappings),
+                new ReadModelProperty("RunningTotal", "Amount", overviewRunningTotalMappings),
+                new ReadModelProperty("LineCount", "int", overviewLineCountMappings),
+                new ReadModelProperty("UpdateCount", "int", overviewUpdateCountMappings),
+                new ReadModelProperty("LastActivity", "DateTimeOffset", overviewLastActivityMappings)
             ]);
 
         var overviewSlice = new VerticalSlice(
@@ -279,7 +367,7 @@ public class MultiModuleFixture : given.EngineFixture
             null,
             [],
             [overview],
-            [created]);
+            [created, lineAdded]);
 
         // Automation: Remind
         var reminded = new EventType(
@@ -326,7 +414,7 @@ public class MultiModuleFixture : given.EngineFixture
             [],
             [createSlice, overviewSlice, remindSlice]);
 
-        // Feature: Payments — no feature-level concepts
+        // Feature: Payments — Subtract + Decrement mappings on balance read model
         var recorded = new EventType(
             "Recorded",
             "A payment was recorded against an invoice",
@@ -334,6 +422,14 @@ public class MultiModuleFixture : given.EngineFixture
                 new Property("InvoiceId", "InvoiceId"),
                 new Property("PaidAmount", "Amount"),
                 new Property("PaidAt", "DateTimeOffset")
+            ]);
+
+        var refunded = new EventType(
+            "Refunded",
+            "A refund was issued for a payment",
+            [
+                new Property("InvoiceId", "InvoiceId"),
+                new Property("RefundedAmount", "Amount")
             ]);
 
         var recordCommand = new Command(
@@ -354,7 +450,49 @@ public class MultiModuleFixture : given.EngineFixture
             [],
             [recorded]);
 
-        var paymentsFeature = new Feature("Payments", [], [], [recordSlice]);
+        var refundCommand = new Command(
+            "Refund",
+            "Issues a refund for a payment",
+            [new Property("RefundedAmount", "Amount")],
+            "InvoiceId");
+
+        var refundSlice = new VerticalSlice(
+            "Refund",
+            VerticalSliceType.StateChange,
+            null,
+            null,
+            [refundCommand],
+            [],
+            [refunded]);
+
+        // Balance read model with Add/Subtract/Count/Decrement
+        var balanceIdMappings = new[] { new EventPropertyMapping("Recorded", EventPropertyMappingKind.FromEventSourceId) };
+        var balancePaidMappings = new[] { new EventPropertyMapping("Recorded", EventPropertyMappingKind.Add, "PaidAmount") };
+        var balanceRefundMappings = new[] { new EventPropertyMapping("Refunded", EventPropertyMappingKind.Subtract, "RefundedAmount") };
+        var balancePayCountMappings = new[] { new EventPropertyMapping("Recorded", EventPropertyMappingKind.Count) };
+        var balanceRefundCountMappings = new[] { new EventPropertyMapping("Refunded", EventPropertyMappingKind.Decrement) };
+
+        var balance = new ReadModel(
+            "Balance",
+            "Payment balance for an invoice",
+            [
+                new ReadModelProperty("InvoiceId", "InvoiceId", balanceIdMappings),
+                new ReadModelProperty("TotalPaid", "Amount", balancePaidMappings),
+                new ReadModelProperty("TotalRefunded", "Amount", balanceRefundMappings),
+                new ReadModelProperty("PaymentCount", "int", balancePayCountMappings),
+                new ReadModelProperty("RefundAdjustment", "int", balanceRefundCountMappings)
+            ]);
+
+        var balanceSlice = new VerticalSlice(
+            "Balance",
+            VerticalSliceType.StateView,
+            null,
+            null,
+            [],
+            [balance],
+            [recorded, refunded]);
+
+        var paymentsFeature = new Feature("Payments", [], [], [recordSlice, refundSlice, balanceSlice]);
 
         var billingModule = new Module("Billing", [invoiceId, amount], [invoicingFeature, paymentsFeature]);
 
@@ -384,12 +522,18 @@ public class MultiModuleFixture : given.EngineFixture
                 new Property("Recipient", "string")
             ]);
 
+        var ingestCommand = new Command(
+            "Ingest",
+            "Translates an external delivery confirmation into an internal delivered event",
+            [new Property("Recipient", "string")],
+            "NotificationId");
+
         var ingestSlice = new VerticalSlice(
             "Ingest",
             VerticalSliceType.Translator,
             null,
             null,
-            [],
+            [ingestCommand],
             [],
             [externalDelivered, delivered]);
 
@@ -460,6 +604,208 @@ public class MultiModuleFixture : given.EngineFixture
 
         var notificationsModule = new Module("Notifications", [notificationId], [emailFeature, pushFeature]);
 
-        return [healthcareModule, billingModule, notificationsModule];
+        // ═══════════════════════════════════════════════════════════════════════
+        //  Module 4: Inventory
+        //    Concepts: ProductId (EventSourceId), Quantity (int), Rating (double),
+        //              IsDiscontinued (bool), ManufacturedOn (DateOnly), ShiftStart (TimeOnly)
+        //    Features: Catalog (Sku, Discount), Tracking (ManufacturedOn, ShiftStart)
+        // ═══════════════════════════════════════════════════════════════════════
+        var productId = new Concept("ProductId", "Guid", "Uniquely identifies a product", [], IsEventSourceId: true);
+        var quantity = new Concept(
+            "Quantity",
+            "int",
+            "A non-negative item quantity",
+            [
+                new ConceptValidationRule(ConceptValidationRuleType.GreaterThanOrEqualTo, "0", "Quantity must be non-negative")
+            ]);
+        var rating = new Concept(
+            "Rating",
+            "double",
+            "A product rating from 0 to 5",
+            [
+                new ConceptValidationRule(ConceptValidationRuleType.GreaterThanOrEqualTo, "0"),
+                new ConceptValidationRule(ConceptValidationRuleType.LessThanOrEqualTo, "5", "Rating must not exceed 5")
+            ]);
+        var isDiscontinued = new Concept("IsDiscontinued", "bool", "Whether the product is discontinued", []);
+        var manufacturedOn = new Concept("ManufacturedOn", "DateOnly", "Date the product was manufactured", []);
+        var shiftStart = new Concept("ShiftStart", "TimeOnly", "Time a shift starts", []);
+
+        // Feature: Catalog — concepts: Sku, Discount
+        var sku = new Concept(
+            "Sku",
+            "string",
+            "A stock keeping unit identifier",
+            [
+                new ConceptValidationRule(ConceptValidationRuleType.NotEmpty),
+                new ConceptValidationRule(ConceptValidationRuleType.MaximumLength, "50")
+            ]);
+        var discount = new Concept(
+            "Discount",
+            "int",
+            "A discount percentage",
+            [
+                new ConceptValidationRule(ConceptValidationRuleType.GreaterThanOrEqualTo, "0"),
+                new ConceptValidationRule(ConceptValidationRuleType.LessThan, "100", "Discount must be less than 100%")
+            ]);
+
+        // ProductAdded event — has AddedAt property not on the command (ComputedDefault)
+        var productAdded = new EventType(
+            "ProductAdded",
+            "A new product was added to the catalog",
+            [
+                new Property("ProductId", "ProductId"),
+                new Property("Sku", "Sku"),
+                new Property("Name", "string"),
+                new Property("InitialQuantity", "Quantity"),
+                new Property("AddedAt", "DateTimeOffset")
+            ]);
+
+        var priceSet = new EventType(
+            "PriceSet",
+            "The price was set for a product",
+            [
+                new Property("ProductId", "ProductId"),
+                new Property("Price", "decimal")
+            ]);
+
+        var addProductScreen = new Screen(
+            "AddProductForm",
+            "Add a new product to catalog",
+            [
+                new ScreenField("Sku", "Sku", ScreenFieldType.TextInput, "SKU code"),
+                new ScreenField("Name", "string", ScreenFieldType.TextInput, "Product name"),
+                new ScreenField("InitialQuantity", "Quantity", ScreenFieldType.Number, "Initial stock"),
+                new ScreenField("IsUrgent", "bool", ScreenFieldType.Checkbox, "Mark as urgent"),
+                new ScreenField("Category", "string", ScreenFieldType.Dropdown, "Category")
+            ]);
+
+        // Command with explicit ProducedEvents: only ProductAdded, not PriceSet
+        var addProductCommand = new Command(
+            "Add",
+            "Adds a new product to the catalog",
+            [
+                new Property("Sku", "Sku"),
+                new Property("Name", "string"),
+                new Property("InitialQuantity", "Quantity")
+            ],
+            "ProductId",
+            EventSourceIdStrategy.AutoGenerated,
+            ProducedEvents: [new ProducedEvent("ProductAdded")]);
+
+        var addSlice = new VerticalSlice(
+            "Add",
+            VerticalSliceType.StateChange,
+            null,
+            addProductScreen,
+            [addProductCommand],
+            [],
+            [productAdded, priceSet]);
+
+        // Restock — multi-event command producing 2 events
+        var restocked = new EventType(
+            "Restocked",
+            "Product inventory was restocked",
+            [
+                new Property("ProductId", "ProductId"),
+                new Property("AddedQuantity", "Quantity")
+            ]);
+
+        var inventoryAdjusted = new EventType(
+            "InventoryAdjusted",
+            "Inventory levels were adjusted after restock",
+            [
+                new Property("ProductId", "ProductId"),
+                new Property("AdjustmentNote", "string")
+            ]);
+
+        var restockCommand = new Command(
+            "Restock",
+            "Restocks a product and records an adjustment",
+            [
+                new Property("AddedQuantity", "Quantity"),
+                new Property("AdjustmentNote", "string")
+            ],
+            "ProductId");
+
+        var restockSlice = new VerticalSlice(
+            "Restock",
+            VerticalSliceType.StateChange,
+            null,
+            null,
+            [restockCommand],
+            [],
+            [restocked, inventoryAdjusted]);
+
+        // Sub-feature: Categories > Subcategories (3 level nesting)
+        var categorized = new EventType(
+            "Categorized",
+            "A product was assigned to a subcategory",
+            [
+                new Property("ProductId", "ProductId"),
+                new Property("SubcategoryName", "string")
+            ]);
+
+        var categorizeCommand = new Command(
+            "Categorize",
+            "Assigns a product to a subcategory",
+            [new Property("SubcategoryName", "string")],
+            "ProductId");
+
+        var categorizeSlice = new VerticalSlice(
+            "Categorize",
+            VerticalSliceType.StateChange,
+            null,
+            null,
+            [categorizeCommand],
+            [],
+            [categorized]);
+
+        var subcategoriesSubFeature = new Feature("Subcategories", [], [], [categorizeSlice]);
+        var categoriesSubFeature = new Feature("Categories", [], [subcategoriesSubFeature], []);
+
+        var catalogFeature = new Feature(
+            "Catalog",
+            [sku, discount],
+            [categoriesSubFeature],
+            [addSlice, restockSlice]);
+
+        // Feature: Tracking — uses date/time concepts
+        var shipped = new EventType(
+            "Shipped",
+            "A product batch was shipped",
+            [
+                new Property("ProductId", "ProductId"),
+                new Property("ShippedQuantity", "Quantity"),
+                new Property("ManufacturedOn", "ManufacturedOn"),
+                new Property("ShiftStart", "ShiftStart")
+            ]);
+
+        var shipCommand = new Command(
+            "Ship",
+            "Ships a product batch",
+            [
+                new Property("ShippedQuantity", "Quantity"),
+                new Property("ManufacturedOn", "ManufacturedOn"),
+                new Property("ShiftStart", "ShiftStart")
+            ],
+            "ProductId");
+
+        var shipSlice = new VerticalSlice(
+            "Ship",
+            VerticalSliceType.StateChange,
+            null,
+            null,
+            [shipCommand],
+            [],
+            [shipped]);
+
+        var trackingFeature = new Feature("Tracking", [manufacturedOn, shiftStart], [], [shipSlice]);
+
+        var inventoryModule = new Module(
+            "Inventory",
+            [productId, quantity, rating, isDiscontinued],
+            [catalogFeature, trackingFeature]);
+
+        return [healthcareModule, billingModule, notificationsModule, inventoryModule];
     }
 }
