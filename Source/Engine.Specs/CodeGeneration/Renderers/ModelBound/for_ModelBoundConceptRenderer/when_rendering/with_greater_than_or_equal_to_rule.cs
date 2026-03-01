@@ -22,7 +22,7 @@ public class with_greater_than_or_equal_to_rule : given.a_context
     }
 
     void Because() => _validatorContent = _renderer.Render(_descriptor, _context)
-        .Single(f => f.ArtifactPath.EndsWith("NonNegativeQuantityValidator.cs")).Content;
+        .Single(f => f.ArtifactPath.EndsWith("NonNegativeQuantity.cs")).Content;
 
     [Fact] void should_emit_greater_than_or_equal_to_rule() => _validatorContent.ShouldContain(".GreaterThanOrEqualTo(0)");
 }

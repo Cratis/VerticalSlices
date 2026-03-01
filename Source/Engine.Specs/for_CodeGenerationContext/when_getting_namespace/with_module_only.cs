@@ -10,7 +10,7 @@ public class with_module_only : Specification
     CodeGenerationContext _context;
     string _result;
 
-    void Establish() => _context = new CodeGenerationContext("Orders", string.Empty, []);
+    void Establish() => _context = new CodeGenerationContext("Orders", FeaturePath.Empty, string.Empty);
 
     void Because() => _result = _context.Namespace;
 

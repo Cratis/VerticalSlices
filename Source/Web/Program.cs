@@ -15,8 +15,14 @@ builder.Services.AddSingleton<ISliceTypeCodeGenerator, StateViewCodeGenerator>()
 builder.Services.AddSingleton<ISliceTypeCodeGenerator, AutomationCodeGenerator>();
 builder.Services.AddSingleton<ISliceTypeCodeGenerator, TranslatorCodeGenerator>();
 builder.Services.AddSingleton<IVerticalSliceCodeGenerator, VerticalSliceCodeGenerator>();
-builder.Services.AddSingleton<IVerticalSlicesEngine, VerticalSlicesEngine>();
 builder.Services.AddSingleton<IChronicleRegistration, NoOpChronicleRegistration>();
+builder.Services.AddSingleton<ICodeOutput>(provider =>
+{
+    var outputRoot = builder.Configuration["VerticalSlices:OutputRoot"] ?? "./generated";
+    var loggerFactory = provider.GetRequiredService<ILoggerFactory>();
+    return new LocalFileSystemOutput(outputRoot, loggerFactory.CreateLogger<LocalFileSystemOutput>());
+});
+builder.Services.AddSingleton<IVerticalSlicesEngine, VerticalSlicesEngine>();
 
 var app = builder.Build();
 
@@ -27,12 +33,7 @@ if (File.Exists(structureFile))
     var modules = JsonSerializer.Deserialize<IEnumerable<Module>>(json, JsonSerializerOptions.Web) ?? [];
 
     var engine = app.Services.GetRequiredService<IVerticalSlicesEngine>();
-    var outputRoot = app.Configuration["VerticalSlices:OutputRoot"] ?? "./generated";
-    var loggerFactory = app.Services.GetRequiredService<ILoggerFactory>();
-    var output = new LocalFileSystemOutput(outputRoot, loggerFactory.CreateLogger<LocalFileSystemOutput>());
-    var chronicle = app.Services.GetRequiredService<IChronicleRegistration>();
-
-    await engine.Process(modules, output, chronicle);
+    await engine.Process(modules);
 }
 
 app.MapGet("/", () => "VerticalSlices Engine is running.");

@@ -6,6 +6,7 @@
     <Description>Engine for defining and generating code from vertical slices, including Chronicle HTTP integration for registering event types, projections, and read model types.</Description>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Humanizer.Core" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
   </ItemGroup>
 </Project>

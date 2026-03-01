@@ -12,6 +12,6 @@ public class with_a_root_namespace : Specification
     void Because() => _result = CodeGenerationContext.FromNamespace("Cratis.Orders");
 
     [Fact] void should_set_namespace_to_provided_value() => _result.Namespace.ShouldEqual("Cratis.Orders");
-    [Fact] void should_have_empty_feature() => _result.Feature.ShouldEqual(string.Empty);
-    [Fact] void should_have_empty_sub_features() => _result.SubFeatures.ShouldBeEmpty();
+    [Fact] void should_have_empty_feature_path() => _result.FeaturePath.ShouldEqual(FeaturePath.Empty);
+    [Fact] void should_have_empty_slice_name() => _result.SliceName.ShouldEqual(string.Empty);
 }

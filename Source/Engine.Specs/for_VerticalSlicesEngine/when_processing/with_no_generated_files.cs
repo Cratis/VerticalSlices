@@ -20,7 +20,7 @@ public class with_no_generated_files : given.all_dependencies
     {
         _output = Substitute.For<ICodeOutput>();
         _chronicle = Substitute.For<IChronicleRegistration>();
-        _engine = new VerticalSlicesEngine(_codeGenerator, _logger);
+        _engine = new VerticalSlicesEngine(_codeGenerator, _logger, _output, _chronicle);
 
         var slice = new VerticalSlice("EmptySlice", VerticalSliceType.StateChange, null, null, [], [], []);
         _modules = [new Module("Mod", [], [new Feature("Feat", [], [], [slice])])];
@@ -30,7 +30,7 @@ public class with_no_generated_files : given.all_dependencies
             .Returns([]);
     }
 
-    async Task Because() => await _engine.Process(_modules, _output, _chronicle);
+    async Task Because() => await _engine.Process(_modules);
 
     [Fact] void should_not_write_to_output() => _output.DidNotReceive().Write(Arg.Any<IEnumerable<RenderedArtifact>>(), Arg.Any<CancellationToken>());
     [Fact] void should_not_register_any_event_types() => _chronicle.DidNotReceive().RegisterEventTypes(Arg.Any<IEnumerable<EventTypeDescriptor>>(), Arg.Any<CancellationToken>());

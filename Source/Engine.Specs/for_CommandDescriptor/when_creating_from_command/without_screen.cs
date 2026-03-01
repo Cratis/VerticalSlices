@@ -25,5 +25,5 @@ public class without_screen : Specification
     [Fact] void should_map_property_type() => _result.Properties.First().Type.ShouldEqual("Guid");
     [Fact] void should_have_null_field_type_without_screen() => _result.Properties.First().FieldType.ShouldBeNull();
     [Fact] void should_have_null_label_without_screen() => _result.Properties.First().Label.ShouldBeNull();
-    [Fact] void should_map_produced_events() => _result.ProducedEvents.First().Name.ShouldEqual("OrderPlaced");
+    [Fact] void should_map_produced_events() => _result.ProducedEvents.First().EventType.Name.ShouldEqual("OrderPlaced");
 }

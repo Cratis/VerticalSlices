@@ -18,14 +18,14 @@ public class with_feature_level_concepts : given.all_dependencies
     void Establish()
     {
         _output = Substitute.For<ICodeOutput>();
-        _engine = new VerticalSlicesEngine(_codeGenerator, _logger);
+        _engine = new VerticalSlicesEngine(_codeGenerator, _logger, _output);
 
         var concept = new Concept("EmployeeName", "string", "An employee name", []);
         var feature = new Feature("Registration", [concept], [], []);
         _modules = [new Module("HumanResources", [], [feature])];
     }
 
-    async Task Because() => await _engine.Process(_modules, _output);
+    async Task Because() => await _engine.Process(_modules);
 
     [Fact] void should_write_concept_files_to_output() =>
         _output.Received(1).Write(Arg.Is<IEnumerable<RenderedArtifact>>(artifacts =>

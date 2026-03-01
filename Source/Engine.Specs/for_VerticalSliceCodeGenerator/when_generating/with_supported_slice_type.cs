@@ -16,6 +16,7 @@ public class with_supported_slice_type : given.all_dependencies
     {
         _slice = new VerticalSlice("MySlice", VerticalSliceType.StateChange, null, null, [], [], []);
         _expectedFile = new RenderedArtifact("MySlice/Command.cs", "// code");
+        _context = _context with { Options = new CodeGenerationOptions { SingleFilePerSlice = false } };
         _stateChangeGenerator
             .Generate(Arg.Any<VerticalSlice>(), Arg.Any<CodeGenerationContext>(), Arg.Any<ArtifactRenderSet>())
             .Returns([_expectedFile]);

@@ -10,5 +10,5 @@ public class a_context : Specification
 {
     protected CodeGenerationContext _context;
 
-    void Establish() => _context = new CodeGenerationContext("MyModule", "MyFeature", ["MySlice"]);
+    void Establish() => _context = new CodeGenerationContext("MyModule", new FeaturePath(["MyFeature"]), "MySlice");
 }

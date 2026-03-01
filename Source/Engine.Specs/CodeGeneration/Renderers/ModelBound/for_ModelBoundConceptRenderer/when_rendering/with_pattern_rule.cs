@@ -22,7 +22,7 @@ public class with_pattern_rule : given.a_context
     }
 
     void Because() => _validatorContent = _renderer.Render(_descriptor, _context)
-        .Single(f => f.ArtifactPath.EndsWith("PostalCodeValidator.cs")).Content;
+        .Single(f => f.ArtifactPath.EndsWith("PostalCode.cs")).Content;
 
     [Fact] void should_emit_matches_rule() => _validatorContent.ShouldContain(".Matches(");
 }

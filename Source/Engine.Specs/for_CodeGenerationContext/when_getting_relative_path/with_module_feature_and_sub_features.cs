@@ -10,7 +10,7 @@ public class with_module_feature_and_sub_features : Specification
     CodeGenerationContext _context;
     string _result;
 
-    void Establish() => _context = new CodeGenerationContext("Orders", "Ordering", ["PlaceOrder", "Validation"]);
+    void Establish() => _context = new CodeGenerationContext("Orders", new FeaturePath(["Ordering", "PlaceOrder", "Validation"]), string.Empty);
 
     void Because() => _result = _context.RelativePath;
 

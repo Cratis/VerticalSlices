@@ -23,7 +23,7 @@ public class with_chronicle_but_no_registrable_artifacts : given.all_dependencie
     void Establish()
     {
         _chronicle = Substitute.For<IChronicleRegistration>();
-        _engine = new VerticalSlicesEngine(_codeGenerator, _logger);
+        _engine = new VerticalSlicesEngine(_codeGenerator, _logger, chronicle: _chronicle);
 
         // Translator slice with only an external event — produces no event descriptors
         // (external events are filtered out) and no read model descriptors.
@@ -45,7 +45,7 @@ public class with_chronicle_but_no_registrable_artifacts : given.all_dependencie
             .Returns([]);
     }
 
-    async Task Because() => await _engine.Process(_modules, chronicle: _chronicle);
+    async Task Because() => await _engine.Process(_modules);
 
     [Fact] void should_not_call_register_event_types() =>
         _chronicle.DidNotReceive().RegisterEventTypes(

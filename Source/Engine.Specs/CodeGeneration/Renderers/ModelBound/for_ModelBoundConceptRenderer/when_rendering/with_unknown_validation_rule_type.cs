@@ -7,7 +7,7 @@ namespace Cratis.VerticalSlices.CodeGeneration.Renderers.ModelBound.for_ModelBou
 
 /// <summary>
 /// A concept whose only validation rule has an unrecognised rule type should still
-/// produce a validator file (because HasValidation is true), but the rule body
+/// produce validator content in the concept file (because HasValidation is true), but the rule body
 /// must be empty — no RuleFor call should be emitted for an unknown rule kind.
 /// </summary>
 public class with_unknown_validation_rule_type : given.a_context
@@ -25,9 +25,9 @@ public class with_unknown_validation_rule_type : given.a_context
     }
 
     void Because() => _validatorContent = _renderer.Render(_descriptor, _context)
-        .Single(f => f.ArtifactPath.EndsWith("CustomValueValidator.cs")).Content;
+        .Single(f => f.ArtifactPath.EndsWith("CustomValue.cs")).Content;
 
-    [Fact] void should_generate_validator_file() =>
+    [Fact] void should_include_validator_in_concept_file() =>
         _validatorContent.ShouldNotBeNull();
 
     [Fact] void should_not_emit_any_rule_for_call() =>

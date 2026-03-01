@@ -24,5 +24,5 @@ public class with_datetimeoffset_underlying_type : given.a_context
         .Single(f => f.ArtifactPath.EndsWith("OccurredAt.cs")).Content;
 
     [Fact] void should_emit_not_set_field_with_min_value() =>
-        _conceptContent.ShouldContain("public static readonly OccurredAt NotSet = new(DateTimeOffset.MinValue);");
+        _conceptContent.ShouldContain("public static readonly OccurredAt NotSet = new(Value: DateTimeOffset.MinValue);");
 }

@@ -21,7 +21,7 @@ public class with_sub_features : given.all_dependencies
     void Establish()
     {
         _output = Substitute.For<ICodeOutput>();
-        _engine = new VerticalSlicesEngine(_codeGenerator, _logger);
+        _engine = new VerticalSlicesEngine(_codeGenerator, _logger, _output);
 
         _subFeatureFile = new RenderedArtifact("Orders/Ordering/PlaceOrder/OrderPlaced.cs", "// generated");
 
@@ -35,7 +35,7 @@ public class with_sub_features : given.all_dependencies
             .Returns([_subFeatureFile]);
     }
 
-    async Task Because() => await _engine.Process(_modules, _output);
+    async Task Because() => await _engine.Process(_modules);
 
     [Fact] void should_call_code_generator_for_sub_feature_slice() =>
         _codeGenerator.Received(1).Generate(Arg.Any<VerticalSlice>(), Arg.Any<CodeGenerationContext>(), Arg.Any<ArtifactRenderSet>());

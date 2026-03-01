@@ -22,7 +22,7 @@ public class with_minimum_length_rule : given.a_context
     }
 
     void Because() => _validatorContent = _renderer.Render(_descriptor, _context)
-        .Single(f => f.ArtifactPath.EndsWith("UsernameValidator.cs")).Content;
+        .Single(f => f.ArtifactPath.EndsWith("Username.cs")).Content;
 
     [Fact] void should_emit_minimum_length_rule() => _validatorContent.ShouldContain(".MinimumLength(3)");
 }

@@ -34,5 +34,5 @@ public class with_commands_receive_produced_events : given.a_slice_type_code_gen
         _capturedDescriptor.ProducedEvents.Count().ShouldEqual(1);
 
     [Fact] void should_include_the_domain_event_as_produced_event() =>
-        _capturedDescriptor.ProducedEvents.First().Name.ShouldEqual("OrderPlaced");
+        _capturedDescriptor.ProducedEvents.First().EventType.Name.ShouldEqual("OrderPlaced");
 }

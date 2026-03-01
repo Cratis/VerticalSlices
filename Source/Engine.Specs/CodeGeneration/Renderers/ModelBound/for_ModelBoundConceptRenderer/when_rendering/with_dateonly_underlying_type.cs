@@ -24,5 +24,5 @@ public class with_dateonly_underlying_type : given.a_context
         .Single(f => f.ArtifactPath.EndsWith("EffectiveDate.cs")).Content;
 
     [Fact] void should_emit_not_set_field_with_min_value() =>
-        _conceptContent.ShouldContain("public static readonly EffectiveDate NotSet = new(DateOnly.MinValue);");
+        _conceptContent.ShouldContain("public static readonly EffectiveDate NotSet = new(Value: DateOnly.MinValue);");
 }

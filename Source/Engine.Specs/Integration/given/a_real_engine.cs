@@ -27,7 +27,7 @@ public class a_real_engine : Specification
     protected int _buildExitCode;
     protected string _buildOutput = string.Empty;
 
-    void Establish()
+    async Task Establish()
     {
         _outputDirectory = Path.Combine(Path.GetTempPath(), $"vs_integration_{Guid.NewGuid():N}");
         Directory.CreateDirectory(_outputDirectory);
@@ -50,14 +50,16 @@ public class a_real_engine : Specification
 
         _engine = new VerticalSlicesEngine(
             codeGenerator,
-            NullLogger<VerticalSlicesEngine>.Instance);
+            NullLogger<VerticalSlicesEngine>.Instance,
+            _output);
 
         WriteProjectFile();
+        await RunDotnet("add package Cratis");
+        await RunDotnet("add package Cratis.Arc.MongoDB");
     }
 
     void Destroy()
     {
-        // Temporarily disabled to inspect generated output
         // if (Directory.Exists(_outputDirectory))
         // {
         //     Directory.Delete(_outputDirectory, recursive: true);
@@ -89,11 +91,6 @@ public class a_real_engine : Specification
             .AppendLine("    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>")
             .AppendLine("    <NoWarn>SA0001;SA1600;CS1591;IDE0005;IDE0060;CS8019</NoWarn>")
             .AppendLine("  </PropertyGroup>")
-            .AppendLine("  <ItemGroup>")
-            .AppendLine("    <PackageReference Include=\"Cratis.Arc.Core\" Version=\"19.6.7\" />")
-            .AppendLine("    <PackageReference Include=\"Cratis.Arc.MongoDB\" Version=\"19.6.7\" />")
-            .AppendLine("    <PackageReference Include=\"Cratis.Chronicle\" Version=\"15.3.1\" />")
-            .AppendLine("  </ItemGroup>")
             .AppendLine("</Project>")
             .ToString();
 

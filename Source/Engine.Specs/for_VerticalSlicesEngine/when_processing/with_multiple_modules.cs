@@ -53,10 +53,10 @@ public class with_multiple_modules : given.all_dependencies
             .Write(Arg.Do<IEnumerable<RenderedArtifact>>(files => _capturedFiles = files.ToList()), Arg.Any<CancellationToken>())
             .Returns(Task.CompletedTask);
 
-        _engine = new VerticalSlicesEngine(_codeGenerator, _logger);
+        _engine = new VerticalSlicesEngine(_codeGenerator, _logger, _output);
     }
 
-    async Task Because() => await _engine.Process(_modules, _output);
+    async Task Because() => await _engine.Process(_modules);
 
     [Fact] void should_include_file_from_first_module() => _capturedFiles.ShouldContain(_module1File);
     [Fact] void should_include_file_from_second_module() => _capturedFiles.ShouldContain(_module2File);

@@ -15,8 +15,13 @@ public class ModelBoundEventTypeRenderer : IArtifactRenderer<EventTypeDescriptor
     {
         var parameters = CodeWriter.FormatRecordParameters(descriptor.Properties);
 
+        var conceptUsings = context.Concepts.ResolveConceptUsings(
+            descriptor.Properties.Select(p => p.Type),
+            context.Namespace);
+
         var builder = new CSharpCodeBuilder(context)
             .Using("Cratis.Chronicle.Events")
+            .Using([.. conceptUsings])
             .Namespace(context.Namespace)
             .BlankLine();
 

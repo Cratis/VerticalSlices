@@ -22,7 +22,7 @@ public class with_validation_rule_with_custom_message : given.a_context
     }
 
     void Because() => _validatorContent = _renderer.Render(_descriptor, _context)
-        .Single(f => f.ArtifactPath.EndsWith("EmailAddressValidator.cs")).Content;
+        .Single(f => f.ArtifactPath.EndsWith("EmailAddress.cs")).Content;
 
     [Fact] void should_emit_email_address_rule() => _validatorContent.ShouldContain(".EmailAddress()");
     [Fact] void should_append_with_message() => _validatorContent.ShouldContain(".WithMessage(\"Must be a valid email address\")");

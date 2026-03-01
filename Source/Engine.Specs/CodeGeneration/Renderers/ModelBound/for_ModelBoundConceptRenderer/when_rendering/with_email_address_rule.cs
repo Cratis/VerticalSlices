@@ -22,7 +22,7 @@ public class with_email_address_rule : given.a_context
     }
 
     void Because() => _validatorContent = _renderer.Render(_descriptor, _context)
-        .Single(f => f.ArtifactPath.EndsWith("EmailAddressValidator.cs")).Content;
+        .Single(f => f.ArtifactPath.EndsWith("EmailAddress.cs")).Content;
 
     [Fact] void should_emit_email_address_rule() =>
         _validatorContent.ShouldContain(".EmailAddress()");

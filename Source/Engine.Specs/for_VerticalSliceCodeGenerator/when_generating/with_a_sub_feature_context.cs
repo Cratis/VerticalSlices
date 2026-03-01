@@ -20,7 +20,7 @@ public class with_a_sub_feature_context : given.all_dependencies
     void Establish()
     {
         _slice = new VerticalSlice("PlaceOrder", VerticalSliceType.StateChange, null, null, [], [], []);
-        _subFeatureContext = new CodeGenerationContext("Orders", "Ordering", ["Placing"]);
+        _subFeatureContext = new CodeGenerationContext("Orders", new FeaturePath(["Ordering", "Placing"]), string.Empty, new CodeGenerationOptions { SingleFilePerSlice = false });
         _expectedFile = new RenderedArtifact("Orders/Ordering/Placing/PlaceOrder.cs", "// code");
         _stateChangeGenerator
             .Generate(Arg.Any<VerticalSlice>(), Arg.Any<CodeGenerationContext>(), Arg.Any<ArtifactRenderSet>())

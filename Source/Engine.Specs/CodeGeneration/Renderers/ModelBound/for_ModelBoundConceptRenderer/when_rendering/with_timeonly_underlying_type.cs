@@ -24,5 +24,5 @@ public class with_timeonly_underlying_type : given.a_context
         .Single(f => f.ArtifactPath.EndsWith("DepartureTime.cs")).Content;
 
     [Fact] void should_emit_not_set_field_with_min_value() =>
-        _conceptContent.ShouldContain("public static readonly DepartureTime NotSet = new(TimeOnly.MinValue);");
+        _conceptContent.ShouldContain("public static readonly DepartureTime NotSet = new(Value: TimeOnly.MinValue);");
 }

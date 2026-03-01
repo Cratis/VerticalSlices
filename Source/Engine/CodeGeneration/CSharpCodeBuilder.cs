@@ -20,9 +20,13 @@ public class CSharpCodeBuilder(CodeGenerationContext? context = null)
     readonly StringBuilder _body = new();
     readonly HashSet<string> _usings = [];
     readonly bool _useGlobalUsings = context?.Options?.UseGlobalUsings == true;
+    readonly bool _useTabs = context?.Options?.UseTabs == true;
+    readonly int _indentSize = context?.Options?.IndentSize ?? 4;
     int _indentLevel;
 
-    string CurrentIndent => new(' ', _indentLevel * 4);
+    string CurrentIndent => _useTabs
+        ? new string('\t', _indentLevel)
+        : new(' ', _indentLevel * _indentSize);
 
     /// <summary>
     /// Adds one or more namespace using directives to the file.
@@ -217,9 +221,10 @@ public class CSharpCodeBuilder(CodeGenerationContext? context = null)
     public CSharpCodeBuilder ExpressionMember(string returnType, string name, string expression, string parameters = "", bool isStatic = false)
     {
         var staticPart = isStatic ? "static " : string.Empty;
+        var singleIndent = _useTabs ? "\t" : new string(' ', _indentSize);
         _body
             .AppendLine($"{CurrentIndent}public {staticPart}{returnType} {name}({parameters}) =>")
-            .AppendLine($"{CurrentIndent}    {expression}");
+            .AppendLine($"{CurrentIndent}{singleIndent}{expression}");
         return this;
     }
 

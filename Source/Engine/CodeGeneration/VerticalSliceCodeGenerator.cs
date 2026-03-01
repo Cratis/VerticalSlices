@@ -33,7 +33,15 @@ public partial class VerticalSliceCodeGenerator(
 
         LogGeneratingSlice(slice.Name, slice.SliceType);
 
-        return generator.Generate(slice, context, renderSet);
+        var artifacts = generator.Generate(slice, context, renderSet).ToList();
+
+
+        if (context.Options.SingleFilePerSlice && artifacts.Count > 0)
+        {
+            return [SliceFileComposer.Compose(artifacts, context)];
+        }
+
+        return artifacts;
     }
 
     [LoggerMessage(LogLevel.Warning, "Unsupported slice type '{SliceType}' for slice '{SliceName}', skipping code generation")]

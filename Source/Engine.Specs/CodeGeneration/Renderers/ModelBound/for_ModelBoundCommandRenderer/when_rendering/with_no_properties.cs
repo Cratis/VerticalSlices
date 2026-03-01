@@ -18,11 +18,11 @@ public class with_no_properties : given.a_context
     void Establish()
     {
         _renderer = new ModelBoundCommandRenderer();
-        _descriptor = new CommandDescriptor("PingService", "A no-arg ping command", [], [], "Id");
+        _descriptor = new CommandDescriptor("PingService", "A no-arg ping command", [], [], "ServiceId");
     }
 
     void Because() => _content = _renderer.Render(_descriptor, _context).Single().Content;
 
-    [Fact] void should_emit_record_with_empty_parameter_list() =>
-        _content.ShouldContain("public record PingService(EventSourceId Id)");
+    [Fact] void should_emit_record_with_event_source_id_type() =>
+        _content.ShouldContain("public record PingService(EventSourceId ServiceId)");
 }

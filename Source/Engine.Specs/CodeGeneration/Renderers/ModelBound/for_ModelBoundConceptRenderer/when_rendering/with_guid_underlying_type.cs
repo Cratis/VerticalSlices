@@ -21,5 +21,5 @@ public class with_guid_underlying_type : given.a_context
         .Single(f => f.ArtifactPath.EndsWith("EmployeeId.cs")).Content;
 
     [Fact] void should_emit_concept_record() => _conceptContent.ShouldContain("public record EmployeeId(Guid Value) : ConceptAs<Guid>(Value)");
-    [Fact] void should_emit_not_set_with_guid_empty() => _conceptContent.ShouldContain("NotSet = new(Guid.Empty)");
+    [Fact] void should_emit_not_set_with_guid_empty() => _conceptContent.ShouldContain("NotSet = new(Value: Guid.Empty)");
 }

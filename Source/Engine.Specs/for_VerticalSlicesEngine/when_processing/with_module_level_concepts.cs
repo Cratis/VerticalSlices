@@ -18,13 +18,13 @@ public class with_module_level_concepts : given.all_dependencies
     void Establish()
     {
         _output = Substitute.For<ICodeOutput>();
-        _engine = new VerticalSlicesEngine(_codeGenerator, _logger);
+        _engine = new VerticalSlicesEngine(_codeGenerator, _logger, _output);
 
         var concept = new Concept("EmployeeId", "Guid", "An employee identifier", []);
         _modules = [new Module("HumanResources", [concept], [])];
     }
 
-    async Task Because() => await _engine.Process(_modules, _output);
+    async Task Because() => await _engine.Process(_modules);
 
     [Fact] void should_write_concept_files_to_output() =>
         _output.Received(1).Write(Arg.Is<IEnumerable<RenderedArtifact>>(artifacts =>

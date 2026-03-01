@@ -19,8 +19,12 @@ public class with_multiple_produced_events : given.a_context
             "Registers a new employee",
             [new CommandPropertyDescriptor("EmployeeId", "string", null, null)],
             [
-                new EventTypeDescriptor("EmployeeRegistered", "Employee was registered", []),
-                new EventTypeDescriptor("EmployeeWelcomed", "Employee was welcomed", [])
+                new ProducedEventDescriptor(
+                    new EventTypeDescriptor("EmployeeRegistered", "Employee was registered", []),
+                    []),
+                new ProducedEventDescriptor(
+                    new EventTypeDescriptor("EmployeeWelcomed", "Employee was welcomed", []),
+                    [])
             ],
             "Id");
     }

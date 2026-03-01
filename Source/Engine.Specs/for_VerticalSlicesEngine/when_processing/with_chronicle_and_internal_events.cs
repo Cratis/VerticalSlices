@@ -14,10 +14,10 @@ public class with_chronicle_and_internal_events : given.a_module_with_a_slice_pr
     void Establish()
     {
         _chronicle = Substitute.For<IChronicleRegistration>();
-        _engine = new VerticalSlicesEngine(_codeGenerator, _logger);
+        _engine = new VerticalSlicesEngine(_codeGenerator, _logger, chronicle: _chronicle);
     }
 
-    async Task Because() => await _engine.Process(_modules, chronicle: _chronicle);
+    async Task Because() => await _engine.Process(_modules);
 
     [Fact] void should_register_event_types_with_chronicle() => _chronicle.Received(1).RegisterEventTypes(Arg.Any<IEnumerable<EventTypeDescriptor>>(), Arg.Any<CancellationToken>());
     [Fact] void should_register_one_event_type() => _chronicle.Received(1).RegisterEventTypes(Arg.Is<IEnumerable<EventTypeDescriptor>>(e => e.Count() == 1), Arg.Any<CancellationToken>());

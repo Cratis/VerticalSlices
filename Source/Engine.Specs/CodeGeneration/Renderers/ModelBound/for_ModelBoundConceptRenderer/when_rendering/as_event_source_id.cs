@@ -31,6 +31,6 @@ public class as_event_source_id : given.a_context
     [Fact] void should_use_chronicle_events_namespace() => _content.ShouldContain("using Cratis.Chronicle.Events;");
     [Fact] void should_not_use_concepts_namespace() => _content.ShouldNotContain("using Cratis.Concepts;");
     [Fact] void should_always_use_string_as_underlying_type() => _content.ShouldContain("string Value");
-    [Fact] void should_emit_implicit_operator_with_string() => _content.ShouldContain("public static implicit operator PatientId(string value) => new(value);");
-    [Fact] void should_emit_not_set_field_with_empty_string() => _content.ShouldContain("public static readonly PatientId NotSet = new(string.Empty);");
+    [Fact] void should_emit_implicit_operator_with_string() => _content.ShouldContain("public static implicit operator PatientId(string value) => new(Value: value);");
+    [Fact] void should_emit_not_set_field_with_empty_string() => _content.ShouldContain("public static readonly PatientId NotSet = new(Value: string.Empty);");
 }

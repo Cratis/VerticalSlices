@@ -21,5 +21,5 @@ public class with_int_underlying_type : given.a_context
         .Single(f => f.ArtifactPath.EndsWith("Quantity.cs")).Content;
 
     [Fact] void should_emit_concept_record() => _conceptContent.ShouldContain("public record Quantity(int Value) : ConceptAs<int>(Value)");
-    [Fact] void should_emit_not_set_with_zero() => _conceptContent.ShouldContain("NotSet = new(0)");
+    [Fact] void should_emit_not_set_with_zero() => _conceptContent.ShouldContain("NotSet = new(Value: 0)");
 }

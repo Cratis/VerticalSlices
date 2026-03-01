@@ -29,5 +29,5 @@ public class with_an_event_type_and_properties : given.a_context
     [Fact] void should_emit_record_declaration() => _result.Single().Content.ShouldContain("public record OrderPlaced(");
     [Fact] void should_include_first_property() => _result.Single().Content.ShouldContain("Guid OrderId");
     [Fact] void should_include_second_property() => _result.Single().Content.ShouldContain("decimal Amount");
-    [Fact] void should_declare_correct_namespace() => _result.Single().Content.ShouldContain("namespace MyModule.MyFeature.MySlice;");
+    [Fact] void should_declare_correct_namespace() => _result.Single().Content.ShouldContain("namespace MyModule.MyFeature;");
 }

@@ -22,7 +22,7 @@ public class with_maximum_length_rule : given.a_context
     }
 
     void Because() => _validatorContent = _renderer.Render(_descriptor, _context)
-        .Single(f => f.ArtifactPath.EndsWith("ShortDescriptionValidator.cs")).Content;
+        .Single(f => f.ArtifactPath.EndsWith("ShortDescription.cs")).Content;
 
     [Fact] void should_emit_maximum_length_rule() => _validatorContent.ShouldContain(".MaximumLength(100)");
 }

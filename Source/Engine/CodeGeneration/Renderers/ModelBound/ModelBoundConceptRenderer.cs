@@ -6,24 +6,25 @@ using Cratis.VerticalSlices.CodeGeneration.Descriptors;
 namespace Cratis.VerticalSlices.CodeGeneration.Renderers.ModelBound;
 
 /// <summary>
-/// Renders a concept descriptor as a ConceptAs record and optionally a ConceptValidator class.
+/// Renders a concept descriptor as a ConceptAs record and, when validation rules are present,
+/// a ConceptValidator class — both combined into a single <c>{ConceptName}.cs</c> file.
 /// </summary>
 public class ModelBoundConceptRenderer : IArtifactRenderer<ConceptDescriptor>
 {
     /// <inheritdoc/>
     public IEnumerable<RenderedArtifact> Render(ConceptDescriptor descriptor, CodeGenerationContext context)
     {
-        var files = new List<RenderedArtifact>
-        {
-            RenderConcept(descriptor, context)
-        };
+        var conceptArtifact = RenderConcept(descriptor, context);
 
-        if (descriptor.HasValidation)
+        if (!descriptor.HasValidation)
         {
-            files.Add(RenderValidator(descriptor, context));
+            return [conceptArtifact];
         }
 
-        return files;
+        var validatorArtifact = RenderValidator(descriptor, context);
+        var compositionContext = context with { SliceName = descriptor.Name };
+
+        return [SliceFileComposer.Compose([conceptArtifact, validatorArtifact], compositionContext)];
     }
 
     static RenderedArtifact RenderConcept(ConceptDescriptor descriptor, CodeGenerationContext context)
@@ -49,7 +50,7 @@ public class ModelBoundConceptRenderer : IArtifactRenderer<ConceptDescriptor>
 
         builder
             .OpenRecord(descriptor.Name, $"{underlyingType} Value", baseType)
-            .Statement($"public static implicit operator {descriptor.Name}({underlyingType} value) => new(value);");
+            .Statement($"public static implicit operator {descriptor.Name}({underlyingType} value) => new(Value: value);");
 
         AppendStaticDefaults(builder, descriptor, underlyingType);
 
@@ -93,16 +94,16 @@ public class ModelBoundConceptRenderer : IArtifactRenderer<ConceptDescriptor>
     {
         var defaultExpression = underlyingType switch
         {
-            "string" => "new(string.Empty)",
-            "Guid" => "new(Guid.Empty)",
+            "string" => "new(Value: string.Empty)",
+            "Guid" => "new(Value: Guid.Empty)",
             "int" or "long" or "short" or "byte"
                 or "uint" or "ulong" or "ushort" or "sbyte"
-                or "float" or "double" or "decimal" => "new(0)",
+                or "float" or "double" or "decimal" => "new(Value: 0)",
             "bool" => null,
-            "DateTime" => "new(DateTime.MinValue)",
-            "DateOnly" => "new(DateOnly.MinValue)",
-            "TimeOnly" => "new(TimeOnly.MinValue)",
-            "DateTimeOffset" => "new(DateTimeOffset.MinValue)",
+            "DateTime" => "new(Value: DateTime.MinValue)",
+            "DateOnly" => "new(Value: DateOnly.MinValue)",
+            "TimeOnly" => "new(Value: TimeOnly.MinValue)",
+            "DateTimeOffset" => "new(Value: DateTimeOffset.MinValue)",
             _ => null
         };
 

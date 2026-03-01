@@ -2,13 +2,17 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using Cratis.VerticalSlices.CodeGeneration.Descriptors;
+using Humanizer;
 
 namespace Cratis.VerticalSlices.CodeGeneration.Renderers.ModelBound;
 
 /// <summary>
 /// Renders a read model descriptor as a Chronicle model-bound projection record that also
-/// embeds the observable <c>GetAll</c> query method. Produces a single partial record
-/// decorated with [ReadModel] and the relevant projection attributes.
+/// embeds observable query methods. Produces a single partial record decorated with
+/// [ReadModel] and the relevant projection attributes.
+/// Query methods use <c>IMongoCollection&lt;T&gt;</c> with <c>.Observe()</c> returning
+/// <c>ISubject&lt;IEnumerable&lt;T&gt;&gt;</c> for collection queries and
+/// <c>ISubject&lt;T&gt;</c> for by-id queries.
 /// </summary>
 public class ModelBoundReadModelRenderer : IArtifactRenderer<ReadModelDescriptor>
 {
@@ -17,22 +21,28 @@ public class ModelBoundReadModelRenderer : IArtifactRenderer<ReadModelDescriptor
         [RenderProjection(descriptor, context)];
 
     /// <summary>
-    /// Renders the projection record with Chronicle model-bound attributes and an embedded
-    /// observable query method.
+    /// Renders the projection record with Chronicle model-bound attributes and embedded
+    /// observable query methods.
     /// </summary>
     /// <param name="descriptor">The read model descriptor.</param>
     /// <param name="context">The code generation context.</param>
-    /// <returns>A rendered artifact for the projection.</returns>
     static RenderedArtifact RenderProjection(ReadModelDescriptor descriptor, CodeGenerationContext context)
     {
+        var conceptUsings = context.Concepts.ResolveConceptUsings(
+            descriptor.Properties.Select(p => p.Type),
+            context.Namespace);
+
         var builder = new CSharpCodeBuilder(context)
             .Using(
+                "Cratis.Arc.MongoDB",
                 "Cratis.Arc.Queries.ModelBound",
                 "Cratis.Chronicle.Events",
                 "Cratis.Chronicle.Keys",
                 "Cratis.Chronicle.Projections.ModelBound",
                 "Cratis.Chronicle.ReadModels",
+                "MongoDB.Driver",
                 "System.Reactive.Subjects")
+            .Using([.. conceptUsings])
             .Namespace(context.Namespace)
             .BlankLine();
 
@@ -61,25 +71,40 @@ public class ModelBoundReadModelRenderer : IArtifactRenderer<ReadModelDescriptor
             }
         }
 
+        var pluralizedName = descriptor.Name.Pluralize();
+        var keyProperty = properties.FirstOrDefault(p => p.IsKey);
+        var keyType = keyProperty?.Type ?? "string";
+
         builder
-            .Summary($"Gets all {descriptor.Name} instances as an observable subject.")
-            .XmlParam("readModels", "The read models provider.")
+            .Summary($"Gets all {descriptor.Name} instances as an observable collection.")
+            .XmlParam("collection", $"The MongoDB collection for {descriptor.Name}.")
             .XmlReturns($"An observable subject of all {descriptor.Name} instances.")
             .ExpressionMember(
+                $"ISubject<IEnumerable<{descriptor.Name}>>",
+                $"All{pluralizedName}",
+                "collection.Observe();",
+                $"IMongoCollection<{descriptor.Name}> collection",
+                isStatic: true)
+            .BlankLine()
+            .Summary($"Gets a single {descriptor.Name} by its identifier.")
+            .XmlParam("collection", $"The MongoDB collection for {descriptor.Name}.")
+            .XmlParam("id", "The identifier to look up.")
+            .XmlReturns($"An observable subject of the matching {descriptor.Name}.")
+            .ExpressionMember(
                 $"ISubject<{descriptor.Name}>",
-                "GetAll",
-                $"readModels.Watch<{descriptor.Name}>().ToObservableReadModel();",
-                "IReadModels readModels",
+                $"{descriptor.Name}ById",
+                "collection.ObserveById(id);",
+                $"IMongoCollection<{descriptor.Name}> collection, {keyType} id",
                 isStatic: true)
             .EndBlock();
 
         var artifactPath = Path.Combine(context.RelativePath, $"{descriptor.Name}.cs");
+
         return new RenderedArtifact(artifactPath, builder.ToString());
     }
 
     /// <summary>
-    /// Appends record-level attributes such as [Passive], [NotRewindable], [FromEventSequence],
-    /// [RemovedWith], and [FromEvent] for auto-mapped events.
+    /// Appends record-level attributes.
     /// </summary>
     /// <param name="builder">The code builder.</param>
     /// <param name="descriptor">The read model descriptor.</param>
@@ -105,8 +130,6 @@ public class ModelBoundReadModelRenderer : IArtifactRenderer<ReadModelDescriptor
             builder.Attribute($"RemovedWith<{descriptor.Removal.EventTypeName}>");
         }
 
-        // Emit [FromEvent<T>] for every event type that has at least one Set mapping
-        // where the event property name matches the read model property name (auto-mapping).
         var autoMappedEventTypes = descriptor.Properties
             .SelectMany(p => p.Mappings
                 .Where(m => m.Kind == PropertyMappingKind.Set && m.EventPropertyName == p.Name)
@@ -121,8 +144,6 @@ public class ModelBoundReadModelRenderer : IArtifactRenderer<ReadModelDescriptor
 
     /// <summary>
     /// Appends per-property attributes based on the property's mappings.
-    /// Set mappings where the event property name matches the read model property name are
-    /// handled by a class-level [FromEvent&lt;T&gt;] attribute and are skipped here.
     /// </summary>
     /// <param name="builder">The code builder.</param>
     /// <param name="property">The property descriptor.</param>
@@ -135,8 +156,6 @@ public class ModelBoundReadModelRenderer : IArtifactRenderer<ReadModelDescriptor
 
         foreach (var mapping in property.Mappings)
         {
-            // Skip Set mappings whose event property name matches the property name —
-            // those are covered by the class-level [FromEvent<T>] attribute.
             if (mapping.Kind == PropertyMappingKind.Set && mapping.EventPropertyName == property.Name)
             {
                 continue;

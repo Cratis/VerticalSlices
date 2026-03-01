@@ -26,8 +26,9 @@ public class without_produced_events : given.a_context
 
     [Fact] void should_emit_command_attribute() => _content.ShouldContain("[Command]");
     [Fact] void should_emit_record_declaration() => _content.ShouldContain("public record PlaceOrder(");
-    [Fact] void should_include_orderId_property() => _content.ShouldContain("string OrderId");
+    [Fact] void should_include_event_source_id_property() => _content.ShouldContain("EventSourceId OrderId");
+    [Fact] void should_include_chronicle_events_using() => _content.ShouldContain("using Cratis.Chronicle.Events;");
     [Fact] void should_emit_void_handle_method() => _content.ShouldContain("public void Handle()");
     [Fact] void should_not_emit_task_handle_method() => _content.ShouldNotContain("public Task Handle(");
-    [Fact] void should_declare_correct_namespace() => _content.ShouldContain("namespace MyModule.MyFeature.MySlice;");
+    [Fact] void should_declare_correct_namespace() => _content.ShouldContain("namespace MyModule.MyFeature;");
 }

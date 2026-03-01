@@ -23,7 +23,7 @@ public class without_a_screen : Specification
     [Fact] void should_map_description() => _result.Description.ShouldEqual("Places an order");
     [Fact] void should_map_all_properties() => _result.Properties.Count().ShouldEqual(2);
     [Fact] void should_include_produced_event() => _result.ProducedEvents.Count().ShouldEqual(1);
-    [Fact] void should_map_produced_event_name() => _result.ProducedEvents.First().Name.ShouldEqual("OrderPlaced");
+    [Fact] void should_map_produced_event_name() => _result.ProducedEvents.First().EventType.Name.ShouldEqual("OrderPlaced");
     [Fact] void should_have_no_field_type_on_properties() => _result.Properties.All(p => p.FieldType is null).ShouldBeTrue();
     [Fact] void should_have_no_label_on_properties() => _result.Properties.All(p => p.Label is null).ShouldBeTrue();
 }

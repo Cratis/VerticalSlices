@@ -14,7 +14,9 @@ public class with_produced_events : given.a_context
     void Establish()
     {
         _renderer = new ModelBoundCommandRenderer();
-        var producedEvent = new EventTypeDescriptor("OrderPlaced", "An order was placed", []);
+        var producedEvent = new ProducedEventDescriptor(
+            new EventTypeDescriptor("OrderPlaced", "An order was placed", []),
+            []);
         _descriptor = new CommandDescriptor(
             "PlaceOrder",
             "Places a new order",
@@ -26,7 +28,8 @@ public class with_produced_events : given.a_context
     void Because() => _content = _renderer.Render(_descriptor, _context).Single().Content;
 
     [Fact] void should_emit_handle_returning_event_type() => _content.ShouldContain("public OrderPlaced Handle()");
-    [Fact] void should_include_constructor_call_for_produced_event() => _content.ShouldContain("new OrderPlaced(");
+    [Fact] void should_use_target_typed_new() => _content.ShouldContain("new();");
+    [Fact] void should_not_emit_explicit_constructor() => _content.ShouldNotContain("new OrderPlaced(");
     [Fact] void should_not_emit_void_handle_method() => _content.ShouldNotContain("public void Handle()");
     [Fact] void should_not_emit_ieventlog_parameter() => _content.ShouldNotContain("IEventLog");
     [Fact] void should_not_emit_throw_not_implemented() => _content.ShouldNotContain("throw new NotImplementedException");
