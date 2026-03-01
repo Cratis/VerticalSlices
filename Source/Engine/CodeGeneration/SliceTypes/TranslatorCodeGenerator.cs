@@ -26,7 +26,7 @@ public class TranslatorCodeGenerator : ISliceTypeCodeGenerator
 
         foreach (var eventType in slice.Events.Where(e => e.Kind == EventKind.Internal))
         {
-            var descriptor = EventTypeDescriptor.FromEventType(eventType);
+            var descriptor = EventTypeDescriptor.FromEventType(eventType, context.Concepts);
             artifacts.AddRange(renderSet.EventType.Render(descriptor, context));
         }
 

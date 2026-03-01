@@ -11,7 +11,7 @@ public class with_invalid_slice : given.all_dependencies
 
     void Establish()
     {
-        _engine = new VerticalSlicesEngine(_codeGenerator, _logger);
+        _engine = new VerticalSlicesEngine(_codeGenerator, _logger, _outputResolver, _chronicleResolver);
         var externalEvent = new EventType("ExternalEvent", "External", [], EventKind.External);
         var slice = new VerticalSlice("BadSlice", VerticalSliceType.StateChange, null, null, [], [], [externalEvent]);
         _modules = [new Module("Mod", [], [new Feature("Feat", [], [], [slice])])];

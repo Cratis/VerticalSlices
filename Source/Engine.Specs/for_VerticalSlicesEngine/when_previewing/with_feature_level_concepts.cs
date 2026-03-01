@@ -16,7 +16,7 @@ public class with_feature_level_concepts : given.all_dependencies
 
     void Establish()
     {
-        _engine = new VerticalSlicesEngine(_codeGenerator, _logger);
+        _engine = new VerticalSlicesEngine(_codeGenerator, _logger, _outputResolver, _chronicleResolver);
 
         var concept = new Concept("EmployeeName", "string", "An employee name", []);
         var feature = new Feature("Registration", [concept], [], []);

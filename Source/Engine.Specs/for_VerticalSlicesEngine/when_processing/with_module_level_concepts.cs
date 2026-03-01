@@ -18,7 +18,8 @@ public class with_module_level_concepts : given.all_dependencies
     void Establish()
     {
         _output = Substitute.For<ICodeOutput>();
-        _engine = new VerticalSlicesEngine(_codeGenerator, _logger, _output);
+        _outputResolver.Resolve().Returns(_output);
+        _engine = new VerticalSlicesEngine(_codeGenerator, _logger, _outputResolver, _chronicleResolver);
 
         var concept = new Concept("EmployeeId", "Guid", "An employee identifier", []);
         _modules = [new Module("HumanResources", [concept], [])];

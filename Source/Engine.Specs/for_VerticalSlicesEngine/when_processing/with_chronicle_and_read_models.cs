@@ -14,7 +14,8 @@ public class with_chronicle_and_read_models : given.a_module_with_a_slice_produc
     void Establish()
     {
         _chronicle = Substitute.For<IChronicleRegistration>();
-        _engine = new VerticalSlicesEngine(_codeGenerator, _logger, chronicle: _chronicle);
+        _chronicleResolver.Resolve().Returns(_chronicle);
+        _engine = new VerticalSlicesEngine(_codeGenerator, _logger, _outputResolver, _chronicleResolver);
     }
 
     async Task Because() => await _engine.Process(_modules);

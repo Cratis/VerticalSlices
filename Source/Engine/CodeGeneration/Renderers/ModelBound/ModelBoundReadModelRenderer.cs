@@ -64,11 +64,6 @@ public class ModelBoundReadModelRenderer : IArtifactRenderer<ReadModelDescriptor
 
             AppendPropertyAttributes(builder, property);
             builder.ConstructorParameter($"{property.Type} {property.Name}", isLast, openBody: isLast);
-
-            if (!isLast)
-            {
-                builder.BlankLine();
-            }
         }
 
         var pluralizedName = descriptor.Name.Pluralize();

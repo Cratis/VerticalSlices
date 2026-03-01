@@ -16,13 +16,13 @@ namespace Cratis.VerticalSlices;
 /// </summary>
 /// <param name="codeGenerator">The code generator for producing files from vertical slices.</param>
 /// <param name="logger">The logger.</param>
-/// <param name="output">The output target for generated code. When null, writing is skipped.</param>
-/// <param name="chronicle">The Chronicle registration target. When null, registration is skipped.</param>
+/// <param name="outputResolver">Resolver for the output target. Resolves the appropriate code output based on configuration.</param>
+/// <param name="chronicleResolver">Resolver for the Chronicle registration target. Resolves the appropriate registration strategy based on configuration.</param>
 public partial class VerticalSlicesEngine(
     IVerticalSliceCodeGenerator codeGenerator,
     ILogger<VerticalSlicesEngine> logger,
-    ICodeOutput? output = null,
-    IChronicleRegistration? chronicle = null) : IVerticalSlicesEngine
+    ICodeOutputResolver outputResolver,
+    IChronicleRegistrationResolver chronicleResolver) : IVerticalSlicesEngine
 {
     /// <inheritdoc/>
     public async Task Process(
@@ -34,26 +34,25 @@ public partial class VerticalSlicesEngine(
         var renderSet = ArtifactRenderSet.From(resolvedOptions);
         var collected = CollectFromModules(modules, renderSet, resolvedOptions);
 
-        if (output is not null && collected.Artifacts.Count > 0)
+        var output = outputResolver.Resolve();
+        if (collected.Artifacts.Count > 0)
         {
             LogWritingFiles(collected.Artifacts.Count);
             await output.Write(collected.Artifacts, ct);
         }
 
-        if (chronicle is not null)
+        var chronicle = chronicleResolver.Resolve();
+        if (collected.EventDescriptors.Count > 0)
         {
-            if (collected.EventDescriptors.Count > 0)
-            {
-                LogRegisteringEventTypes(collected.EventDescriptors.Count);
-                await chronicle.RegisterEventTypes(collected.EventDescriptors, ct);
-            }
+            LogRegisteringEventTypes(collected.EventDescriptors.Count);
+            await chronicle.RegisterEventTypes(collected.EventDescriptors, ct);
+        }
 
-            if (collected.ReadModelDescriptors.Count > 0)
-            {
-                LogRegisteringProjections(collected.ReadModelDescriptors.Count);
-                await chronicle.RegisterProjections(collected.ReadModelDescriptors, ct);
-                await chronicle.RegisterReadModelTypes(collected.ReadModelDescriptors, ct);
-            }
+        if (collected.ReadModelDescriptors.Count > 0)
+        {
+            LogRegisteringProjections(collected.ReadModelDescriptors.Count);
+            await chronicle.RegisterProjections(collected.ReadModelDescriptors, ct);
+            await chronicle.RegisterReadModelTypes(collected.ReadModelDescriptors, ct);
         }
     }
 
@@ -70,11 +69,12 @@ public partial class VerticalSlicesEngine(
         VerticalSlice slice,
         string moduleName,
         FeaturePath featurePath,
+        ConceptScope? conceptScope = null,
         CodeGenerationOptions? options = null)
     {
         var resolvedOptions = options ?? new();
         var renderSet = ArtifactRenderSet.From(resolvedOptions);
-        var context = new CodeGenerationContext(moduleName, featurePath, slice.Name, resolvedOptions);
+        var context = new CodeGenerationContext(moduleName, featurePath, slice.Name, resolvedOptions, conceptScope ?? ConceptScope.Empty);
 
         return codeGenerator.Generate(slice, context, renderSet);
     }
@@ -136,7 +136,7 @@ public partial class VerticalSlicesEngine(
 
                 foreach (var eventType in slice.Events.Where(e => e.Kind == EventKind.Internal))
                 {
-                    eventDescriptors.Add(EventTypeDescriptor.FromEventType(eventType));
+                    eventDescriptors.Add(EventTypeDescriptor.FromEventType(eventType, currentConceptScope));
                 }
 
                 foreach (var readModel in slice.ReadModels)

@@ -53,7 +53,8 @@ public class with_multiple_modules : given.all_dependencies
             .Write(Arg.Do<IEnumerable<RenderedArtifact>>(files => _capturedFiles = files.ToList()), Arg.Any<CancellationToken>())
             .Returns(Task.CompletedTask);
 
-        _engine = new VerticalSlicesEngine(_codeGenerator, _logger, _output);
+        _outputResolver.Resolve().Returns(_output);
+        _engine = new VerticalSlicesEngine(_codeGenerator, _logger, _outputResolver, _chronicleResolver);
     }
 
     async Task Because() => await _engine.Process(_modules);

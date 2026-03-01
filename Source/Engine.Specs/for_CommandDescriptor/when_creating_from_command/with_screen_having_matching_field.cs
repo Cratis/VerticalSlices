@@ -20,7 +20,7 @@ public class with_screen_having_matching_field : Specification
             [new ScreenField("OrderId", "Guid", ScreenFieldType.TextInput, "Order ID")]);
     }
 
-    void Because() => _result = CommandDescriptor.FromCommand(_command, [], _screen);
+    void Because() => _result = CommandDescriptor.FromCommand(_command, [], _screen, ConceptScope.Empty);
 
     [Fact] void should_map_field_type_from_screen() => _result.Properties.First().FieldType.ShouldEqual(ScreenFieldType.TextInput);
     [Fact] void should_map_label_from_screen() => _result.Properties.First().Label.ShouldEqual("Order ID");

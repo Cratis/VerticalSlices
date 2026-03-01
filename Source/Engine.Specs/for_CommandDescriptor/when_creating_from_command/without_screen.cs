@@ -17,7 +17,7 @@ public class without_screen : Specification
         _command = new Command("PlaceOrder", "Places an order", [new Property("OrderId", "Guid")], "OrderId");
     }
 
-    void Because() => _result = CommandDescriptor.FromCommand(_command, [_producedEvent]);
+    void Because() => _result = CommandDescriptor.FromCommand(_command, [_producedEvent], null, ConceptScope.Empty);
 
     [Fact] void should_map_name() => _result.Name.ShouldEqual("PlaceOrder");
     [Fact] void should_map_description() => _result.Description.ShouldEqual("Places an order");

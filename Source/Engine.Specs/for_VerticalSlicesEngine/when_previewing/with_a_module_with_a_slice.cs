@@ -10,7 +10,7 @@ public class with_a_module_with_a_slice : given.a_module_with_a_slice_producing_
     VerticalSlicesEngine _engine;
     IEnumerable<RenderedArtifact> _result;
 
-    void Establish() => _engine = new VerticalSlicesEngine(_codeGenerator, _logger);
+    void Establish() => _engine = new VerticalSlicesEngine(_codeGenerator, _logger, _outputResolver, _chronicleResolver);
 
     void Because() => _result = _engine.Preview(_modules);
 

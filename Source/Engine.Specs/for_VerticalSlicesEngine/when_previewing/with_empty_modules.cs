@@ -10,7 +10,7 @@ public class with_empty_modules : given.all_dependencies
     VerticalSlicesEngine _engine;
     IEnumerable<RenderedArtifact> _result;
 
-    void Establish() => _engine = new VerticalSlicesEngine(_codeGenerator, _logger);
+    void Establish() => _engine = new VerticalSlicesEngine(_codeGenerator, _logger, _outputResolver, _chronicleResolver);
 
     void Because() => _result = _engine.Preview([]);
 

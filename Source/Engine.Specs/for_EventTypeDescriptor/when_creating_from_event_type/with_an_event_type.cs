@@ -15,7 +15,7 @@ public class with_an_event_type : Specification
         "An order was placed",
         [new Property("OrderId", "Guid"), new Property("Amount", "decimal")]);
 
-    void Because() => _result = EventTypeDescriptor.FromEventType(_eventType);
+    void Because() => _result = EventTypeDescriptor.FromEventType(_eventType, ConceptScope.Empty);
 
     [Fact] void should_map_name() => _result.Name.ShouldEqual("OrderPlaced");
     [Fact] void should_map_description() => _result.Description.ShouldEqual("An order was placed");

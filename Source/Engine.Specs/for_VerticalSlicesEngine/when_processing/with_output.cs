@@ -14,7 +14,8 @@ public class with_output : given.a_module_with_a_slice_producing_files
     void Establish()
     {
         _output = Substitute.For<ICodeOutput>();
-        _engine = new VerticalSlicesEngine(_codeGenerator, _logger, _output);
+        _outputResolver.Resolve().Returns(_output);
+        _engine = new VerticalSlicesEngine(_codeGenerator, _logger, _outputResolver, _chronicleResolver);
     }
 
     async Task Because() => await _engine.Process(_modules);

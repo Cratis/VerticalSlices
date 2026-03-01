@@ -23,13 +23,13 @@ public class StateChangeCodeGenerator : ISliceTypeCodeGenerator
 
         foreach (var eventType in slice.Events)
         {
-            var descriptor = EventTypeDescriptor.FromEventType(eventType);
+            var descriptor = EventTypeDescriptor.FromEventType(eventType, context.Concepts);
             artifacts.AddRange(renderSet.EventType.Render(descriptor, context));
         }
 
         foreach (var command in slice.Commands)
         {
-            var descriptor = CommandDescriptor.FromCommand(command, slice.Events, slice.Screen);
+            var descriptor = CommandDescriptor.FromCommand(command, slice.Events, slice.Screen, context.Concepts);
             artifacts.AddRange(renderSet.Command.Render(descriptor, context));
         }
 

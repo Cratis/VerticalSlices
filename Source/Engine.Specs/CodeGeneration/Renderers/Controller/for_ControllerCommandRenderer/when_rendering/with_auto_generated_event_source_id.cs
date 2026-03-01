@@ -35,4 +35,8 @@ public class with_auto_generated_event_source_id : given.a_context
 
     [Fact] void should_auto_generate_event_source_id() => _controllerContent.ShouldContain("Guid.NewGuid()");
     [Fact] void should_not_read_event_source_id_from_command() => _controllerContent.ShouldNotContain("command.PatientId");
+
+    [Fact]
+    void should_not_include_event_source_id_in_command_record() =>
+        _renderer.Render(_descriptor, _context).First().Content.ShouldNotContain("PatientId PatientId");
 }

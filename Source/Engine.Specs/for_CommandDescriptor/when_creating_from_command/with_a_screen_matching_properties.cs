@@ -30,7 +30,7 @@ public class with_a_screen_matching_properties : Specification
             ]);
     }
 
-    void Because() => _result = CommandDescriptor.FromCommand(_command, [], _screen);
+    void Because() => _result = CommandDescriptor.FromCommand(_command, [], _screen, ConceptScope.Empty);
 
     [Fact] void should_set_field_type_on_order_id_property() => _result.Properties.First(p => p.Name == "OrderId").FieldType.ShouldEqual(ScreenFieldType.TextInput);
     [Fact] void should_set_label_on_order_id_property() => _result.Properties.First(p => p.Name == "OrderId").Label.ShouldEqual("Order ID");

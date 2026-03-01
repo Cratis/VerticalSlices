@@ -18,7 +18,8 @@ public class with_feature_level_concepts : given.all_dependencies
     void Establish()
     {
         _output = Substitute.For<ICodeOutput>();
-        _engine = new VerticalSlicesEngine(_codeGenerator, _logger, _output);
+        _outputResolver.Resolve().Returns(_output);
+        _engine = new VerticalSlicesEngine(_codeGenerator, _logger, _outputResolver, _chronicleResolver);
 
         var concept = new Concept("EmployeeName", "string", "An employee name", []);
         var feature = new Feature("Registration", [concept], [], []);

@@ -12,7 +12,7 @@ public class with_no_properties : Specification
 
     void Establish() => _eventType = new EventType("OrderCancelled", "An order was cancelled", []);
 
-    void Because() => _result = EventTypeDescriptor.FromEventType(_eventType);
+    void Because() => _result = EventTypeDescriptor.FromEventType(_eventType, ConceptScope.Empty);
 
     [Fact] void should_map_name() => _result.Name.ShouldEqual("OrderCancelled");
     [Fact] void should_map_description() => _result.Description.ShouldEqual("An order was cancelled");

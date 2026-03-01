@@ -63,11 +63,6 @@ public class ControllerReadModelRenderer : IArtifactRenderer<ReadModelDescriptor
 
                 AppendPropertyAttributes(builder, property);
                 builder.ConstructorParameter($"{property.Type} {property.Name}", isLast);
-
-                if (!isLast)
-                {
-                    builder.BlankLine();
-                }
             }
         }
 

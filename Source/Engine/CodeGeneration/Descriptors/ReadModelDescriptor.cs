@@ -57,7 +57,7 @@ public record ReadModelDescriptor(
 
         var eventDescriptors = eventList
             .Where(e => referencedEventNames.Contains(e.Name))
-            .Select(EventTypeDescriptor.FromEventType);
+            .Select(e => EventTypeDescriptor.FromEventType(e, ConceptScope.Empty));
 
         var properties = readModel.Properties.Select((property, index) =>
         {

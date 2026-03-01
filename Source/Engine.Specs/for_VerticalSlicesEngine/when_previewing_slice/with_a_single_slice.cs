@@ -18,7 +18,7 @@ public class with_a_single_slice : given.all_dependencies
 
     void Establish()
     {
-        _engine = new VerticalSlicesEngine(_codeGenerator, _logger);
+        _engine = new VerticalSlicesEngine(_codeGenerator, _logger, _outputResolver, _chronicleResolver);
         _generatedFile = new RenderedArtifact("Orders/Placing/PlaceOrder.cs", "// generated");
         _slice = new VerticalSlice(
             "PlaceOrder",

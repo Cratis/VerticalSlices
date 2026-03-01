@@ -16,7 +16,7 @@ public class with_module_level_concepts : given.all_dependencies
 
     void Establish()
     {
-        _engine = new VerticalSlicesEngine(_codeGenerator, _logger);
+        _engine = new VerticalSlicesEngine(_codeGenerator, _logger, _outputResolver, _chronicleResolver);
 
         var concept = new Concept("EmployeeId", "Guid", "An employee identifier", []);
         _modules = [new Module("HumanResources", [concept], [])];

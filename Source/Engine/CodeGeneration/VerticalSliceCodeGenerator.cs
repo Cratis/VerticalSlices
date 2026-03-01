@@ -35,7 +35,6 @@ public partial class VerticalSliceCodeGenerator(
 
         var artifacts = generator.Generate(slice, context, renderSet).ToList();
 
-
         if (context.Options.SingleFilePerSlice && artifacts.Count > 0)
         {
             return [SliceFileComposer.Compose(artifacts, context)];

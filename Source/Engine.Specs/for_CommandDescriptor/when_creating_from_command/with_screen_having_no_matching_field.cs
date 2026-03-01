@@ -20,7 +20,7 @@ public class with_screen_having_no_matching_field : Specification
             [new ScreenField("OrderId", "Guid", ScreenFieldType.TextInput, "Order ID")]);
     }
 
-    void Because() => _result = CommandDescriptor.FromCommand(_command, [], _screen);
+    void Because() => _result = CommandDescriptor.FromCommand(_command, [], _screen, ConceptScope.Empty);
 
     [Fact] void should_have_null_field_type_when_no_match() => _result.Properties.First().FieldType.ShouldBeNull();
     [Fact] void should_have_null_label_when_no_match() => _result.Properties.First().Label.ShouldBeNull();

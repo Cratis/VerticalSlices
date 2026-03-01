@@ -24,6 +24,14 @@ public record ConceptScope(IReadOnlyDictionary<string, ScopedConcept> ConceptsBy
     public bool IsConcept(string typeName) => ConceptsByName.ContainsKey(typeName);
 
     /// <summary>
+    /// Returns whether the given type name matches a concept marked as an event source identifier.
+    /// </summary>
+    /// <param name="typeName">The type name to check.</param>
+    /// <returns><see langword="true"/> if the type name is a concept with <see cref="Concept.IsEventSourceId"/> set.</returns>
+    public bool IsEventSourceIdConcept(string typeName) =>
+        ConceptsByName.TryGetValue(typeName, out var scoped) && scoped.Concept.IsEventSourceId;
+
+    /// <summary>
     /// Creates a new scope by adding the given concepts at the specified namespace.
     /// Concepts with the same name as existing ones override them (inner scope wins).
     /// </summary>
