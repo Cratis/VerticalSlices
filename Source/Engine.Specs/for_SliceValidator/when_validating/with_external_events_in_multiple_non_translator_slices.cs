@@ -10,8 +10,9 @@ public class with_external_events_in_multiple_non_translator_slices : Specificat
 
     void Establish()
     {
+        var command = new Command("HandleExternal", "Handles external event", [], "Id");
         var externalEvent = new EventType("ExternalEvent", "External", [], EventKind.External);
-        var slice1 = new VerticalSlice("SliceA", VerticalSliceType.StateChange, null, null, [], [], [externalEvent]);
+        var slice1 = new VerticalSlice("SliceA", VerticalSliceType.StateChange, null, null, [command], [], [externalEvent]);
         var slice2 = new VerticalSlice("SliceB", VerticalSliceType.StateView, null, null, [], [], [externalEvent]);
         _modules = [new Module("Mod", [], [new Feature("Feat", [], [], [slice1, slice2])])];
     }

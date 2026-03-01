@@ -10,8 +10,9 @@ public class with_external_event_in_non_translator_slice : Specification
 
     void Establish()
     {
+        var command = new Command("HandleExternal", "Handles an external event", [], "OrderId");
         var externalEvent = new EventType("ExternalOrderPlaced", "An external order event", [], EventKind.External);
-        var slice = new VerticalSlice("HandleExternal", VerticalSliceType.StateChange, null, null, [], [], [externalEvent]);
+        var slice = new VerticalSlice("HandleExternal", VerticalSliceType.StateChange, null, null, [command], [], [externalEvent]);
         _modules = [new Module("Orders", [], [new Feature("Ordering", [], [], [slice])])];
     }
 

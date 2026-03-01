@@ -10,8 +10,9 @@ public class with_valid_state_change_slice : Specification
 
     void Establish()
     {
+        var command = new Command("PlaceOrder", "Places an order", [], "OrderId");
         var internalEvent = new EventType("OrderPlaced", "An order was placed", [new Property("OrderId", "Guid")]);
-        var slice = new VerticalSlice("PlaceOrder", VerticalSliceType.StateChange, null, null, [], [], [internalEvent]);
+        var slice = new VerticalSlice("PlaceOrder", VerticalSliceType.StateChange, null, null, [command], [], [internalEvent]);
         _modules = [new Module("Orders", [], [new Feature("Ordering", [], [], [slice])])];
     }
 

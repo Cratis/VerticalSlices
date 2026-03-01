@@ -24,7 +24,7 @@ public class with_no_generated_files : given.all_dependencies
         _chronicleResolver.Resolve().Returns(_chronicle);
         _engine = new VerticalSlicesEngine(_codeGenerator, _logger, _outputResolver, _chronicleResolver);
 
-        var slice = new VerticalSlice("EmptySlice", VerticalSliceType.StateChange, null, null, [], [], []);
+        var slice = new VerticalSlice("EmptySlice", VerticalSliceType.StateView, null, null, [], [], []);
         _modules = [new Module("Mod", [], [new Feature("Feat", [], [], [slice])])];
 
         _codeGenerator

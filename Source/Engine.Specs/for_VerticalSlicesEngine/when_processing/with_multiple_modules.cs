@@ -28,8 +28,10 @@ public class with_multiple_modules : given.all_dependencies
         var event1 = new EventType("Event1", "Event 1", []);
         var event2 = new EventType("Event2", "Event 2", []);
 
-        var slice1 = new VerticalSlice("Slice1", VerticalSliceType.StateChange, null, null, [], [], [event1]);
-        var slice2 = new VerticalSlice("Slice2", VerticalSliceType.StateChange, null, null, [], [], [event2]);
+        var command1 = new Command("DoSlice1", "Does slice 1", [], "Id");
+        var command2 = new Command("DoSlice2", "Does slice 2", [], "Id");
+        var slice1 = new VerticalSlice("Slice1", VerticalSliceType.StateChange, null, null, [command1], [], [event1]);
+        var slice2 = new VerticalSlice("Slice2", VerticalSliceType.StateChange, null, null, [command2], [], [event2]);
 
         var feature1 = new Feature("Feature1", [], [], [slice1]);
         var feature2 = new Feature("Feature2", [], [], [slice2]);

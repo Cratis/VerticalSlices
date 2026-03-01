@@ -26,7 +26,9 @@ public class with_sub_features : given.all_dependencies
 
         _subFeatureFile = new RenderedArtifact("Orders/Ordering/PlaceOrder/OrderPlaced.cs", "// generated");
 
-        var slice = new VerticalSlice("PlaceOrder", VerticalSliceType.StateChange, null, null, [], [], []);
+        var command = new Command("PlaceOrder", "Places an order", [], "OrderId");
+        var orderPlaced = new EventType("OrderPlaced", "An order was placed", []);
+        var slice = new VerticalSlice("PlaceOrder", VerticalSliceType.StateChange, null, null, [command], [], [orderPlaced]);
         var subFeature = new Feature("PlaceOrder", [], [], [slice]);
         var parentFeature = new Feature("Ordering", [], [subFeature], []);
         _modules = [new Module("Orders", [], [parentFeature])];

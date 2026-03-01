@@ -52,6 +52,25 @@ public static class SliceValidator
             return;
         }
 
+        if (slice.SliceType == VerticalSliceType.StateChange)
+        {
+            if (!slice.Commands.Any())
+            {
+                errors.Add(new SliceValidationError(
+                    slice.Name,
+                    slice.SliceType,
+                    "A StateChange slice must have at least one command."));
+            }
+
+            if (!slice.Events.Any())
+            {
+                errors.Add(new SliceValidationError(
+                    slice.Name,
+                    slice.SliceType,
+                    "A StateChange slice must have at least one event."));
+            }
+        }
+
         foreach (var externalEvent in slice.Events.Where(e => e.Kind == EventKind.External))
         {
             errors.Add(new SliceValidationError(

@@ -14,9 +14,10 @@ public class with_multiple_external_events_in_single_slice : Specification
 
     void Establish()
     {
+        var command = new Command("ProcessOrder", "Processes the order", [], "OrderId");
         var externalEvent1 = new EventType("ExternalOrderCreated", "External", [], EventKind.External);
         var externalEvent2 = new EventType("ExternalOrderUpdated", "External", [], EventKind.External);
-        var slice = new VerticalSlice("ProcessOrder", VerticalSliceType.StateChange, null, null, [], [], [externalEvent1, externalEvent2]);
+        var slice = new VerticalSlice("ProcessOrder", VerticalSliceType.StateChange, null, null, [command], [], [externalEvent1, externalEvent2]);
         _modules = [new Module("Orders", [], [new Feature("Ordering", [], [], [slice])])];
     }
 
