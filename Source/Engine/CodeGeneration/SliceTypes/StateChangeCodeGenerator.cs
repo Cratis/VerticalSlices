@@ -9,6 +9,8 @@ namespace Cratis.VerticalSlices.CodeGeneration.SliceTypes;
 /// <summary>
 /// Generates code for StateChange slices. A StateChange slice captures user intent
 /// through a screen, maps it to a command, and produces domain events.
+/// When commands are present, only event types that are explicitly produced by at least
+/// one command receive generated code. When no commands exist, all events are rendered.
 /// Flow: Screen → Command → EventType(s).
 /// </summary>
 public class StateChangeCodeGenerator : ISliceTypeCodeGenerator
@@ -21,7 +23,17 @@ public class StateChangeCodeGenerator : ISliceTypeCodeGenerator
     {
         var artifacts = new List<RenderedArtifact>();
 
-        foreach (var eventType in slice.Events)
+        var commandedEventNames = slice.Commands
+            .SelectMany(cmd =>
+                cmd.ProducedEvents?.Select(pe => pe.EventTypeName)
+                ?? slice.Events.Select(e => e.Name))
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        var eventsToRender = commandedEventNames.Count > 0
+            ? slice.Events.Where(e => commandedEventNames.Contains(e.Name))
+            : slice.Events;
+
+        foreach (var eventType in eventsToRender)
         {
             var descriptor = EventTypeDescriptor.FromEventType(eventType, context.Concepts);
             artifacts.AddRange(renderSet.EventType.Render(descriptor, context));

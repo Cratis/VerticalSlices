@@ -78,7 +78,6 @@ public class EngineFixture : IAsyncLifetime
             new ChronicleRegistrationResolver());
 
         WriteProjectFile();
-        WriteAttributeStubs();
         await RunDotnet("add package Cratis");
         await RunDotnet("add package Cratis.Arc.MongoDB");
     }
@@ -136,23 +135,6 @@ public class EngineFixture : IAsyncLifetime
 
         File.WriteAllText(Path.Combine(OutputDirectory, "GeneratedCode.csproj"), content);
         File.WriteAllText(Path.Combine(OutputDirectory, "GlobalUsings.g.cs"), string.Empty);
-    }
-
-    /// <summary>
-    /// Writes stub attribute classes that are referenced by the generated code but not yet
-    /// available in the published Cratis packages.
-    /// </summary>
-    void WriteAttributeStubs()
-    {
-        var stub = new StringBuilder()
-            .AppendLine("// Stub attributes for generated code that references types not yet in published packages.")
-            .AppendLine("namespace Cratis.Arc.Commands.ModelBound;")
-            .AppendLine()
-            .AppendLine("[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]")
-            .AppendLine("internal sealed class AutoGenerateEventSourceIdAttribute : Attribute;")
-            .ToString();
-
-        File.WriteAllText(Path.Combine(OutputDirectory, "AttributeStubs.cs"), stub);
     }
 
     void AddGlobalUsingsFromRenderedArtifacts()

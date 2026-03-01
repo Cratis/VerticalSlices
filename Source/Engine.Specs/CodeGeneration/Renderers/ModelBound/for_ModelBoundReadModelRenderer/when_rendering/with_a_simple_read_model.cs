@@ -29,7 +29,7 @@ public class with_a_simple_read_model : given.a_context
     [Fact] void should_return_one_file() => _result.Count().ShouldEqual(1);
     [Fact] void should_generate_projection_file() => _result.Any(f => f.ArtifactPath.EndsWith("Employee.cs")).ShouldBeTrue();
     [Fact] void should_emit_key_attribute_on_first_property() => _result.Single(f => f.ArtifactPath.EndsWith("Employee.cs")).Content.ShouldContain("[Key]");
-    [Fact] void should_emit_partial_record_declaration() => _result.Single(f => f.ArtifactPath.EndsWith("Employee.cs")).Content.ShouldContain("public partial record Employee(");
+    [Fact] void should_emit_record_declaration() => _result.Single(f => f.ArtifactPath.EndsWith("Employee.cs")).Content.ShouldContain("public record Employee(");
     [Fact] void should_emit_read_model_attribute() => _result.Single(f => f.ArtifactPath.EndsWith("Employee.cs")).Content.ShouldContain("[ReadModel]");
     [Fact] void should_embed_all_query_method() => _result.Single(f => f.ArtifactPath.EndsWith("Employee.cs")).Content.ShouldContain("AllEmployees(");
     [Fact] void should_embed_by_id_query_method() => _result.Single(f => f.ArtifactPath.EndsWith("Employee.cs")).Content.ShouldContain("EmployeeById(");

@@ -33,7 +33,7 @@ public class with_auto_generated_event_source_id : given.a_context
 
     void Because() => _content = _renderer.Render(_descriptor, _context).Single().Content;
 
-    [Fact] void should_emit_auto_generate_attribute() => _content.ShouldContain("[AutoGenerateEventSourceId]");
+    [Fact] void should_emit_tuple_return_handle_method() => _content.ShouldContain("(EventSourceId, PatientRegistered) Handle");
     [Fact] void should_not_include_event_source_id_as_property() => _content.ShouldNotContain("EventSourceId PatientId");
     [Fact] void should_include_name_property() => _content.ShouldContain("string Name");
     [Fact] void should_emit_command_attribute() => _content.ShouldContain("[Command]");

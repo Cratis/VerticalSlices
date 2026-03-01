@@ -88,19 +88,19 @@ public class with_multiple_modules_features_and_concepts(MultiModuleFixture fixt
         _generatedFiles.Any(f => f.ArtifactPath.Contains("Registration") && f.ArtifactPath.EndsWith("Register.cs"))
             .ShouldBeTrue();
 
-    [Fact] void should_include_registered_event_in_register_slice() =>
-        SliceContent("Registration", "Register.cs").ShouldContain("record Registered");
+    [Fact] void should_include_patient_registered_event_in_register_slice() =>
+        SliceContent("Registration", "Register.cs").ShouldContain("record PatientRegistered");
 
-    [Fact] void should_include_summary_read_model_in_view_slice() =>
-        SliceContent("Registration", "View.cs").ShouldContain("record Summary");
+    [Fact] void should_include_patient_summary_read_model_in_view_slice() =>
+        SliceContent("Registration", "View.cs").ShouldContain("record PatientSummary");
 
     [Fact] void should_generate_scheduling_command_files() =>
         new[] { "Schedule.cs", "Cancel.cs" }
             .All(name => _generatedFiles.Any(f => f.ArtifactPath.Contains("Scheduling") && f.ArtifactPath.EndsWith(name)))
             .ShouldBeTrue();
 
-    [Fact] void should_include_synced_event_in_sync_slice() =>
-        SliceContent("Calendar", "Sync.cs").ShouldContain("record Synced");
+    [Fact] void should_include_calendar_event_synced_in_sync_slice() =>
+        SliceContent("Calendar", "Sync.cs").ShouldContain("record CalendarEventSynced");
 
     [Fact] void should_not_generate_translator_external_event() =>
         _generatedFiles.Any(f => f.ArtifactPath.EndsWith("External.cs"))
@@ -114,18 +114,18 @@ public class with_multiple_modules_features_and_concepts(MultiModuleFixture fixt
     [Fact] void should_use_multi_event_handle_for_reschedule() =>
         SliceContent("Rescheduling", "Reschedule.cs").ShouldContain("IEnumerable<object>");
 
-    [Fact] void should_include_rescheduled_event_in_reschedule_slice() =>
-        SliceContent("Rescheduling", "Reschedule.cs").ShouldContain("record Rescheduled");
+    [Fact] void should_include_appointment_rescheduled_event_in_reschedule_slice() =>
+        SliceContent("Rescheduling", "Reschedule.cs").ShouldContain("record AppointmentRescheduled");
 
-    [Fact] void should_include_rescheduling_notified_event_in_reschedule_slice() =>
-        SliceContent("Rescheduling", "Reschedule.cs").ShouldContain("record ReschedulingNotified");
+    [Fact] void should_include_appointment_rescheduling_notified_event_in_reschedule_slice() =>
+        SliceContent("Rescheduling", "Reschedule.cs").ShouldContain("record AppointmentReschedulingNotified");
 
     // ── Healthcare: Translator with ReadModel + Command ────────────────────────
-    [Fact] void should_include_sync_log_read_model_in_translator() =>
-        SliceContent("Calendar", "Sync.cs").ShouldContain("record SyncLog");
+    [Fact] void should_include_calendar_sync_log_read_model_in_translator() =>
+        SliceContent("Calendar", "Sync.cs").ShouldContain("record CalendarSyncLog");
 
     [Fact] void should_include_translator_command_in_sync_slice() =>
-        SliceContent("Calendar", "Sync.cs").ShouldContain("record Sync(");
+        SliceContent("Calendar", "Sync.cs").ShouldContain("record SyncCalendarEvent(");
 
     // ── Billing module ─────────────────────────────────────────────────────────
     [Fact] void should_generate_billing_module_concept_files() =>
@@ -153,33 +153,36 @@ public class with_multiple_modules_features_and_concepts(MultiModuleFixture fixt
         _generatedFiles.Any(f => f.ArtifactPath.Contains("Payments") && f.ArtifactPath.EndsWith("Record.cs"))
             .ShouldBeTrue();
 
-    // ── Billing: LineAdded event ────────────────────────────────────────────────
-    [Fact] void should_include_line_added_event_in_create_slice() =>
-        SliceContent("Invoicing", "Create.cs").ShouldContain("record LineAdded");
+    // ── Billing: AddLine slice and InvoiceLineAdded event ─────────────────────
+    [Fact] void should_generate_add_line_slice_in_invoicing() =>
+        _generatedFiles.Any(f => f.ArtifactPath.Contains("Invoicing") && f.ArtifactPath.EndsWith("AddLine.cs"))
+            .ShouldBeTrue();
+
+    [Fact] void should_include_invoice_line_added_event_in_add_line_slice() =>
+        SliceContent("Invoicing", "AddLine.cs").ShouldContain("record InvoiceLineAdded");
 
     // ── Billing: Explicit ProducedEvents on Create command ─────────────────────
-    [Fact] void should_produce_only_created_event_from_create_command() =>
-        SliceContent("Invoicing", "Create.cs").ShouldContain("Created Handle");
+    [Fact] void should_produce_only_invoice_created_from_create_command() =>
+        SliceContent("Invoicing", "Create.cs").ShouldContain("InvoiceCreated) Handle");
 
-    [Fact] void should_not_produce_line_added_from_create_handle() =>
-        RegexMatch(SliceContent("Invoicing", "Create.cs"), @"Handle\(\)[^;]*;")
-            .ShouldNotContain("LineAdded");
+    [Fact] void should_not_include_invoice_line_added_in_create_slice() =>
+        SliceContent("Invoicing", "Create.cs").ShouldNotContain("InvoiceLineAdded");
 
     // ── Billing: Overview read model mapping attributes ────────────────────────
     [Fact] void should_use_from_event_attribute_for_same_name_set_on_overview() =>
-        SliceContent("Invoicing", "Overview.cs").ShouldContain("FromEvent<Created>");
+        SliceContent("Invoicing", "Overview.cs").ShouldContain("FromEvent<InvoiceCreated>");
 
     [Fact] void should_use_set_from_for_different_name_on_overview() =>
-        SliceContent("Invoicing", "Overview.cs").ShouldContain("SetFrom<Created>(nameof(Created.CustomerId))");
+        SliceContent("Invoicing", "Overview.cs").ShouldContain("SetFrom<InvoiceCreated>(nameof(InvoiceCreated.CustomerId))");
 
     [Fact] void should_use_add_from_attribute_on_overview() =>
-        SliceContent("Invoicing", "Overview.cs").ShouldContain("AddFrom<LineAdded>(nameof(LineAdded.LineAmount))");
+        SliceContent("Invoicing", "Overview.cs").ShouldContain("AddFrom<InvoiceLineAdded>(nameof(InvoiceLineAdded.LineAmount))");
 
     [Fact] void should_use_count_attribute_on_overview() =>
-        SliceContent("Invoicing", "Overview.cs").ShouldContain("Count<LineAdded>");
+        SliceContent("Invoicing", "Overview.cs").ShouldContain("Count<InvoiceLineAdded>");
 
     [Fact] void should_use_increment_attribute_on_overview() =>
-        SliceContent("Invoicing", "Overview.cs").ShouldContain("Increment<LineAdded>");
+        SliceContent("Invoicing", "Overview.cs").ShouldContain("Increment<InvoiceLineAdded>");
 
     [Fact] void should_use_from_every_attribute_on_overview() =>
         SliceContent("Invoicing", "Overview.cs").ShouldContain("FromEvery(contextProperty: nameof(EventContext.Occurred))");
@@ -189,8 +192,8 @@ public class with_multiple_modules_features_and_concepts(MultiModuleFixture fixt
         _generatedFiles.Any(f => f.ArtifactPath.Contains("Payments") && f.ArtifactPath.EndsWith("Refund.cs"))
             .ShouldBeTrue();
 
-    [Fact] void should_include_refunded_event_in_refund_slice() =>
-        SliceContent("Payments", "Refund.cs").ShouldContain("record Refunded");
+    [Fact] void should_include_payment_refunded_event_in_refund_slice() =>
+        SliceContent("Payments", "Refund.cs").ShouldContain("record PaymentRefunded");
 
     // ── Billing: Balance read model mapping attributes ─────────────────────────
     [Fact] void should_generate_balance_slice_file() =>
@@ -198,16 +201,16 @@ public class with_multiple_modules_features_and_concepts(MultiModuleFixture fixt
             .ShouldBeTrue();
 
     [Fact] void should_use_add_from_attribute_on_balance() =>
-        SliceContent("Payments", "Balance.cs").ShouldContain("AddFrom<Recorded>(nameof(Recorded.PaidAmount))");
+        SliceContent("Payments", "Balance.cs").ShouldContain("AddFrom<PaymentRecorded>(nameof(PaymentRecorded.PaidAmount))");
 
     [Fact] void should_use_subtract_from_attribute_on_balance() =>
-        SliceContent("Payments", "Balance.cs").ShouldContain("SubtractFrom<Refunded>(nameof(Refunded.RefundedAmount))");
+        SliceContent("Payments", "Balance.cs").ShouldContain("SubtractFrom<PaymentRefunded>(nameof(PaymentRefunded.RefundedAmount))");
 
     [Fact] void should_use_count_attribute_on_balance() =>
-        SliceContent("Payments", "Balance.cs").ShouldContain("Count<Recorded>");
+        SliceContent("Payments", "Balance.cs").ShouldContain("Count<PaymentRecorded>");
 
     [Fact] void should_use_decrement_attribute_on_balance() =>
-        SliceContent("Payments", "Balance.cs").ShouldContain("Decrement<Refunded>");
+        SliceContent("Payments", "Balance.cs").ShouldContain("Decrement<PaymentRefunded>");
 
     // ── Notifications module ───────────────────────────────────────────────────
     [Fact] void should_generate_notification_module_concept() =>
@@ -218,8 +221,8 @@ public class with_multiple_modules_features_and_concepts(MultiModuleFixture fixt
         _generatedFiles.Any(f => f.ArtifactPath.Contains("Push") && f.ArtifactPath.EndsWith("DeviceToken.cs"))
             .ShouldBeTrue();
 
-    [Fact] void should_include_delivered_event_in_ingest_slice() =>
-        SliceContent("Email", "Ingest.cs").ShouldContain("record Delivered");
+    [Fact] void should_include_email_delivered_event_in_ingest_slice() =>
+        SliceContent("Email", "Ingest.cs").ShouldContain("record EmailDelivered");
 
     [Fact] void should_not_generate_email_translator_external_event() =>
         _generatedFiles.Any(f => f.ArtifactPath.EndsWith("ExternalDelivered.cs"))
@@ -247,23 +250,23 @@ public class with_multiple_modules_features_and_concepts(MultiModuleFixture fixt
 
     // ── Event source id filtering ──────────────────────────────────────────────
     [Fact] void should_filter_event_source_id_from_registered_event() =>
-        RegexMatch(SliceContent("Registration", "Register.cs"), @"record Registered\([^)]*\)")
+        RegexMatch(SliceContent("Registration", "Register.cs"), @"record PatientRegistered\([^)]*\)")
             .ShouldNotContain("PatientId");
 
-    // ── AutoGenerated strategy ─────────────────────────────────────────────────
-    [Fact] void should_use_auto_generated_attribute_on_register_command() =>
-        SliceContent("Registration", "Register.cs").ShouldContain("AutoGenerateEventSourceId");
+    // ── AutoGenerated strategy: tuple return ──────────────────────────────────
+    [Fact] void should_return_tuple_with_generated_id_for_register_command() =>
+        SliceContent("Registration", "Register.cs").ShouldContain("(PatientId, PatientRegistered) Handle");
 
-    [Fact] void should_use_auto_generated_attribute_on_create_command() =>
-        SliceContent("Invoicing", "Create.cs").ShouldContain("AutoGenerateEventSourceId");
+    [Fact] void should_return_tuple_with_generated_id_for_create_command() =>
+        SliceContent("Invoicing", "Create.cs").ShouldContain("(InvoiceId, InvoiceCreated) Handle");
 
-    // ── Supplied strategy (no AutoGenerate attribute) ──────────────────────────
-    [Fact] void should_not_use_auto_generated_attribute_on_cancel_command() =>
-        SliceContent("Scheduling", "Cancel.cs").ShouldNotContain("AutoGenerateEventSourceId");
+    // ── Supplied strategy: direct event return ─────────────────────────────────
+    [Fact] void should_return_event_directly_for_cancel_command() =>
+        SliceContent("Scheduling", "Cancel.cs").ShouldContain("AppointmentCancelled Handle");
 
     // ── Automation command produces event ───────────────────────────────────────
-    [Fact] void should_include_reminded_event_in_remind_slice() =>
-        SliceContent("Invoicing", "Remind.cs").ShouldContain("record Reminded");
+    [Fact] void should_include_invoice_reminder_sent_event_in_remind_slice() =>
+        SliceContent("Invoicing", "Remind.cs").ShouldContain("record InvoiceReminderSent");
 
     [Fact] void should_map_remind_command_properties_to_event() =>
         SliceContent("Invoicing", "Remind.cs").ShouldContain("ReminderCount");
@@ -330,7 +333,7 @@ public class with_multiple_modules_features_and_concepts(MultiModuleFixture fixt
     [Fact] void should_include_less_than_with_message_on_discount() =>
         ConceptContent("Catalog", "Discount.cs").ShouldContain(".LessThan(100).WithMessage(\"Discount must be less than 100%\")");
 
-    // ── Inventory: Add slice with explicit ProducedEvents + ComputedDefault ────
+    // ── Inventory: Add + SetPrice slices ───────────────────────────────────────
     [Fact] void should_generate_add_slice_in_catalog() =>
         _generatedFiles.Any(f => f.ArtifactPath.Contains("Catalog") && f.ArtifactPath.EndsWith("Add.cs"))
             .ShouldBeTrue();
@@ -338,14 +341,18 @@ public class with_multiple_modules_features_and_concepts(MultiModuleFixture fixt
     [Fact] void should_include_product_added_event_in_add_slice() =>
         SliceContent("Catalog", "Add.cs").ShouldContain("record ProductAdded");
 
-    [Fact] void should_include_price_set_event_in_add_slice() =>
-        SliceContent("Catalog", "Add.cs").ShouldContain("record PriceSet");
+    [Fact] void should_generate_set_price_slice_in_catalog() =>
+        _generatedFiles.Any(f => f.ArtifactPath.Contains("Catalog") && f.ArtifactPath.EndsWith("SetPrice.cs"))
+            .ShouldBeTrue();
 
-    [Fact] void should_use_auto_generated_on_add_product_command() =>
-        SliceContent("Catalog", "Add.cs").ShouldContain("AutoGenerateEventSourceId");
+    [Fact] void should_include_product_price_set_event_in_set_price_slice() =>
+        SliceContent("Catalog", "SetPrice.cs").ShouldContain("record ProductPriceSet");
 
-    [Fact] void should_produce_only_product_added_from_add_handle() =>
-        SliceContent("Catalog", "Add.cs").ShouldContain("ProductAdded Handle");
+    [Fact] void should_not_include_product_price_set_in_add_slice() =>
+        SliceContent("Catalog", "Add.cs").ShouldNotContain("ProductPriceSet");
+
+    [Fact] void should_return_tuple_with_generated_id_for_add_product_command() =>
+        SliceContent("Catalog", "Add.cs").ShouldContain("(ProductId, ProductAdded) Handle");
 
     [Fact] void should_use_computed_default_for_unmapped_event_property() =>
         SliceContent("Catalog", "Add.cs").ShouldContain("default!");
@@ -358,19 +365,19 @@ public class with_multiple_modules_features_and_concepts(MultiModuleFixture fixt
     [Fact] void should_use_multi_event_handle_for_restock() =>
         SliceContent("Catalog", "Restock.cs").ShouldContain("IEnumerable<object>");
 
-    [Fact] void should_include_restocked_event_in_restock_slice() =>
-        SliceContent("Catalog", "Restock.cs").ShouldContain("record Restocked");
+    [Fact] void should_include_product_restocked_event_in_restock_slice() =>
+        SliceContent("Catalog", "Restock.cs").ShouldContain("record ProductRestocked");
 
-    [Fact] void should_include_inventory_adjusted_event_in_restock_slice() =>
-        SliceContent("Catalog", "Restock.cs").ShouldContain("record InventoryAdjusted");
+    [Fact] void should_include_product_inventory_adjusted_event_in_restock_slice() =>
+        SliceContent("Catalog", "Restock.cs").ShouldContain("record ProductInventoryAdjusted");
 
     // ── Inventory: 3-level nesting (Categories > Subcategories) ────────────────
     [Fact] void should_generate_categorize_slice_at_third_level() =>
         _generatedFiles.Any(f => f.ArtifactPath.Contains("Subcategories") && f.ArtifactPath.EndsWith("Categorize.cs"))
             .ShouldBeTrue();
 
-    [Fact] void should_include_categorized_event_in_categorize_slice() =>
-        SliceContent("Subcategories", "Categorize.cs").ShouldContain("record Categorized");
+    [Fact] void should_include_product_categorized_event_in_categorize_slice() =>
+        SliceContent("Subcategories", "Categorize.cs").ShouldContain("record ProductCategorized");
 
     // ── Inventory: Tracking with date/time concepts ────────────────────────────
     [Fact] void should_generate_ship_slice_in_tracking() =>

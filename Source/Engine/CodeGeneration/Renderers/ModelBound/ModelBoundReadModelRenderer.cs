@@ -8,7 +8,7 @@ namespace Cratis.VerticalSlices.CodeGeneration.Renderers.ModelBound;
 
 /// <summary>
 /// Renders a read model descriptor as a Chronicle model-bound projection record that also
-/// embeds observable query methods. Produces a single partial record decorated with
+/// embeds observable query methods. Produces a single record decorated with
 /// [ReadModel] and the relevant projection attributes.
 /// Query methods use <c>IMongoCollection&lt;T&gt;</c> with <c>.Observe()</c> returning
 /// <c>ISubject&lt;IEnumerable&lt;T&gt;&gt;</c> for collection queries and
@@ -55,7 +55,7 @@ public class ModelBoundReadModelRenderer : IArtifactRenderer<ReadModelDescriptor
         AppendTypeAttributes(builder, descriptor);
 
         var properties = descriptor.Properties.ToList();
-        builder.BeginPrimaryConstructorParameters(descriptor.Name, isPartial: true);
+        builder.BeginPrimaryConstructorParameters(descriptor.Name, isPartial: false);
 
         for (var i = 0; i < properties.Count; i++)
         {

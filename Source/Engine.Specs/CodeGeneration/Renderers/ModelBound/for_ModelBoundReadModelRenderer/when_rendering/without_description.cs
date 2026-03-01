@@ -28,5 +28,5 @@ public class without_description : given.a_context
 
     [Fact] void should_not_emit_type_level_summary_comment() =>
         _projectionContent.Split("[ReadModel]")[0].ShouldNotContain("/// <summary>");
-    [Fact] void should_still_emit_record_declaration() => _projectionContent.ShouldContain("public partial record OrderSummary(");
+    [Fact] void should_still_emit_record_declaration() => _projectionContent.ShouldContain("public record OrderSummary(");
 }

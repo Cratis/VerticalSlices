@@ -46,7 +46,7 @@ public class MultiModuleFixture : given.EngineFixture
             ]);
 
         var registered = new EventType(
-            "Registered",
+            "PatientRegistered",
             "A patient was registered in the system",
             [
                 new Property("PatientId", "PatientId"),
@@ -66,7 +66,7 @@ public class MultiModuleFixture : given.EngineFixture
             ]);
 
         var registerCommand = new Command(
-            "Register",
+            "RegisterPatient",
             "Registers a new patient",
             [
                 new Property("Name", "FullName"),
@@ -85,13 +85,13 @@ public class MultiModuleFixture : given.EngineFixture
             [],
             [registered]);
 
-        var summaryIdMappings = new[] { new EventPropertyMapping("Registered", EventPropertyMappingKind.FromEventSourceId) };
-        var summaryNameMappings = new[] { new EventPropertyMapping("Registered", EventPropertyMappingKind.Set, "Name") };
-        var summaryEmailMappings = new[] { new EventPropertyMapping("Registered", EventPropertyMappingKind.Set, "ContactEmail") };
-        var summaryRegisteredAtMappings = new[] { new EventPropertyMapping("Registered", EventPropertyMappingKind.SetFromContext, "Occurred") };
+        var summaryIdMappings = new[] { new EventPropertyMapping("PatientRegistered", EventPropertyMappingKind.FromEventSourceId) };
+        var summaryNameMappings = new[] { new EventPropertyMapping("PatientRegistered", EventPropertyMappingKind.Set, "Name") };
+        var summaryEmailMappings = new[] { new EventPropertyMapping("PatientRegistered", EventPropertyMappingKind.Set, "ContactEmail") };
+        var summaryRegisteredAtMappings = new[] { new EventPropertyMapping("PatientRegistered", EventPropertyMappingKind.SetFromContext, "Occurred") };
 
         var summary = new ReadModel(
-            "Summary",
+            "PatientSummary",
             "A summary of a registered patient",
             [
                 new ReadModelProperty("PatientId", "PatientId", summaryIdMappings),
@@ -119,7 +119,7 @@ public class MultiModuleFixture : given.EngineFixture
         var appointmentId = new Concept("AppointmentId", "Guid", "Uniquely identifies an appointment", [], IsEventSourceId: true);
 
         var scheduled = new EventType(
-            "Scheduled",
+            "AppointmentScheduled",
             "An appointment was scheduled",
             [
                 new Property("AppointmentId", "AppointmentId"),
@@ -128,7 +128,7 @@ public class MultiModuleFixture : given.EngineFixture
             ]);
 
         var scheduleCommand = new Command(
-            "Schedule",
+            "ScheduleAppointment",
             "Schedules a new appointment",
             [
                 new Property("DoctorName", "string"),
@@ -147,7 +147,7 @@ public class MultiModuleFixture : given.EngineFixture
             [scheduled]);
 
         var cancelled = new EventType(
-            "Cancelled",
+            "AppointmentCancelled",
             "An appointment was cancelled",
             [
                 new Property("AppointmentId", "AppointmentId"),
@@ -155,7 +155,7 @@ public class MultiModuleFixture : given.EngineFixture
             ]);
 
         var cancelCommand = new Command(
-            "Cancel",
+            "CancelAppointment",
             "Cancels an appointment",
             [new Property("Reason", "string")],
             "AppointmentId");
@@ -171,7 +171,7 @@ public class MultiModuleFixture : given.EngineFixture
 
         // Sub-feature: Scheduling > Rescheduling (3rd level depth)
         var rescheduled = new EventType(
-            "Rescheduled",
+            "AppointmentRescheduled",
             "An appointment was rescheduled to a new time",
             [
                 new Property("AppointmentId", "AppointmentId"),
@@ -180,7 +180,7 @@ public class MultiModuleFixture : given.EngineFixture
             ]);
 
         var reschedulingNotified = new EventType(
-            "ReschedulingNotified",
+            "AppointmentReschedulingNotified",
             "A notification was sent about the rescheduling",
             [
                 new Property("AppointmentId", "AppointmentId"),
@@ -189,7 +189,7 @@ public class MultiModuleFixture : given.EngineFixture
 
         // Multi-event command: produces 2 events
         var rescheduleCommand = new Command(
-            "Reschedule",
+            "RescheduleAppointment",
             "Reschedules an appointment and notifies",
             [
                 new Property("NewScheduledAt", "DateTimeOffset"),
@@ -218,7 +218,7 @@ public class MultiModuleFixture : given.EngineFixture
             EventKind.External);
 
         var synced = new EventType(
-            "Synced",
+            "CalendarEventSynced",
             "An external calendar event was synced",
             [
                 new Property("AppointmentId", "AppointmentId"),
@@ -226,18 +226,18 @@ public class MultiModuleFixture : given.EngineFixture
             ]);
 
         var syncCommand = new Command(
-            "Sync",
+            "SyncCalendarEvent",
             "Translates an external calendar event into an internal synced event",
             [new Property("ExternalRef", "string")],
             "AppointmentId");
 
         // Translator with ReadModel
-        var syncLogIdMappings = new[] { new EventPropertyMapping("Synced", EventPropertyMappingKind.FromEventSourceId) };
-        var syncLogRefMappings = new[] { new EventPropertyMapping("Synced", EventPropertyMappingKind.Set, "ExternalRef") };
-        var syncLogAtMappings = new[] { new EventPropertyMapping("Synced", EventPropertyMappingKind.SetFromContext, "Occurred") };
+        var syncLogIdMappings = new[] { new EventPropertyMapping("CalendarEventSynced", EventPropertyMappingKind.FromEventSourceId) };
+        var syncLogRefMappings = new[] { new EventPropertyMapping("CalendarEventSynced", EventPropertyMappingKind.Set, "ExternalRef") };
+        var syncLogAtMappings = new[] { new EventPropertyMapping("CalendarEventSynced", EventPropertyMappingKind.SetFromContext, "Occurred") };
 
         var syncLog = new ReadModel(
-            "SyncLog",
+            "CalendarSyncLog",
             "Tracks synchronized calendar events",
             [
                 new ReadModelProperty("AppointmentId", "AppointmentId", syncLogIdMappings),
@@ -288,7 +288,7 @@ public class MultiModuleFixture : given.EngineFixture
             ]);
 
         var created = new EventType(
-            "Created",
+            "InvoiceCreated",
             "An invoice was created",
             [
                 new Property("InvoiceId", "InvoiceId"),
@@ -298,7 +298,7 @@ public class MultiModuleFixture : given.EngineFixture
             ]);
 
         var lineAdded = new EventType(
-            "LineAdded",
+            "InvoiceLineAdded",
             "A line item was added to an invoice",
             [
                 new Property("InvoiceId", "InvoiceId"),
@@ -317,7 +317,7 @@ public class MultiModuleFixture : given.EngineFixture
 
         // Command with explicit ProducedEvents: only Created, not LineAdded
         var createCommand = new Command(
-            "Create",
+            "CreateInvoice",
             "Creates a new invoice",
             [
                 new Property("InvoiceNumber", "InvoiceNumber"),
@@ -326,7 +326,7 @@ public class MultiModuleFixture : given.EngineFixture
             ],
             "InvoiceId",
             EventSourceIdStrategy.AutoGenerated,
-            ProducedEvents: [new ProducedEvent("Created")]);
+            ProducedEvents: [new ProducedEvent("InvoiceCreated")]);
 
         var createSlice = new VerticalSlice(
             "Create",
@@ -335,15 +335,33 @@ public class MultiModuleFixture : given.EngineFixture
             createScreen,
             [createCommand],
             [],
-            [created, lineAdded]);
+            [created]);
 
-        var overviewIdMappings = new[] { new EventPropertyMapping("Created", EventPropertyMappingKind.FromEventSourceId) };
-        var overviewNumberMappings = new[] { new EventPropertyMapping("Created", EventPropertyMappingKind.Set, "InvoiceNumber") };
-        var overviewAmountMappings = new[] { new EventPropertyMapping("Created", EventPropertyMappingKind.Set, "TotalAmount") };
-        var overviewCustomerMappings = new[] { new EventPropertyMapping("Created", EventPropertyMappingKind.Set, "CustomerId") };
-        var overviewRunningTotalMappings = new[] { new EventPropertyMapping("LineAdded", EventPropertyMappingKind.Add, "LineAmount") };
-        var overviewLineCountMappings = new[] { new EventPropertyMapping("LineAdded", EventPropertyMappingKind.Count) };
-        var overviewUpdateCountMappings = new[] { new EventPropertyMapping("LineAdded", EventPropertyMappingKind.Increment) };
+        var addLineCommand = new Command(
+            "AddInvoiceLine",
+            "Adds a line item to an invoice",
+            [
+                new Property("LineAmount", "Amount"),
+                new Property("Description", "string")
+            ],
+            "InvoiceId");
+
+        var addLineSlice = new VerticalSlice(
+            "AddLine",
+            VerticalSliceType.StateChange,
+            null,
+            null,
+            [addLineCommand],
+            [],
+            [lineAdded]);
+
+        var overviewIdMappings = new[] { new EventPropertyMapping("InvoiceCreated", EventPropertyMappingKind.FromEventSourceId) };
+        var overviewNumberMappings = new[] { new EventPropertyMapping("InvoiceCreated", EventPropertyMappingKind.Set, "InvoiceNumber") };
+        var overviewAmountMappings = new[] { new EventPropertyMapping("InvoiceCreated", EventPropertyMappingKind.Set, "TotalAmount") };
+        var overviewCustomerMappings = new[] { new EventPropertyMapping("InvoiceCreated", EventPropertyMappingKind.Set, "CustomerId") };
+        var overviewRunningTotalMappings = new[] { new EventPropertyMapping("InvoiceLineAdded", EventPropertyMappingKind.Add, "LineAmount") };
+        var overviewLineCountMappings = new[] { new EventPropertyMapping("InvoiceLineAdded", EventPropertyMappingKind.Count) };
+        var overviewUpdateCountMappings = new[] { new EventPropertyMapping("InvoiceLineAdded", EventPropertyMappingKind.Increment) };
         var overviewLastActivityMappings = new[] { new EventPropertyMapping("*", EventPropertyMappingKind.SetFromContext, "Occurred") };
 
         var overview = new ReadModel(
@@ -371,7 +389,7 @@ public class MultiModuleFixture : given.EngineFixture
 
         // Automation: Remind
         var reminded = new EventType(
-            "Reminded",
+            "InvoiceReminderSent",
             "A payment reminder was sent for an invoice",
             [
                 new Property("InvoiceId", "InvoiceId"),
@@ -379,8 +397,8 @@ public class MultiModuleFixture : given.EngineFixture
                 new Property("Message", "string")
             ]);
 
-        var unpaidIdMappings = new[] { new EventPropertyMapping("Created", EventPropertyMappingKind.FromEventSourceId) };
-        var unpaidAmountMappings = new[] { new EventPropertyMapping("Created", EventPropertyMappingKind.Set, "TotalAmount") };
+        var unpaidIdMappings = new[] { new EventPropertyMapping("InvoiceCreated", EventPropertyMappingKind.FromEventSourceId) };
+        var unpaidAmountMappings = new[] { new EventPropertyMapping("InvoiceCreated", EventPropertyMappingKind.Set, "TotalAmount") };
 
         var unpaid = new ReadModel(
             "Unpaid",
@@ -391,7 +409,7 @@ public class MultiModuleFixture : given.EngineFixture
             ]);
 
         var remindCommand = new Command(
-            "Remind",
+            "SendInvoiceReminder",
             "Sends a payment reminder",
             [
                 new Property("ReminderCount", "int"),
@@ -412,11 +430,11 @@ public class MultiModuleFixture : given.EngineFixture
             "Invoicing",
             [invoiceNumber],
             [],
-            [createSlice, overviewSlice, remindSlice]);
+            [createSlice, addLineSlice, overviewSlice, remindSlice]);
 
         // Feature: Payments — Subtract + Decrement mappings on balance read model
         var recorded = new EventType(
-            "Recorded",
+            "PaymentRecorded",
             "A payment was recorded against an invoice",
             [
                 new Property("InvoiceId", "InvoiceId"),
@@ -425,7 +443,7 @@ public class MultiModuleFixture : given.EngineFixture
             ]);
 
         var refunded = new EventType(
-            "Refunded",
+            "PaymentRefunded",
             "A refund was issued for a payment",
             [
                 new Property("InvoiceId", "InvoiceId"),
@@ -433,7 +451,7 @@ public class MultiModuleFixture : given.EngineFixture
             ]);
 
         var recordCommand = new Command(
-            "Record",
+            "RecordPayment",
             "Records a payment against an invoice",
             [
                 new Property("PaidAmount", "Amount"),
@@ -451,7 +469,7 @@ public class MultiModuleFixture : given.EngineFixture
             [recorded]);
 
         var refundCommand = new Command(
-            "Refund",
+            "IssueRefund",
             "Issues a refund for a payment",
             [new Property("RefundedAmount", "Amount")],
             "InvoiceId");
@@ -466,11 +484,11 @@ public class MultiModuleFixture : given.EngineFixture
             [refunded]);
 
         // Balance read model with Add/Subtract/Count/Decrement
-        var balanceIdMappings = new[] { new EventPropertyMapping("Recorded", EventPropertyMappingKind.FromEventSourceId) };
-        var balancePaidMappings = new[] { new EventPropertyMapping("Recorded", EventPropertyMappingKind.Add, "PaidAmount") };
-        var balanceRefundMappings = new[] { new EventPropertyMapping("Refunded", EventPropertyMappingKind.Subtract, "RefundedAmount") };
-        var balancePayCountMappings = new[] { new EventPropertyMapping("Recorded", EventPropertyMappingKind.Count) };
-        var balanceRefundCountMappings = new[] { new EventPropertyMapping("Refunded", EventPropertyMappingKind.Decrement) };
+        var balanceIdMappings = new[] { new EventPropertyMapping("PaymentRecorded", EventPropertyMappingKind.FromEventSourceId) };
+        var balancePaidMappings = new[] { new EventPropertyMapping("PaymentRecorded", EventPropertyMappingKind.Add, "PaidAmount") };
+        var balanceRefundMappings = new[] { new EventPropertyMapping("PaymentRefunded", EventPropertyMappingKind.Subtract, "RefundedAmount") };
+        var balancePayCountMappings = new[] { new EventPropertyMapping("PaymentRecorded", EventPropertyMappingKind.Count) };
+        var balanceRefundCountMappings = new[] { new EventPropertyMapping("PaymentRefunded", EventPropertyMappingKind.Decrement) };
 
         var balance = new ReadModel(
             "Balance",
@@ -515,7 +533,7 @@ public class MultiModuleFixture : given.EngineFixture
             EventKind.External);
 
         var delivered = new EventType(
-            "Delivered",
+            "EmailDelivered",
             "An email was confirmed as delivered internally",
             [
                 new Property("NotificationId", "NotificationId"),
@@ -523,7 +541,7 @@ public class MultiModuleFixture : given.EngineFixture
             ]);
 
         var ingestCommand = new Command(
-            "Ingest",
+            "IngestEmailDelivery",
             "Translates an external delivery confirmation into an internal delivered event",
             [new Property("Recipient", "string")],
             "NotificationId");
@@ -537,9 +555,9 @@ public class MultiModuleFixture : given.EngineFixture
             [],
             [externalDelivered, delivered]);
 
-        var deliveryIdMappings = new[] { new EventPropertyMapping("Delivered", EventPropertyMappingKind.FromEventSourceId) };
-        var deliveryRecipientMappings = new[] { new EventPropertyMapping("Delivered", EventPropertyMappingKind.Set, "Recipient") };
-        var deliveryAtMappings = new[] { new EventPropertyMapping("Delivered", EventPropertyMappingKind.SetFromContext, "Occurred") };
+        var deliveryIdMappings = new[] { new EventPropertyMapping("EmailDelivered", EventPropertyMappingKind.FromEventSourceId) };
+        var deliveryRecipientMappings = new[] { new EventPropertyMapping("EmailDelivered", EventPropertyMappingKind.Set, "Recipient") };
+        var deliveryAtMappings = new[] { new EventPropertyMapping("EmailDelivered", EventPropertyMappingKind.SetFromContext, "Occurred") };
 
         var delivery = new ReadModel(
             "Delivery",
@@ -572,7 +590,7 @@ public class MultiModuleFixture : given.EngineFixture
             ]);
 
         var sent = new EventType(
-            "Sent",
+            "PushNotificationSent",
             "A push notification was sent to a device",
             [
                 new Property("NotificationId", "NotificationId"),
@@ -582,7 +600,7 @@ public class MultiModuleFixture : given.EngineFixture
             ]);
 
         var sendCommand = new Command(
-            "Send",
+            "SendPushNotification",
             "Sends a push notification",
             [
                 new Property("DeviceToken", "DeviceToken"),
@@ -661,7 +679,7 @@ public class MultiModuleFixture : given.EngineFixture
             ]);
 
         var priceSet = new EventType(
-            "PriceSet",
+            "ProductPriceSet",
             "The price was set for a product",
             [
                 new Property("ProductId", "ProductId"),
@@ -681,7 +699,7 @@ public class MultiModuleFixture : given.EngineFixture
 
         // Command with explicit ProducedEvents: only ProductAdded, not PriceSet
         var addProductCommand = new Command(
-            "Add",
+            "AddProduct",
             "Adds a new product to the catalog",
             [
                 new Property("Sku", "Sku"),
@@ -699,11 +717,26 @@ public class MultiModuleFixture : given.EngineFixture
             addProductScreen,
             [addProductCommand],
             [],
-            [productAdded, priceSet]);
+            [productAdded]);
+
+        var setPriceCommand = new Command(
+            "SetProductPrice",
+            "Sets the price for a product",
+            [new Property("Price", "decimal")],
+            "ProductId");
+
+        var setPriceSlice = new VerticalSlice(
+            "SetPrice",
+            VerticalSliceType.StateChange,
+            null,
+            null,
+            [setPriceCommand],
+            [],
+            [priceSet]);
 
         // Restock — multi-event command producing 2 events
         var restocked = new EventType(
-            "Restocked",
+            "ProductRestocked",
             "Product inventory was restocked",
             [
                 new Property("ProductId", "ProductId"),
@@ -711,7 +744,7 @@ public class MultiModuleFixture : given.EngineFixture
             ]);
 
         var inventoryAdjusted = new EventType(
-            "InventoryAdjusted",
+            "ProductInventoryAdjusted",
             "Inventory levels were adjusted after restock",
             [
                 new Property("ProductId", "ProductId"),
@@ -719,7 +752,7 @@ public class MultiModuleFixture : given.EngineFixture
             ]);
 
         var restockCommand = new Command(
-            "Restock",
+            "RestockProduct",
             "Restocks a product and records an adjustment",
             [
                 new Property("AddedQuantity", "Quantity"),
@@ -738,7 +771,7 @@ public class MultiModuleFixture : given.EngineFixture
 
         // Sub-feature: Categories > Subcategories (3 level nesting)
         var categorized = new EventType(
-            "Categorized",
+            "ProductCategorized",
             "A product was assigned to a subcategory",
             [
                 new Property("ProductId", "ProductId"),
@@ -746,7 +779,7 @@ public class MultiModuleFixture : given.EngineFixture
             ]);
 
         var categorizeCommand = new Command(
-            "Categorize",
+            "CategorizeProduct",
             "Assigns a product to a subcategory",
             [new Property("SubcategoryName", "string")],
             "ProductId");
@@ -767,11 +800,11 @@ public class MultiModuleFixture : given.EngineFixture
             "Catalog",
             [sku, discount],
             [categoriesSubFeature],
-            [addSlice, restockSlice]);
+            [addSlice, setPriceSlice, restockSlice]);
 
         // Feature: Tracking — uses date/time concepts
         var shipped = new EventType(
-            "Shipped",
+            "ProductBatchShipped",
             "A product batch was shipped",
             [
                 new Property("ProductId", "ProductId"),
@@ -781,7 +814,7 @@ public class MultiModuleFixture : given.EngineFixture
             ]);
 
         var shipCommand = new Command(
-            "Ship",
+            "ShipProductBatch",
             "Ships a product batch",
             [
                 new Property("ShippedQuantity", "Quantity"),
