@@ -1,6 +1,7 @@
 // Copyright (c) Cratis. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using Cratis.DependencyInjection;
 using Cratis.VerticalSlices.CodeGeneration.Descriptors;
 using Cratis.VerticalSlices.CodeGeneration.Renderers;
 
@@ -14,6 +15,7 @@ namespace Cratis.VerticalSlices.CodeGeneration.SliceTypes;
 /// structural documentation only. Commands are matched against internal events only.
 /// Flow: External EventType(s) → Command → internal EventType(s).
 /// </summary>
+[Singleton]
 public class TranslatorCodeGenerator : ISliceTypeCodeGenerator
 {
     /// <inheritdoc/>

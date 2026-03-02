@@ -25,7 +25,7 @@ public class with_no_issues : Specification
         _modules = [new Module("Orders", [concept], [new Feature("Ordering", [], [], [slice])])];
     }
 
-    void Because() => _result = EventModelAdvisor.Analyze(_modules);
+    void Because() => _result = new EventModelAdvisor().Analyze(_modules);
 
     [Fact] void should_return_no_recommendations() => _result.ShouldBeEmpty();
 }

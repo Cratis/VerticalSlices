@@ -1,6 +1,7 @@
 // Copyright (c) Cratis. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using Cratis.DependencyInjection;
 using Cratis.VerticalSlices.CodeGeneration.Renderers;
 using Cratis.VerticalSlices.CodeGeneration.SliceTypes;
 using Microsoft.Extensions.Logging;
@@ -12,6 +13,7 @@ namespace Cratis.VerticalSlices.CodeGeneration;
 /// </summary>
 /// <param name="sliceTypeGenerators">The slice type specific code generators.</param>
 /// <param name="logger">The logger.</param>
+[Singleton]
 public partial class VerticalSliceCodeGenerator(
     IEnumerable<ISliceTypeCodeGenerator> sliceTypeGenerators,
     ILogger<VerticalSliceCodeGenerator> logger) : IVerticalSliceCodeGenerator

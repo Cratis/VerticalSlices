@@ -3,27 +3,14 @@
 
 using System.Text.Json;
 using Cratis.VerticalSlices;
-using Cratis.VerticalSlices.Chronicle;
-using Cratis.VerticalSlices.CodeGeneration;
-using Cratis.VerticalSlices.CodeGeneration.Output;
-using Cratis.VerticalSlices.CodeGeneration.SliceTypes;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddSingleton<ISliceTypeCodeGenerator, StateChangeCodeGenerator>();
-builder.Services.AddSingleton<ISliceTypeCodeGenerator, StateViewCodeGenerator>();
-builder.Services.AddSingleton<ISliceTypeCodeGenerator, AutomationCodeGenerator>();
-builder.Services.AddSingleton<ISliceTypeCodeGenerator, TranslatorCodeGenerator>();
-builder.Services.AddSingleton<IVerticalSliceCodeGenerator, VerticalSliceCodeGenerator>();
-builder.Services.AddSingleton<ICodeOutputResolver>(provider =>
-{
-    var outputRoot = builder.Configuration["VerticalSlices:OutputRoot"] ?? "./generated";
-    var loggerFactory = provider.GetRequiredService<ILoggerFactory>();
-    var output = new LocalFileSystemOutput(outputRoot, loggerFactory.CreateLogger<LocalFileSystemOutput>());
-    return new CodeOutputResolver(output);
-});
-builder.Services.AddSingleton<IChronicleRegistrationResolver, ChronicleRegistrationResolver>();
-builder.Services.AddSingleton<IVerticalSlicesEngine, VerticalSlicesEngine>();
+var outputRoot = builder.Configuration["VerticalSlices:OutputRoot"] ?? "./generated";
+
+builder.Services
+    .AddVerticalSlices()
+    .WithLocalFileSystemOutput(outputRoot);
 
 var app = builder.Build();
 
@@ -49,9 +36,9 @@ app.MapGet("/preview", (IVerticalSlicesEngine engine) =>
 
     var json = File.ReadAllText(structurePath);
     var modules = JsonSerializer.Deserialize<IEnumerable<Module>>(json, JsonSerializerOptions.Web) ?? [];
-    var files = engine.Preview(modules);
+    var result = engine.Preview(modules);
 
-    return Results.Ok(files);
+    return Results.Ok(result);
 });
 
 await app.RunAsync();

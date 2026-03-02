@@ -1,33 +1,34 @@
 // Copyright (c) Cratis. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using Cratis.VerticalSlices.EventModelAdvisory;
+
 namespace Cratis.VerticalSlices.for_VerticalSlicesEngine.when_processing;
 
 public class with_invalid_slice : given.all_dependencies
 {
     VerticalSlicesEngine _engine;
     IEnumerable<Module> _modules;
-    Exception _exception;
+    VerticalSlicesResult _result;
 
     void Establish()
     {
-        _engine = new VerticalSlicesEngine(_codeGenerator, _logger, _outputResolver, _chronicleResolver);
-        var externalEvent = new EventType("ExternalEvent", "External", [], EventKind.External);
-        var slice = new VerticalSlice("BadSlice", VerticalSliceType.StateChange, null, null, [], [], [externalEvent]);
+        var errorRecommendation = new EventModelRecommendation(
+            EventModelRecommendationSeverity.Error,
+            EventModelRecommendationCategory.Structure,
+            "Mod",
+            FeaturePath.Empty,
+            "BadSlice",
+            string.Empty,
+            "A StateChange slice must have at least one command.");
+        _advisor.Analyze(Arg.Any<IEnumerable<Module>>()).Returns([errorRecommendation]);
+        _engine = new VerticalSlicesEngine(_codeGenerator, _advisor, _logger, _outputResolver, _chronicleResolver);
+        var slice = new VerticalSlice("BadSlice", VerticalSliceType.StateChange, null, null, [], [], []);
         _modules = [new Module("Mod", [], [new Feature("Feat", [], [], [slice])])];
     }
 
-    async Task Because()
-    {
-        try
-        {
-            await _engine.Process(_modules);
-        }
-        catch (Exception ex)
-        {
-            _exception = ex;
-        }
-    }
+    async Task Because() => _result = await _engine.Process(_modules);
 
-    [Fact] void should_throw_slice_validation_failed() => _exception.ShouldBeOfExactType<SliceValidationFailed>();
+    [Fact] void should_have_errors() => _result.HasErrors.ShouldBeTrue();
+    [Fact] void should_return_no_artifacts() => _result.Artifacts.ShouldBeEmpty();
 }

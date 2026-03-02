@@ -1,6 +1,8 @@
 // Copyright (c) Cratis. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using Cratis.VerticalSlices.EventModelAdvisory;
+
 namespace Cratis.VerticalSlices.for_SliceValidator.when_validating;
 
 /// <summary>
@@ -19,7 +21,7 @@ public class with_state_change_slice_having_no_events : Specification
         _modules = [new Module("Orders", [], [new Feature("Ordering", [], [], [slice])])];
     }
 
-    void Because() => _exception = Catch.Exception(() => SliceValidator.Validate(_modules)) as SliceValidationFailed;
+    void Because() => _exception = Catch.Exception(() => new SliceValidator(new EventModelAdvisor()).Validate(_modules)) as SliceValidationFailed;
 
     [Fact] void should_throw_slice_validation_failed() => _exception.ShouldNotBeNull();
     [Fact] void should_report_one_error() => _exception!.Errors.Count.ShouldEqual(1);

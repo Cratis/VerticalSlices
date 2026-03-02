@@ -1,11 +1,13 @@
 // Copyright (c) Cratis. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using Cratis.DependencyInjection;
 using Cratis.VerticalSlices.Chronicle;
 using Cratis.VerticalSlices.CodeGeneration;
 using Cratis.VerticalSlices.CodeGeneration.Descriptors;
 using Cratis.VerticalSlices.CodeGeneration.Output;
 using Cratis.VerticalSlices.CodeGeneration.Renderers;
+using Cratis.VerticalSlices.EventModelAdvisory;
 using Microsoft.Extensions.Logging;
 
 namespace Cratis.VerticalSlices;
@@ -15,24 +17,34 @@ namespace Cratis.VerticalSlices;
 /// and registering artifacts with Chronicle.
 /// </summary>
 /// <param name="codeGenerator">The code generator for producing files from vertical slices.</param>
+/// <param name="advisor">The event model advisor for analyzing modules before code generation.</param>
 /// <param name="logger">The logger.</param>
 /// <param name="outputResolver">Resolver for the output target. Resolves the appropriate code output based on configuration.</param>
 /// <param name="chronicleResolver">Resolver for the Chronicle registration target. Resolves the appropriate registration strategy based on configuration.</param>
+[Singleton]
 public partial class VerticalSlicesEngine(
     IVerticalSliceCodeGenerator codeGenerator,
+    IEventModelAdvisor advisor,
     ILogger<VerticalSlicesEngine> logger,
     ICodeOutputResolver outputResolver,
     IChronicleRegistrationResolver chronicleResolver) : IVerticalSlicesEngine
 {
     /// <inheritdoc/>
-    public async Task Process(
+    public async Task<VerticalSlicesResult> Process(
         IEnumerable<Module> modules,
         CodeGenerationOptions? options = null,
         CancellationToken ct = default)
     {
+        var moduleList = modules.ToList();
+        var recommendations = advisor.Analyze(moduleList);
+        if (recommendations.Any(r => r.Severity == EventModelRecommendationSeverity.Error))
+        {
+            return new VerticalSlicesResult(recommendations, []);
+        }
+
         var resolvedOptions = options ?? new();
         var renderSet = ArtifactRenderSet.From(resolvedOptions);
-        var collected = CollectFromModules(modules, renderSet, resolvedOptions);
+        var collected = CollectFromModules(moduleList, renderSet, resolvedOptions);
 
         var output = outputResolver.Resolve();
         if (collected.Artifacts.Count > 0)
@@ -54,14 +66,23 @@ public partial class VerticalSlicesEngine(
             await chronicle.RegisterProjections(collected.ReadModelDescriptors, ct);
             await chronicle.RegisterReadModelTypes(collected.ReadModelDescriptors, ct);
         }
+
+        return new VerticalSlicesResult(recommendations, collected.Artifacts);
     }
 
     /// <inheritdoc/>
-    public IEnumerable<RenderedArtifact> Preview(IEnumerable<Module> modules, CodeGenerationOptions? options = null)
+    public VerticalSlicesResult Preview(IEnumerable<Module> modules, CodeGenerationOptions? options = null)
     {
+        var moduleList = modules.ToList();
+        var recommendations = advisor.Analyze(moduleList);
+        if (recommendations.Any(r => r.Severity == EventModelRecommendationSeverity.Error))
+        {
+            return new VerticalSlicesResult(recommendations, []);
+        }
+
         var resolvedOptions = options ?? new();
         var renderSet = ArtifactRenderSet.From(resolvedOptions);
-        return CollectFromModules(modules, renderSet, resolvedOptions).Artifacts;
+        return new VerticalSlicesResult(recommendations, CollectFromModules(moduleList, renderSet, resolvedOptions).Artifacts);
     }
 
     /// <inheritdoc/>
@@ -81,8 +102,6 @@ public partial class VerticalSlicesEngine(
 
     CollectedArtifacts CollectFromModules(IEnumerable<Module> modules, ArtifactRenderSet renderSet, CodeGenerationOptions options)
     {
-        SliceValidator.Validate(modules);
-
         var artifacts = new List<RenderedArtifact>();
         var eventDescriptors = new List<EventTypeDescriptor>();
         var readModelDescriptors = new List<ReadModelDescriptor>();

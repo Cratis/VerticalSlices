@@ -23,6 +23,14 @@ public record CodeGenerationOptions
     public string RootNamespace { get; init; } = string.Empty;
 
     /// <summary>
+    /// Gets a value indicating whether each slice gets its own subfolder inside the feature folder,
+    /// named after the slice. When <see langword="true"/> (the default), a slice named <c>PlaceOrder</c>
+    /// inside the <c>Ordering</c> feature produces files under <c>Module/Ordering/PlaceOrder/</c>.
+    /// When <see langword="false"/>, all slice files are written directly into the feature folder.
+    /// </summary>
+    public bool SliceOwnFolder { get; init; } = true;
+
+    /// <summary>
     /// Gets a value indicating whether all artifacts for a single slice should be emitted
     /// in a single file rather than one file per artifact type.
     /// Defaults to <see langword="true"/>.

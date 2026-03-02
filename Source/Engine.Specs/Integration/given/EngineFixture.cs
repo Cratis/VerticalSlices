@@ -8,6 +8,7 @@ using Cratis.VerticalSlices.Chronicle;
 using Cratis.VerticalSlices.CodeGeneration;
 using Cratis.VerticalSlices.CodeGeneration.Output;
 using Cratis.VerticalSlices.CodeGeneration.SliceTypes;
+using Cratis.VerticalSlices.EventModelAdvisory;
 using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Cratis.VerticalSlices.Integration.given;
@@ -73,9 +74,10 @@ public class EngineFixture : IAsyncLifetime
 
         Engine = new VerticalSlicesEngine(
             codeGenerator,
+            new EventModelAdvisor(),
             NullLogger<VerticalSlicesEngine>.Instance,
             new CodeOutputResolver(output),
-            new ChronicleRegistrationResolver());
+            new ChronicleRegistrationResolver(new NoOpChronicleRegistration()));
 
         WriteProjectFile();
         await RunDotnet("add package Cratis");
@@ -102,7 +104,7 @@ public class EngineFixture : IAsyncLifetime
     {
         Modules = modules;
         await Engine.Process(modules);
-        GeneratedFiles = Engine.Preview(modules);
+        GeneratedFiles = Engine.Preview(modules).Artifacts;
         AddGlobalUsingsFromRenderedArtifacts();
         BuildExitCode = await RunDotnet("build");
     }

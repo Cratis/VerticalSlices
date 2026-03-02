@@ -22,7 +22,7 @@ public class with_chronicle_and_mixed_event_kinds : given.all_dependencies
     {
         _chronicle = Substitute.For<IChronicleRegistration>();
         _chronicleResolver.Resolve().Returns(_chronicle);
-        _engine = new VerticalSlicesEngine(_codeGenerator, _logger, _outputResolver, _chronicleResolver);
+        _engine = new VerticalSlicesEngine(_codeGenerator, _advisor, _logger, _outputResolver, _chronicleResolver);
 
         var externalEvent = new EventType("ExternalPurchaseOrder", "External PO", [], EventKind.External);
         var internalEvent = new EventType("PurchaseOrderReceived", "PO received internally", [], EventKind.Internal);

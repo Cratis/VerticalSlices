@@ -38,4 +38,5 @@ public class with_multiple_events_and_commands : given.a_slice_type_code_generat
     [Fact] void should_include_first_event_file() => _result.ShouldContain(_eventFile1);
     [Fact] void should_include_second_event_file() => _result.ShouldContain(_eventFile2);
     [Fact] void should_include_command_file() => _result.ShouldContain(_commandFile);
+    [Fact] void should_render_command_before_events() => _result.First().ShouldEqual(_commandFile);
 }

@@ -22,7 +22,7 @@ public class with_sub_features : given.all_dependencies
     {
         _output = Substitute.For<ICodeOutput>();
         _outputResolver.Resolve().Returns(_output);
-        _engine = new VerticalSlicesEngine(_codeGenerator, _logger, _outputResolver, _chronicleResolver);
+        _engine = new VerticalSlicesEngine(_codeGenerator, _advisor, _logger, _outputResolver, _chronicleResolver);
 
         _subFeatureFile = new RenderedArtifact("Orders/Ordering/PlaceOrder/OrderPlaced.cs", "// generated");
 

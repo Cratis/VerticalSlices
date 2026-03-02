@@ -12,26 +12,30 @@ namespace Cratis.VerticalSlices;
 public interface IVerticalSlicesEngine
 {
     /// <summary>
-    /// Generates code for all vertical slices in the given modules, writes them
-    /// to the configured output, and registers artifacts with the configured Chronicle instance.
+    /// Analyzes all vertical slices, generates code, writes output, and registers artifacts
+    /// with the configured Chronicle instance.
+    /// Returns a <see cref="VerticalSlicesResult"/> containing the full advisory findings and
+    /// the artifacts that were written. When <see cref="VerticalSlicesResult.HasErrors"/> is
+    /// true, code generation was skipped and <see cref="VerticalSlicesResult.Artifacts"/> is empty.
     /// </summary>
     /// <param name="modules">The modules containing features and vertical slices.</param>
     /// <param name="options">The code generation options that control how output is emitted. Defaults to per-file usings when null.</param>
     /// <param name="ct">The cancellation token.</param>
-    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    Task Process(
+    /// <returns>A <see cref="Task{VerticalSlicesResult}"/> representing the asynchronous operation.</returns>
+    Task<VerticalSlicesResult> Process(
         IEnumerable<Module> modules,
         CodeGenerationOptions? options = null,
         CancellationToken ct = default);
 
     /// <summary>
-    /// Generates code for all vertical slices and returns the files in memory without writing them.
-    /// Useful for preview in a UI.
+    /// Analyzes and generates code for all vertical slices, returning the files and advisory
+    /// findings in memory without writing them.
+    /// When <see cref="VerticalSlicesResult.HasErrors"/> is true, <see cref="VerticalSlicesResult.Artifacts"/> is empty.
     /// </summary>
     /// <param name="modules">The modules containing features and vertical slices.</param>
     /// <param name="options">The code generation options that control how output is emitted. Defaults to per-file usings when null.</param>
-    /// <returns>The generated files.</returns>
-    IEnumerable<RenderedArtifact> Preview(IEnumerable<Module> modules, CodeGenerationOptions? options = null);
+    /// <returns>The recommendations and generated files.</returns>
+    VerticalSlicesResult Preview(IEnumerable<Module> modules, CodeGenerationOptions? options = null);
 
     /// <summary>
     /// Generates code for a single vertical slice and returns the files in memory.

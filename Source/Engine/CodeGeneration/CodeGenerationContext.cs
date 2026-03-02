@@ -77,7 +77,9 @@ public record CodeGenerationContext
 
     /// <summary>
     /// Gets the relative folder path matching the namespace hierarchy.
-    /// The slice name is excluded from the folder path — only Module/Feature/SubFeature segments are used.
+    /// When <see cref="CodeGenerationOptions.SliceOwnFolder"/> is <see langword="true"/> and
+    /// <see cref="SliceName"/> is set, the slice name is appended as a subfolder of the feature folder.
+    /// Otherwise only Module/Feature/SubFeature segments are used.
     /// </summary>
     public string RelativePath
     {
@@ -85,6 +87,11 @@ public record CodeGenerationContext
         {
             var parts = new List<string> { ModuleName };
             parts.AddRange(FeaturePath.Segments.Where(p => !string.IsNullOrWhiteSpace(p)));
+
+            if (Options.SliceOwnFolder && !string.IsNullOrWhiteSpace(SliceName))
+            {
+                parts.Add(SliceName);
+            }
 
             return Path.Combine([.. parts.Where(p => !string.IsNullOrWhiteSpace(p))]);
         }

@@ -12,11 +12,11 @@ public class with_module_level_concepts : given.all_dependencies
 {
     VerticalSlicesEngine _engine;
     IEnumerable<Module> _modules;
-    IEnumerable<RenderedArtifact> _result;
+    VerticalSlicesResult _result;
 
     void Establish()
     {
-        _engine = new VerticalSlicesEngine(_codeGenerator, _logger, _outputResolver, _chronicleResolver);
+        _engine = new VerticalSlicesEngine(_codeGenerator, _advisor, _logger, _outputResolver, _chronicleResolver);
 
         var concept = new Concept("EmployeeId", "Guid", "An employee identifier", []);
         _modules = [new Module("HumanResources", [concept], [])];
@@ -24,5 +24,5 @@ public class with_module_level_concepts : given.all_dependencies
 
     void Because() => _result = _engine.Preview(_modules);
 
-    [Fact] void should_include_concept_file() => _result.Any(f => f.ArtifactPath.EndsWith("EmployeeId.cs")).ShouldBeTrue();
+    [Fact] void should_include_concept_file() => _result.Artifacts.Any(f => f.ArtifactPath.EndsWith("EmployeeId.cs")).ShouldBeTrue();
 }

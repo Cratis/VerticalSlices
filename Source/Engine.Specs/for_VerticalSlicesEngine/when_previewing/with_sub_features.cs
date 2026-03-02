@@ -13,12 +13,12 @@ public class with_sub_features : given.all_dependencies
 {
     VerticalSlicesEngine _engine;
     IEnumerable<Module> _modules;
-    IEnumerable<RenderedArtifact> _result;
+    VerticalSlicesResult _result;
     RenderedArtifact _subFeatureFile;
 
     void Establish()
     {
-        _engine = new VerticalSlicesEngine(_codeGenerator, _logger, _outputResolver, _chronicleResolver);
+        _engine = new VerticalSlicesEngine(_codeGenerator, _advisor, _logger, _outputResolver, _chronicleResolver);
 
         _subFeatureFile = new RenderedArtifact("Orders/Ordering/PlaceOrder/PlaceOrderCommand.cs", "// generated");
 
@@ -36,5 +36,5 @@ public class with_sub_features : given.all_dependencies
 
     void Because() => _result = _engine.Preview(_modules);
 
-    [Fact] void should_include_file_from_sub_feature_slice() => _result.ShouldContainOnly(_subFeatureFile);
+    [Fact] void should_include_file_from_sub_feature_slice() => _result.Artifacts.ShouldContainOnly(_subFeatureFile);
 }

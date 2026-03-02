@@ -22,7 +22,7 @@ public class with_no_generated_files : given.all_dependencies
         _chronicle = Substitute.For<IChronicleRegistration>();
         _outputResolver.Resolve().Returns(_output);
         _chronicleResolver.Resolve().Returns(_chronicle);
-        _engine = new VerticalSlicesEngine(_codeGenerator, _logger, _outputResolver, _chronicleResolver);
+        _engine = new VerticalSlicesEngine(_codeGenerator, _advisor, _logger, _outputResolver, _chronicleResolver);
 
         var slice = new VerticalSlice("EmptySlice", VerticalSliceType.StateView, null, null, [], [], []);
         _modules = [new Module("Mod", [], [new Feature("Feat", [], [], [slice])])];

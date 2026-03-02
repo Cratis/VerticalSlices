@@ -24,7 +24,7 @@ public class with_supplied_strategy_and_no_matching_property : Specification
     void Because() => _result = new EventSourceIdPropertyNotFoundRule().Evaluate(_modules).ToList();
 
     [Fact] void should_return_one_recommendation() => _result.Count.ShouldEqual(1);
-    [Fact] void should_have_error_severity() => _result[0].Severity.ShouldEqual(EventModelRecommendationSeverity.Error);
+    [Fact] void should_have_warning_severity() => _result[0].Severity.ShouldEqual(EventModelRecommendationSeverity.Warning);
     [Fact] void should_reference_the_command_name() => _result[0].ArtifactName.ShouldEqual("PlaceOrder");
     [Fact] void should_mention_the_missing_property_name() => _result[0].Message.ShouldContain("OrderId");
 }

@@ -1,6 +1,8 @@
 // Copyright (c) Cratis. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using Cratis.VerticalSlices.EventModelAdvisory;
+
 namespace Cratis.VerticalSlices.for_SliceValidator.when_validating;
 
 public class with_external_events_in_multiple_non_translator_slices : Specification
@@ -19,7 +21,7 @@ public class with_external_events_in_multiple_non_translator_slices : Specificat
 
     void Because()
     {
-        _exception = (Catch.Exception(() => SliceValidator.Validate(_modules)) as SliceValidationFailed)!;
+        _exception = (Catch.Exception(() => new SliceValidator(new EventModelAdvisor()).Validate(_modules)) as SliceValidationFailed)!;
     }
 
     [Fact] void should_throw_slice_validation_failed() => _exception.ShouldNotBeNull();

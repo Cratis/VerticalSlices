@@ -1,6 +1,7 @@
 // Copyright (c) Cratis. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using Cratis.DependencyInjection;
 using Cratis.VerticalSlices.CodeGeneration.Descriptors;
 using Cratis.VerticalSlices.CodeGeneration.Renderers;
 
@@ -12,6 +13,7 @@ namespace Cratis.VerticalSlices.CodeGeneration.SliceTypes;
 /// and produces both a projection and an Observable query.
 /// Flow: EventType(s) → ReadModel (projection + query) → Screen.
 /// </summary>
+[Singleton]
 public class StateViewCodeGenerator : ISliceTypeCodeGenerator
 {
     /// <inheritdoc/>

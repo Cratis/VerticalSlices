@@ -8,11 +8,11 @@ namespace Cratis.VerticalSlices.for_VerticalSlicesEngine.when_previewing;
 public class with_empty_modules : given.all_dependencies
 {
     VerticalSlicesEngine _engine;
-    IEnumerable<RenderedArtifact> _result;
+    VerticalSlicesResult _result;
 
-    void Establish() => _engine = new VerticalSlicesEngine(_codeGenerator, _logger, _outputResolver, _chronicleResolver);
+    void Establish() => _engine = new VerticalSlicesEngine(_codeGenerator, _advisor, _logger, _outputResolver, _chronicleResolver);
 
     void Because() => _result = _engine.Preview([]);
 
-    [Fact] void should_return_no_files() => _result.ShouldBeEmpty();
+    [Fact] void should_return_no_files() => _result.Artifacts.ShouldBeEmpty();
 }

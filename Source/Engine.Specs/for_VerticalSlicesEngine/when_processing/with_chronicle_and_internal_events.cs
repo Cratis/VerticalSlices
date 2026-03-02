@@ -15,7 +15,7 @@ public class with_chronicle_and_internal_events : given.a_module_with_a_slice_pr
     {
         _chronicle = Substitute.For<IChronicleRegistration>();
         _chronicleResolver.Resolve().Returns(_chronicle);
-        _engine = new VerticalSlicesEngine(_codeGenerator, _logger, _outputResolver, _chronicleResolver);
+        _engine = new VerticalSlicesEngine(_codeGenerator, _advisor, _logger, _outputResolver, _chronicleResolver);
     }
 
     async Task Because() => await _engine.Process(_modules);

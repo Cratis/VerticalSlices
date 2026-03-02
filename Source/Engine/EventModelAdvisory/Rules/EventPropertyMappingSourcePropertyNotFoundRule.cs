@@ -41,7 +41,10 @@ public class EventPropertyMappingSourcePropertyNotFoundRule : IEventModelRule
                 {
                     foreach (var property in readModel.Properties)
                     {
-                        foreach (var mapping in property.Mappings.Where(m => !string.IsNullOrWhiteSpace(m.SourcePropertyName)))
+                        foreach (var mapping in property.Mappings.Where(m =>
+                            !string.IsNullOrWhiteSpace(m.SourcePropertyName) &&
+                            m.Kind != EventPropertyMappingKind.SetFromContext &&
+                            m.Kind != EventPropertyMappingKind.StaticValue))
                         {
                             if (!eventsByName.TryGetValue(mapping.EventTypeName, out var eventType))
                             {
