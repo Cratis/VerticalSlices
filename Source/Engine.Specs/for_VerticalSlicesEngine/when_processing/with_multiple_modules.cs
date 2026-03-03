@@ -13,9 +13,9 @@ namespace Cratis.VerticalSlices.for_VerticalSlicesEngine.when_processing;
 /// </summary>
 public class with_multiple_modules : given.all_dependencies
 {
+    ICodeOutput _output;
     IEnumerable<Module> _modules;
     IEnumerable<RenderedArtifact> _capturedFiles;
-    ICodeOutput _output;
     VerticalSlicesEngine _engine;
     RenderedArtifact _module1File;
     RenderedArtifact _module2File;
@@ -55,11 +55,10 @@ public class with_multiple_modules : given.all_dependencies
             .Write(Arg.Do<IEnumerable<RenderedArtifact>>(files => _capturedFiles = files.ToList()), Arg.Any<CancellationToken>())
             .Returns(Task.CompletedTask);
 
-        _outputResolver.Resolve().Returns(_output);
-        _engine = new VerticalSlicesEngine(_codeGenerator, _advisor, _logger, _outputResolver, _chronicleResolver);
+        _engine = new VerticalSlicesEngine(_codeGenerator, _advisor, _logger, _loggerFactory);
     }
 
-    async Task Because() => await _engine.Process(_modules);
+    async Task Because() => await _engine.Process(_modules, output: _output);
 
     [Fact] void should_include_file_from_first_module() => _capturedFiles.ShouldContain(_module1File);
     [Fact] void should_include_file_from_second_module() => _capturedFiles.ShouldContain(_module2File);

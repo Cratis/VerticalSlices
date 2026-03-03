@@ -14,11 +14,10 @@ public class with_chronicle_and_read_models : given.a_module_with_a_slice_produc
     void Establish()
     {
         _chronicle = Substitute.For<IChronicleRegistration>();
-        _chronicleResolver.Resolve().Returns(_chronicle);
-        _engine = new VerticalSlicesEngine(_codeGenerator, _advisor, _logger, _outputResolver, _chronicleResolver);
+        _engine = new VerticalSlicesEngine(_codeGenerator, _advisor, _logger, _loggerFactory);
     }
 
-    async Task Because() => await _engine.Process(_modules);
+    async Task Because() => await _engine.Process(_modules, chronicle: _chronicle);
 
     [Fact] void should_register_projections_with_chronicle() => _chronicle.Received(1).RegisterProjections(Arg.Any<IEnumerable<ReadModelDescriptor>>(), Arg.Any<CancellationToken>());
     [Fact] void should_register_read_model_types_with_chronicle() => _chronicle.Received(1).RegisterReadModelTypes(Arg.Any<IEnumerable<ReadModelDescriptor>>(), Arg.Any<CancellationToken>());

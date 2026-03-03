@@ -1,9 +1,6 @@
 // Copyright (c) Cratis. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using Cratis.VerticalSlices.CodeGeneration.Renderers.Controller;
-using Cratis.VerticalSlices.CodeGeneration.Renderers.ModelBound;
-
 namespace Cratis.VerticalSlices.CodeGeneration.Renderers.for_ArtifactRenderSet.when_building_from_options;
 
 /// <summary>

@@ -14,7 +14,11 @@ public class with_produced_events_all_defined : Specification
     void Establish()
     {
         var eventType = new EventType("OrderPlaced", "An order was placed", []);
-        var command = new Command("PlaceOrder", "Places an order", [], "OrderId",
+        var command = new Command(
+            "PlaceOrder",
+            "Places an order",
+            [],
+            "OrderId",
             ProducedEvents: [new ProducedEvent("OrderPlaced")]);
         var slice = new VerticalSlice("PlaceOrder", VerticalSliceType.StateChange, null, null, [command], [], [eventType]);
         _modules = [new Module("Orders", [], [new Feature("Ordering", [], [], [slice])])];

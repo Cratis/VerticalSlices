@@ -14,11 +14,10 @@ public class with_output : given.a_module_with_a_slice_producing_files
     void Establish()
     {
         _output = Substitute.For<ICodeOutput>();
-        _outputResolver.Resolve().Returns(_output);
-        _engine = new VerticalSlicesEngine(_codeGenerator, _advisor, _logger, _outputResolver, _chronicleResolver);
+        _engine = new VerticalSlicesEngine(_codeGenerator, _advisor, _logger, _loggerFactory);
     }
 
-    async Task Because() => await _engine.Process(_modules);
+    async Task Because() => await _engine.Process(_modules, output: _output);
 
     [Fact] void should_write_generated_files_to_output() => _output.Received(1).Write(Arg.Is<IEnumerable<RenderedArtifact>>(f => f.Contains(_generatedFile)), Arg.Any<CancellationToken>());
 }

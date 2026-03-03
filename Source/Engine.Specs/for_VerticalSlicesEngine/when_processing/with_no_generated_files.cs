@@ -11,8 +11,8 @@ namespace Cratis.VerticalSlices.for_VerticalSlicesEngine.when_processing;
 
 public class with_no_generated_files : given.all_dependencies
 {
-    ICodeOutput _output;
     IChronicleRegistration _chronicle;
+    ICodeOutput _output;
     VerticalSlicesEngine _engine;
     IEnumerable<Module> _modules;
 
@@ -20,9 +20,7 @@ public class with_no_generated_files : given.all_dependencies
     {
         _output = Substitute.For<ICodeOutput>();
         _chronicle = Substitute.For<IChronicleRegistration>();
-        _outputResolver.Resolve().Returns(_output);
-        _chronicleResolver.Resolve().Returns(_chronicle);
-        _engine = new VerticalSlicesEngine(_codeGenerator, _advisor, _logger, _outputResolver, _chronicleResolver);
+        _engine = new VerticalSlicesEngine(_codeGenerator, _advisor, _logger, _loggerFactory);
 
         var slice = new VerticalSlice("EmptySlice", VerticalSliceType.StateView, null, null, [], [], []);
         _modules = [new Module("Mod", [], [new Feature("Feat", [], [], [slice])])];
@@ -32,7 +30,7 @@ public class with_no_generated_files : given.all_dependencies
             .Returns([]);
     }
 
-    async Task Because() => await _engine.Process(_modules);
+    async Task Because() => await _engine.Process(_modules, output: _output, chronicle: _chronicle);
 
     [Fact] void should_not_write_to_output() => _output.DidNotReceive().Write(Arg.Any<IEnumerable<RenderedArtifact>>(), Arg.Any<CancellationToken>());
     [Fact] void should_not_register_any_event_types() => _chronicle.DidNotReceive().RegisterEventTypes(Arg.Any<IEnumerable<EventTypeDescriptor>>(), Arg.Any<CancellationToken>());

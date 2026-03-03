@@ -13,11 +13,13 @@ public class with_duplicate_property_on_event_type : Specification
 
     void Establish()
     {
-        var eventType = new EventType("OrderPlaced", "An order was placed",
-        [
-            new Property("OrderId", "Guid"),
-            new Property("OrderId", "string")
-        ]);
+        var eventType = new EventType(
+            "OrderPlaced",
+            "An order was placed",
+            [
+                new Property("OrderId", "Guid"),
+                new Property("OrderId", "string")
+            ]);
         var command = new Command("PlaceOrder", "Places an order", [], "OrderId");
         var slice = new VerticalSlice("PlaceOrder", VerticalSliceType.StateChange, null, null, [command], [], [eventType]);
         _modules = [new Module("Orders", [], [new Feature("Ordering", [], [], [slice])])];

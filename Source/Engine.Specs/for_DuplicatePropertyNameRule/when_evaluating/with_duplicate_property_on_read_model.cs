@@ -13,11 +13,13 @@ public class with_duplicate_property_on_read_model : Specification
 
     void Establish()
     {
-        var readModel = new ReadModel("OrderView", "Order read model",
-        [
-            new ReadModelProperty("Id", "Guid", [new EventPropertyMapping("OrderPlaced", EventPropertyMappingKind.FromEventSourceId)]),
-            new ReadModelProperty("Id", "string", [])
-        ]);
+        var readModel = new ReadModel(
+            "OrderView",
+            "Order read model",
+            [
+                new ReadModelProperty("Id", "Guid", [new EventPropertyMapping("OrderPlaced", EventPropertyMappingKind.FromEventSourceId)]),
+                new ReadModelProperty("Id", "string", [])
+            ]);
         var slice = new VerticalSlice("ViewOrders", VerticalSliceType.StateView, null, null, [], [readModel], []);
         _modules = [new Module("Orders", [], [new Feature("Ordering", [], [], [slice])])];
     }

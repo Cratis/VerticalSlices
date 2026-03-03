@@ -4,7 +4,6 @@
 using System.Diagnostics;
 using System.Text;
 using System.Text.RegularExpressions;
-using Cratis.VerticalSlices.Chronicle;
 using Cratis.VerticalSlices.CodeGeneration;
 using Cratis.VerticalSlices.CodeGeneration.Output;
 using Cratis.VerticalSlices.CodeGeneration.SliceTypes;
@@ -18,7 +17,7 @@ namespace Cratis.VerticalSlices.Integration.given;
 /// slice type generators and a <see cref="LocalFileSystemOutput"/> writing to a unique
 /// temporary directory. The setup runs once per test class, not once per test.
 /// </summary>
-public class EngineFixture : IAsyncLifetime
+public partial class EngineFixture : IAsyncLifetime
 {
     /// <summary>
     /// Gets the engine instance.
@@ -29,6 +28,11 @@ public class EngineFixture : IAsyncLifetime
     /// Gets the output directory where generated files are written.
     /// </summary>
     public string OutputDirectory { get; private set; } = string.Empty;
+
+    /// <summary>
+    /// Gets the code output options used when calling <see cref="VerticalSlicesEngine.Process"/>.
+    /// </summary>
+    public CodeOutputOptions OutputOptions { get; private set; } = new();
 
     /// <summary>
     /// Gets the generated files from the last <see cref="VerticalSlicesEngine.Preview"/> call.
@@ -56,9 +60,7 @@ public class EngineFixture : IAsyncLifetime
         OutputDirectory = Path.Combine(Path.GetTempPath(), $"vs_integration_{Guid.NewGuid():N}");
         Directory.CreateDirectory(OutputDirectory);
 
-        var output = new LocalFileSystemOutput(
-            OutputDirectory,
-            NullLogger<LocalFileSystemOutput>.Instance);
+        OutputOptions = new CodeOutputOptions { Target = CodeOutputTarget.LocalFileSystem, OutputRoot = OutputDirectory };
 
         var sliceGenerators = new ISliceTypeCodeGenerator[]
         {
@@ -74,10 +76,9 @@ public class EngineFixture : IAsyncLifetime
 
         Engine = new VerticalSlicesEngine(
             codeGenerator,
-            new EventModelAdvisor(),
+            new EventModelAdvisor(new InstancesOf<IEventModelRule>(AppTypes.Instance, new ActivatorServiceProvider())),
             NullLogger<VerticalSlicesEngine>.Instance,
-            new CodeOutputResolver(output),
-            new ChronicleRegistrationResolver(new NoOpChronicleRegistration()));
+            NullLoggerFactory.Instance);
 
         WriteProjectFile();
         await RunDotnet("add package Cratis");
@@ -100,10 +101,11 @@ public class EngineFixture : IAsyncLifetime
     /// and runs <c>dotnet build</c>.
     /// </summary>
     /// <param name="modules">The modules to process.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task ProcessAndBuild(IEnumerable<Module> modules)
     {
         Modules = modules;
-        await Engine.Process(modules);
+        await Engine.Process(modules, outputOptions: OutputOptions);
         GeneratedFiles = Engine.Preview(modules).Artifacts;
         AddGlobalUsingsFromRenderedArtifacts();
         BuildExitCode = await RunDotnet("build");
@@ -164,10 +166,15 @@ public class EngineFixture : IAsyncLifetime
 
     static string ExtractNamespace(string content)
     {
-        var match = Regex.Match(content, @"^namespace\s+([\w.]+)\s*;", RegexOptions.Multiline);
+        var match = NamespaceRegex().Match(content);
 
-        return match.Success ? match.Groups[1].Value : string.Empty;
+        return match.Success ? match.Groups["ns"].Value : string.Empty;
     }
+
+#pragma warning disable MA0009
+    [GeneratedRegex(@"^namespace\s+(?<ns>[\w.]+)\s*;", RegexOptions.Multiline | RegexOptions.ExplicitCapture)]
+    private static partial Regex NamespaceRegex();
+#pragma warning restore MA0009
 
     /// <summary>
     /// Runs a dotnet command in the output directory and returns the exit code.

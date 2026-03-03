@@ -19,12 +19,20 @@ public class with_command_should_only_pass_internal_events : given.a_slice_type_
     void Establish()
     {
         _generator = new TranslatorCodeGenerator();
-        var externalEvent = new EventType("ExternalOrderPlaced", "External source event",
-            [new Property("ExternalRef", "string")], EventKind.External);
-        var internalEvent = new EventType("OrderImported", "Translated internal event",
+        var externalEvent = new EventType(
+            "ExternalOrderPlaced",
+            "External source event",
+            [new Property("ExternalRef", "string")],
+            EventKind.External);
+        var internalEvent = new EventType(
+            "OrderImported",
+            "Translated internal event",
             [new Property("OrderId", "string"), new Property("ExternalRef", "string")]);
-        var command = new Command("ImportOrder", "Imports an external order",
-            [new Property("ExternalRef", "string")], "OrderId");
+        var command = new Command(
+            "ImportOrder",
+            "Imports an external order",
+            [new Property("ExternalRef", "string")],
+            "OrderId");
         _slice = new VerticalSlice("ImportOrder", VerticalSliceType.Translator, null, null, [command], [], [externalEvent, internalEvent]);
         _commandRenderer.Render(Arg.Do<CommandDescriptor>(d => _capturedDescriptor = d), Arg.Any<CodeGenerationContext>()).Returns([]);
         _eventTypeRenderer.Render(Arg.Any<EventTypeDescriptor>(), Arg.Any<CodeGenerationContext>()).Returns([]);

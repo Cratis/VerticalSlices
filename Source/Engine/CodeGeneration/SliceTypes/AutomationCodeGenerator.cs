@@ -1,7 +1,6 @@
 // Copyright (c) Cratis. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using Cratis.DependencyInjection;
 using Cratis.VerticalSlices.CodeGeneration.Descriptors;
 using Cratis.VerticalSlices.CodeGeneration.Renderers;
 
@@ -16,7 +15,6 @@ namespace Cratis.VerticalSlices.CodeGeneration.SliceTypes;
 /// Event type files are therefore generated only when the slice also has commands.
 /// Flow: EventType(s) [consumed, not listed] → ReadModel (task list) → Command → EventType(s) [produced, listed + generated].
 /// </summary>
-[Singleton]
 public class AutomationCodeGenerator : ISliceTypeCodeGenerator
 {
     /// <inheritdoc/>

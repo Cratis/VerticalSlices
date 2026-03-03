@@ -21,5 +21,5 @@ public record VerticalSlicesResult(
     /// <summary>
     /// Gets a value indicating whether any error-severity recommendations were found that blocked code generation.
     /// </summary>
-    public bool HasErrors => Recommendations.Any(r => r.Severity == EventModelRecommendationSeverity.Error);
+    public bool HasErrors { get; } = Recommendations.Any(r => r.Severity == EventModelRecommendationSeverity.Error);
 }

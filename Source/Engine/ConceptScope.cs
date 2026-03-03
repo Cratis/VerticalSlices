@@ -52,12 +52,12 @@ public record ConceptScope(IReadOnlyDictionary<string, ScopedConcept> ConceptsBy
 
     /// <summary>
     /// Returns the distinct namespaces of all concepts referenced by the given type names
-    /// that differ from the current namespace. Used by renderers to add <c>using</c> directives
+    /// that differ from the current namespace. Used by renderers to add <see langword="using"/> directives
     /// for concept types defined in other scopes.
     /// </summary>
     /// <param name="typeNames">The property type names to check.</param>
     /// <param name="currentNamespace">The namespace of the file being generated.</param>
-    /// <returns>The concept namespaces that need <c>using</c> directives.</returns>
+    /// <returns>The concept namespaces that need <see langword="using"/> directives.</returns>
     public IEnumerable<string> ResolveConceptUsings(IEnumerable<string> typeNames, string currentNamespace) =>
         typeNames
             .Where(IsConcept)

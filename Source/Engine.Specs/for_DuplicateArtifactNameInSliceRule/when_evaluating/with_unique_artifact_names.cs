@@ -19,8 +19,14 @@ public class with_unique_artifact_names : Specification
         var event2 = new EventType("OrderCancelled", "An order was cancelled", []);
         var readModel1 = new ReadModel("OrderView", "Order view", []);
         var readModel2 = new ReadModel("OrderSummary", "Order summary", []);
-        var slice = new VerticalSlice("Orders", VerticalSliceType.StateChange, null, null,
-            [command1, command2], [readModel1, readModel2], [event1, event2]);
+        var slice = new VerticalSlice(
+            "Orders",
+            VerticalSliceType.StateChange,
+            null,
+            null,
+            [command1, command2],
+            [readModel1, readModel2],
+            [event1, event2]);
         _modules = [new Module("Orders", [], [new Feature("Ordering", [], [], [slice])])];
     }
 

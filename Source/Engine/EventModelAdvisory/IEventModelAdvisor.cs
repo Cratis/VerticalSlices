@@ -20,7 +20,7 @@ public interface IEventModelAdvisor
     /// Analyzes the event model using only the specified rules.
     /// </summary>
     /// <param name="modules">The modules containing the event model to analyze.</param>
-    /// <param name="rules">The specific rules to evaluate.</param>
+    /// <param name="specificRules">The specific rules to evaluate.</param>
     /// <returns>All recommendations produced by the specified rules, ordered by severity.</returns>
-    IReadOnlyList<EventModelRecommendation> Analyze(IEnumerable<Module> modules, IEnumerable<IEventModelRule> rules);
+    IReadOnlyList<EventModelRecommendation> Analyze(IEnumerable<Module> modules, IEnumerable<IEventModelRule> specificRules);
 }

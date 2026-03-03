@@ -23,31 +23,49 @@ public class with_multiple_properties_with_different_mapping_kinds : given.a_con
             "ProjectStats",
             "Stats for a project",
             [
-                new ReadModelPropertyDescriptor("ProjectId", "string", IsKey: true,
-                [
-                    new PropertyMapping("ProjectCreated", PropertyMappingKind.Set, "ProjectId")
-                ]),
-                new ReadModelPropertyDescriptor("TotalBudget", "decimal", IsKey: false,
-                [
-                    new PropertyMapping("BudgetAllocated", PropertyMappingKind.Add, "Amount")
-                ]),
-                new ReadModelPropertyDescriptor("SpentBudget", "decimal", IsKey: false,
-                [
-                    new PropertyMapping("ExpenseRecorded", PropertyMappingKind.Add, "Amount"),
-                    new PropertyMapping("ExpenseReversed", PropertyMappingKind.Subtract, "Amount")
-                ]),
-                new ReadModelPropertyDescriptor("TaskCount", "int", IsKey: false,
-                [
-                    new PropertyMapping("TaskAdded", PropertyMappingKind.Count)
-                ]),
-                new ReadModelPropertyDescriptor("CompletedCount", "int", IsKey: false,
-                [
-                    new PropertyMapping("TaskCompleted", PropertyMappingKind.Increment)
-                ]),
-                new ReadModelPropertyDescriptor("ReopenedCount", "int", IsKey: false,
-                [
-                    new PropertyMapping("TaskReopened", PropertyMappingKind.Decrement)
-                ])
+                new ReadModelPropertyDescriptor(
+                    "ProjectId",
+                    "string",
+                    IsKey: true,
+                    [
+                        new PropertyMapping("ProjectCreated", PropertyMappingKind.Set, "ProjectId")
+                    ]),
+                new ReadModelPropertyDescriptor(
+                    "TotalBudget",
+                    "decimal",
+                    IsKey: false,
+                    [
+                        new PropertyMapping("BudgetAllocated", PropertyMappingKind.Add, "Amount")
+                    ]),
+                new ReadModelPropertyDescriptor(
+                    "SpentBudget",
+                    "decimal",
+                    IsKey: false,
+                    [
+                        new PropertyMapping("ExpenseRecorded", PropertyMappingKind.Add, "Amount"),
+                        new PropertyMapping("ExpenseReversed", PropertyMappingKind.Subtract, "Amount")
+                    ]),
+                new ReadModelPropertyDescriptor(
+                    "TaskCount",
+                    "int",
+                    IsKey: false,
+                    [
+                        new PropertyMapping("TaskAdded", PropertyMappingKind.Count)
+                    ]),
+                new ReadModelPropertyDescriptor(
+                    "CompletedCount",
+                    "int",
+                    IsKey: false,
+                    [
+                        new PropertyMapping("TaskCompleted", PropertyMappingKind.Increment)
+                    ]),
+                new ReadModelPropertyDescriptor(
+                    "ReopenedCount",
+                    "int",
+                    IsKey: false,
+                    [
+                        new PropertyMapping("TaskReopened", PropertyMappingKind.Decrement)
+                    ])
             ],
             []);
     }

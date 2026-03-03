@@ -16,16 +16,18 @@ public static class ServiceCollectionExtensions
 {
     /// <summary>
     /// Registers the Vertical Slices engine and all required services with the IoC container.
-    /// Uses convention-based registration for services following the <c>IFoo</c> → <c>Foo</c> naming convention,
-    /// and registers defaults for code output (<see cref="NoOpCodeOutput"/>) and Chronicle integration (<see cref="NoOpChronicleRegistration"/>).
+    /// Uses convention-based registration for services following the <c>IFoo</c> → <c>Foo</c> naming convention.
+    /// Configure code output and Chronicle targets by passing <see cref="CodeOutputOptions"/> and
+    /// <see cref="ChronicleOptions"/> directly to <see cref="IVerticalSlicesEngine.Process"/>.
     /// </summary>
     /// <param name="services"><see cref="IServiceCollection"/> to add services to.</param>
-    /// <returns>A <see cref="VerticalSlicesBuilder"/> to further configure the engine.</returns>
-    public static VerticalSlicesBuilder AddVerticalSlices(this IServiceCollection services)
+    /// <returns>The same <see cref="IServiceCollection"/> for fluent chaining.</returns>
+    public static IServiceCollection AddVerticalSlices(this IServiceCollection services)
     {
-        // Register default no-op implementations that can be overridden by the consumer.
-        services.AddSingleton<ICodeOutput, NoOpCodeOutput>();
-        services.AddSingleton<IChronicleRegistration, NoOpChronicleRegistration>();
+        // Set up type discovery — registers ITypes, IInstancesOf<> and IImplementationsOf<>
+        // so that convention-registered singletons (e.g. all IEventModelRule implementations)
+        // are discoverable via IInstancesOf<T> without any manual registration by the consumer.
+        services.AddTypeDiscovery();
 
         // Register all ISliceTypeCodeGenerator implementations explicitly since they share one interface.
         services.AddSingleton<ISliceTypeCodeGenerator, StateChangeCodeGenerator>();
@@ -36,12 +38,11 @@ public static class ServiceCollectionExtensions
         // Convention-based registration handles:
         // IVerticalSlicesEngine → VerticalSlicesEngine
         // IVerticalSliceCodeGenerator → VerticalSliceCodeGenerator
-        // ICodeOutputResolver → CodeOutputResolver
-        // IChronicleRegistrationResolver → ChronicleRegistrationResolver
         // IEventModelAdvisor → EventModelAdvisor
-        // ISliceValidator → SliceValidator
+        // Also self-registers all [Singleton]-adorned IEventModelRule implementations
+        // so they are resolvable by IInstancesOf<IEventModelRule>.
         services.AddBindingsByConvention();
 
-        return new VerticalSlicesBuilder(services);
+        return services;
     }
 }

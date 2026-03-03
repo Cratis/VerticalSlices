@@ -3,7 +3,7 @@
 
 using System.Text.Json;
 
-namespace Cratis.VerticalSlices.for_VerticalSlices.when_setting_current_project;
+namespace Cratis.VerticalSlices.for_VerticalSlicesConfigStore.when_setting_current_project;
 
 public class in_a_directory : Specification
 {
@@ -17,7 +17,7 @@ public class in_a_directory : Specification
         _projectFile = "MyProject/MyProject.csproj";
     }
 
-    void Because() => VerticalSlices.SetCurrentProject(_tempDirectory, _projectFile);
+    void Because() => VerticalSlicesConfigStore.SetCurrentProject(_tempDirectory, _projectFile);
 
     void Cleanup()
     {

@@ -42,5 +42,5 @@ public class with_second_property_not_marked_as_key : given.a_context
         _projectionContent.IndexOf("[Key]").ShouldBeLessThan(_projectionContent.IndexOf("ProductId"));
 
     [Fact] void should_emit_all_three_properties() =>
-        new[] { "ProductId", "Sku", "Name" }.All(p => _projectionContent.Contains(p)).ShouldBeTrue();
+        new[] { "ProductId", "Sku", "Name" }.All(_projectionContent.Contains).ShouldBeTrue();
 }

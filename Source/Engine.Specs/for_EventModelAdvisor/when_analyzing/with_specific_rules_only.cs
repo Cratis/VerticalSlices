@@ -20,7 +20,7 @@ public class with_specific_rules_only : Specification
         _modules = [new Module("Orders", [], [new Feature("Ordering", [], [], [slice])])];
     }
 
-    void Because() => _result = new EventModelAdvisor().Analyze(_modules, [new OrphanedEventRule()]);
+    void Because() => _result = new EventModelAdvisor(new InstancesOf<IEventModelRule>(AppTypes.Instance, new ActivatorServiceProvider())).Analyze(_modules, [new OrphanedEventRule()]);
 
     [Fact] void should_return_only_matching_recommendations() => _result.Count.ShouldEqual(1);
     [Fact] void should_be_from_the_specified_rule() => _result[0].Category.ShouldEqual(EventModelRecommendationCategory.Coverage);

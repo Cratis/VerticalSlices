@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System.Text.RegularExpressions;
+using Cratis.DependencyInjection;
 
 namespace Cratis.VerticalSlices.EventModelAdvisory.Rules;
 
@@ -16,6 +17,7 @@ namespace Cratis.VerticalSlices.EventModelAdvisory.Rules;
 /// (<c>-ing</c>) endings on the first word.
 /// </para>
 /// </summary>
+[Singleton]
 public partial class CommandNamingConventionRule : IEventModelRule
 {
     /// <summary>
@@ -34,53 +36,23 @@ public partial class CommandNamingConventionRule : IEventModelRule
     /// <inheritdoc/>
     public IEnumerable<EventModelRecommendation> Evaluate(IEnumerable<Module> modules)
     {
-        foreach (var module in modules)
+        foreach (var (moduleName, path, slice) in modules.FlattenSlices())
         {
-            foreach (var recommendation in EvaluateFeatures(module.Features, module.Name, FeaturePath.Empty))
+            foreach (var command in slice.Commands.Where(c => !IsImperative(c.Name)))
             {
-                yield return recommendation;
+                yield return new EventModelRecommendation(
+                    EventModelRecommendationSeverity.Suggestion,
+                    EventModelRecommendationCategory.Naming,
+                    moduleName,
+                    path,
+                    slice.Name,
+                    command.Name,
+                    $"Command '{command.Name}' does not appear to use imperative naming.",
+                    "Commands should express intent using an imperative verb, e.g. 'PlaceOrder' rather than 'OrderPlaced' or 'PlacingOrder'.");
             }
         }
     }
 
-    static IEnumerable<EventModelRecommendation> EvaluateFeatures(IEnumerable<Feature> features, string moduleName, FeaturePath path)
-    {
-        foreach (var feature in features)
-        {
-            var featurePath = path.Append(feature.Name);
-            foreach (var slice in feature.VerticalSlices)
-            {
-                foreach (var command in slice.Commands)
-                {
-                    if (!IsImperative(command.Name))
-                    {
-                        yield return new EventModelRecommendation(
-                            EventModelRecommendationSeverity.Suggestion,
-                            EventModelRecommendationCategory.Naming,
-                            moduleName,
-                            featurePath,
-                            slice.Name,
-                            command.Name,
-                            $"Command '{command.Name}' does not appear to use imperative naming.",
-                            "Commands should express intent using an imperative verb, e.g. 'PlaceOrder' or 'CancelSubscription' rather than 'OrderPlaced' or 'PlacingOrder'.");
-                    }
-                }
-            }
-
-            foreach (var recommendation in EvaluateFeatures(feature.Features, moduleName, featurePath))
-            {
-                yield return recommendation;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Returns <see langword="true"/> when the PascalCase command name appears to be in
-    /// imperative form. Returns <see langword="false"/> when the first word ends in
-    /// <c>-ing</c> (progressive) or the last word is past tense (<c>-ed/-ied</c> or a
-    /// known irregular).
-    /// </summary>
-    /// <param name="name">The PascalCase command name to check.</param>
     static bool IsImperative(string name)
     {
         var words = PascalCaseSplit().Split(name)
@@ -105,10 +77,7 @@ public partial class CommandNamingConventionRule : IEventModelRule
             && !_knownIrregularPastTense.Contains(lastWord);
     }
 
-    /// <summary>
-    /// Splits a PascalCase string at each upper-case letter boundary.
-    /// For example "PlaceOrder" → ["Place", "Order"].
-    /// </summary>
+    /// <summary>Splits a PascalCase string at each upper-case letter boundary.</summary>
     [GeneratedRegex(@"(?=[A-Z])", RegexOptions.ExplicitCapture, matchTimeoutMilliseconds: 1000)]
     private static partial Regex PascalCaseSplit();
 }

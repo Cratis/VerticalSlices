@@ -21,8 +21,7 @@ public class with_chronicle_and_mixed_event_kinds : given.all_dependencies
     void Establish()
     {
         _chronicle = Substitute.For<IChronicleRegistration>();
-        _chronicleResolver.Resolve().Returns(_chronicle);
-        _engine = new VerticalSlicesEngine(_codeGenerator, _advisor, _logger, _outputResolver, _chronicleResolver);
+        _engine = new VerticalSlicesEngine(_codeGenerator, _advisor, _logger, _loggerFactory);
 
         var externalEvent = new EventType("ExternalPurchaseOrder", "External PO", [], EventKind.External);
         var internalEvent = new EventType("PurchaseOrderReceived", "PO received internally", [], EventKind.Internal);
@@ -44,7 +43,7 @@ public class with_chronicle_and_mixed_event_kinds : given.all_dependencies
             .Returns([]);
     }
 
-    async Task Because() => await _engine.Process(_modules);
+    async Task Because() => await _engine.Process(_modules, chronicle: _chronicle);
 
     [Fact] void should_register_only_one_event_type() =>
         _chronicle.Received(1).RegisterEventTypes(

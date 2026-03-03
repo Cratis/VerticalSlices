@@ -3,14 +3,14 @@
 
 using System.Text.Json;
 using Cratis.VerticalSlices;
+using Cratis.VerticalSlices.CodeGeneration.Output;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var outputRoot = builder.Configuration["VerticalSlices:OutputRoot"] ?? "./generated";
+var outputOptions = new CodeOutputOptions { Target = CodeOutputTarget.LocalFileSystem, OutputRoot = outputRoot };
 
-builder.Services
-    .AddVerticalSlices()
-    .WithLocalFileSystemOutput(outputRoot);
+builder.Services.AddVerticalSlices();
 
 var app = builder.Build();
 
@@ -21,7 +21,7 @@ if (File.Exists(structureFile))
     var modules = JsonSerializer.Deserialize<IEnumerable<Module>>(json, JsonSerializerOptions.Web) ?? [];
 
     var engine = app.Services.GetRequiredService<IVerticalSlicesEngine>();
-    await engine.Process(modules);
+    await engine.Process(modules, outputOptions: outputOptions);
 }
 
 app.MapGet("/", () => "VerticalSlices Engine is running.");

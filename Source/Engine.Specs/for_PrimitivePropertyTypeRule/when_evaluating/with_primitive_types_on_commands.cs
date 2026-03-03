@@ -14,11 +14,14 @@ public class with_primitive_types_on_commands : Specification
     void Establish()
     {
         var eventType = new EventType("OrderPlaced", "An order was placed", [new Property("OrderId", "OrderId")]);
-        var command = new Command("PlaceOrder", "Places an order",
-        [
-            new Property("OrderId", "string"),
-            new Property("Amount", "decimal")
-        ], "OrderId");
+        var command = new Command(
+            "PlaceOrder",
+            "Places an order",
+            [
+                new Property("OrderId", "string"),
+                new Property("Amount", "decimal")
+            ],
+            "OrderId");
         var slice = new VerticalSlice("PlaceOrder", VerticalSliceType.StateChange, null, null, [command], [], [eventType]);
         _modules = [new Module("Orders", [], [new Feature("Ordering", [], [], [slice])])];
     }

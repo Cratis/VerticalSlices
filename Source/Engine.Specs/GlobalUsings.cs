@@ -4,5 +4,7 @@
 #pragma warning disable IDE0005 // Using directive is unnecessary.
 
 global using Cratis.Specifications;
+global using Cratis.Types;
 global using NSubstitute;
 global using Xunit;
+global using AppTypes = Cratis.Types.Types;

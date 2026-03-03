@@ -24,7 +24,6 @@ public class MultiModuleFixture : given.EngineFixture
         //    Concepts: PatientId (EventSourceId), Email
         //    Features: Registration (FullName), Appointments (AppointmentId)
         // ═══════════════════════════════════════════════════════════════════════
-
         var patientId = new Concept("PatientId", "Guid", "Uniquely identifies a patient", [], IsEventSourceId: true);
         var email = new Concept(
             "Email",
@@ -269,7 +268,6 @@ public class MultiModuleFixture : given.EngineFixture
         //    Concepts: InvoiceId (EventSourceId), Amount (GreaterThan 0)
         //    Features: Invoicing (InvoiceNumber), Payments
         // ═══════════════════════════════════════════════════════════════════════
-
         var invoiceId = new Concept("InvoiceId", "Guid", "Uniquely identifies an invoice", [], IsEventSourceId: true);
         var amount = new Concept(
             "Amount",
@@ -519,7 +517,6 @@ public class MultiModuleFixture : given.EngineFixture
         //    Concepts: NotificationId (EventSourceId)
         //    Features: Email, Push (DeviceToken)
         // ═══════════════════════════════════════════════════════════════════════
-
         var notificationId = new Concept("NotificationId", "Guid", "Uniquely identifies a notification", [], IsEventSourceId: true);
 
         // Feature: Email — Translator + StateView

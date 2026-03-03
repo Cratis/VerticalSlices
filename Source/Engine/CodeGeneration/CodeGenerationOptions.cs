@@ -62,12 +62,6 @@ public record CodeGenerationOptions
     public ReadModelEndpointStyle ReadModelEndpointStyle { get; init; } = ReadModelEndpointStyle.ModelBound;
 
     /// <summary>
-    /// Gets the target programming language for code generation.
-    /// Defaults to <see cref="LanguageTarget.CSharp"/>.
-    /// </summary>
-    public LanguageTarget LanguageTarget { get; init; } = LanguageTarget.CSharp;
-
-    /// <summary>
     /// Gets the number of spaces per indentation level.
     /// Defaults to 4. Ignored when <see cref="UseTabs"/> is <see langword="true"/>.
     /// </summary>

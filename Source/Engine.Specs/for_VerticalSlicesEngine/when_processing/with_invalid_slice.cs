@@ -22,7 +22,7 @@ public class with_invalid_slice : given.all_dependencies
             string.Empty,
             "A StateChange slice must have at least one command.");
         _advisor.Analyze(Arg.Any<IEnumerable<Module>>()).Returns([errorRecommendation]);
-        _engine = new VerticalSlicesEngine(_codeGenerator, _advisor, _logger, _outputResolver, _chronicleResolver);
+        _engine = new VerticalSlicesEngine(_codeGenerator, _advisor, _logger, _loggerFactory);
         var slice = new VerticalSlice("BadSlice", VerticalSliceType.StateChange, null, null, [], [], []);
         _modules = [new Module("Mod", [], [new Feature("Feat", [], [], [slice])])];
     }

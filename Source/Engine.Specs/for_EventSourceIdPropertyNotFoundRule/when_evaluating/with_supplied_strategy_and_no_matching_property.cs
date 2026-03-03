@@ -13,10 +13,14 @@ public class with_supplied_strategy_and_no_matching_property : Specification
 
     void Establish()
     {
-        var command = new Command("PlaceOrder", "Places an order",
-        [
-            new Property("Amount", "decimal")
-        ], "OrderId", EventSourceIdStrategy.Supplied);
+        var command = new Command(
+            "PlaceOrder",
+            "Places an order",
+            [
+                new Property("Amount", "decimal")
+            ],
+            "OrderId",
+            EventSourceIdStrategy.Supplied);
         var slice = new VerticalSlice("PlaceOrder", VerticalSliceType.StateChange, null, null, [command], [], []);
         _modules = [new Module("Orders", [], [new Feature("Ordering", [], [], [slice])])];
     }

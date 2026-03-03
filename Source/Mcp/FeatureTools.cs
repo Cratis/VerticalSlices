@@ -29,7 +29,7 @@ public static class FeatureTools
         var root = roots.Roots?[0]?.Uri ?? throw new McpException("No roots available from client.");
         var rootPath = new Uri(root).LocalPath;
         var projectFile = string.Empty;
-        if (VerticalSlices.TryGetFrom(rootPath, out var configuration))
+        if (VerticalSlicesConfigStore.TryGetFrom(rootPath, out var configuration))
         {
             projectFile = configuration.ProjectFile;
         }

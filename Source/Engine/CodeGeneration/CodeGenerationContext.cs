@@ -16,7 +16,7 @@ public record CodeGenerationContext
     /// <param name="featurePath">The path through the feature hierarchy from module level down.</param>
     /// <param name="sliceName">The name of the vertical slice. Used for file naming but excluded from the folder/namespace path.</param>
     /// <param name="options">The code generation options that control how output is emitted. Defaults to a new instance with all default settings when <see langword="null"/>.</param>
-    /// <param name="concepts">The concepts available at this scope level. When a property type matches a concept name, renderers add the appropriate <c>using</c> directive.</param>
+    /// <param name="concepts">The concepts available at this scope level. When a property type matches a concept name, renderers add the appropriate <see langword="using"/> directive.</param>
     public CodeGenerationContext(string moduleName, FeaturePath featurePath, string sliceName, CodeGenerationOptions? options = null, ConceptScope? concepts = null)
     {
         ModuleName = moduleName;
@@ -24,6 +24,8 @@ public record CodeGenerationContext
         SliceName = sliceName;
         Options = options ?? new();
         Concepts = concepts ?? ConceptScope.Empty;
+        Namespace = BuildNamespace(Options.RootNamespace, moduleName, featurePath);
+        RelativePath = BuildRelativePath(Options.SliceOwnFolder, moduleName, featurePath, sliceName);
     }
 
     /// <summary>
@@ -48,7 +50,7 @@ public record CodeGenerationContext
 
     /// <summary>
     /// Gets the concepts available at this scope level.
-    /// When a property type matches a concept name, renderers add the appropriate <c>using</c> directive.
+    /// When a property type matches a concept name, renderers add the appropriate <see langword="using"/> directive.
     /// </summary>
     public ConceptScope Concepts { get; init; }
 
@@ -57,23 +59,7 @@ public record CodeGenerationContext
     /// Follows Module.Feature.SubFeature hierarchy, excluding the slice name.
     /// When <see cref="CodeGenerationOptions.RootNamespace"/> is set, it is prepended.
     /// </summary>
-    public string Namespace
-    {
-        get
-        {
-            var parts = new List<string>();
-
-            if (!string.IsNullOrWhiteSpace(Options.RootNamespace))
-            {
-                parts.Add(Options.RootNamespace);
-            }
-
-            parts.Add(ModuleName);
-            parts.AddRange(FeaturePath.Segments.Where(p => !string.IsNullOrWhiteSpace(p)));
-
-            return string.Join('.', parts.Where(p => !string.IsNullOrWhiteSpace(p)));
-        }
-    }
+    public string Namespace { get; init; }
 
     /// <summary>
     /// Gets the relative folder path matching the namespace hierarchy.
@@ -81,21 +67,7 @@ public record CodeGenerationContext
     /// <see cref="SliceName"/> is set, the slice name is appended as a subfolder of the feature folder.
     /// Otherwise only Module/Feature/SubFeature segments are used.
     /// </summary>
-    public string RelativePath
-    {
-        get
-        {
-            var parts = new List<string> { ModuleName };
-            parts.AddRange(FeaturePath.Segments.Where(p => !string.IsNullOrWhiteSpace(p)));
-
-            if (Options.SliceOwnFolder && !string.IsNullOrWhiteSpace(SliceName))
-            {
-                parts.Add(SliceName);
-            }
-
-            return Path.Combine([.. parts.Where(p => !string.IsNullOrWhiteSpace(p))]);
-        }
-    }
+    public string RelativePath { get; init; }
 
     /// <summary>
     /// Creates a context with no hierarchy, using only the provided namespace directly.
@@ -105,4 +77,21 @@ public record CodeGenerationContext
     /// <returns>A new <see cref="CodeGenerationContext"/>.</returns>
     public static CodeGenerationContext FromNamespace(string rootNamespace, CodeGenerationOptions? options = null) =>
         new(rootNamespace, FeaturePath.Empty, string.Empty, options);
+
+    static string BuildNamespace(string rootNamespace, string moduleName, FeaturePath featurePath)
+    {
+        var parts = new List<string>();
+        if (!string.IsNullOrWhiteSpace(rootNamespace)) parts.Add(rootNamespace);
+        parts.Add(moduleName);
+        parts.AddRange(featurePath.Segments.Where(p => !string.IsNullOrWhiteSpace(p)));
+        return string.Join('.', parts.Where(p => !string.IsNullOrWhiteSpace(p)));
+    }
+
+    static string BuildRelativePath(bool sliceOwnFolder, string moduleName, FeaturePath featurePath, string sliceName)
+    {
+        var parts = new List<string> { moduleName };
+        parts.AddRange(featurePath.Segments.Where(p => !string.IsNullOrWhiteSpace(p)));
+        if (sliceOwnFolder && !string.IsNullOrWhiteSpace(sliceName)) parts.Add(sliceName);
+        return Path.Combine([.. parts.Where(p => !string.IsNullOrWhiteSpace(p))]);
+    }
 }

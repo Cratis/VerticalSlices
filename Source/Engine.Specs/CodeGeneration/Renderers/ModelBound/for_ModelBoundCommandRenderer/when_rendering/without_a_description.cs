@@ -18,12 +18,13 @@ public class without_a_description : given.a_context
     void Establish()
     {
         _renderer = new ModelBoundCommandRenderer();
-        _descriptor = new CommandDescriptor("DeleteItem", null, [], [], "Id");
+        _descriptor = new CommandDescriptor("DeleteItem", null!, [], [], "Id");
     }
 
     void Because() => _content = _renderer.Render(_descriptor, _context).Single().Content;
 
     [Fact] void should_not_emit_class_level_xml_summary() =>
+
         // The Handle method always has a summary; we verify no summary appears *before* [Command]
         _content.IndexOf("/// <summary>", StringComparison.Ordinal)
             .ShouldBeGreaterThan(_content.IndexOf("[Command]", StringComparison.Ordinal));

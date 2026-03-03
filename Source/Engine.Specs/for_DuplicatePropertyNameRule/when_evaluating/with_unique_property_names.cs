@@ -13,16 +13,21 @@ public class with_unique_property_names : Specification
 
     void Establish()
     {
-        var eventType = new EventType("OrderPlaced", "An order was placed",
-        [
-            new Property("OrderId", "Guid"),
-            new Property("Amount", "decimal")
-        ]);
-        var command = new Command("PlaceOrder", "Places an order",
-        [
-            new Property("OrderId", "Guid"),
-            new Property("Amount", "decimal")
-        ], "OrderId");
+        var eventType = new EventType(
+            "OrderPlaced",
+            "An order was placed",
+            [
+                new Property("OrderId", "Guid"),
+                new Property("Amount", "decimal")
+            ]);
+        var command = new Command(
+            "PlaceOrder",
+            "Places an order",
+            [
+                new Property("OrderId", "Guid"),
+                new Property("Amount", "decimal")
+            ],
+            "OrderId");
         var slice = new VerticalSlice("PlaceOrder", VerticalSliceType.StateChange, null, null, [command], [], [eventType]);
         _modules = [new Module("Orders", [], [new Feature("Ordering", [], [], [slice])])];
     }

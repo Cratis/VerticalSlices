@@ -13,7 +13,11 @@ public class with_produced_event_not_in_slice : Specification
 
     void Establish()
     {
-        var command = new Command("PlaceOrder", "Places an order", [], "OrderId",
+        var command = new Command(
+            "PlaceOrder",
+            "Places an order",
+            [],
+            "OrderId",
             ProducedEvents: [new ProducedEvent("NonExistentEvent")]);
         var slice = new VerticalSlice("PlaceOrder", VerticalSliceType.StateChange, null, null, [command], [], []);
         _modules = [new Module("Orders", [], [new Feature("Ordering", [], [], [slice])])];

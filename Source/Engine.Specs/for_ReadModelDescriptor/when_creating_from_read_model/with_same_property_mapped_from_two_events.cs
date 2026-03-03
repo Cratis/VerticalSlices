@@ -17,9 +17,6 @@ public class with_same_property_mapped_from_two_events : Specification
 
     void Establish()
     {
-        var eventA = new EventType("AccountOpened", "Account opened", [new Property("AccountId", "string"), new Property("AccountName", "string")]);
-        var eventB = new EventType("AccountRenamed", "Account renamed", [new Property("AccountId", "string"), new Property("NewName", "string")]);
-
         var mappingA = new EventPropertyMapping("AccountOpened", EventPropertyMappingKind.Set, "AccountName");
         var mappingB = new EventPropertyMapping("AccountRenamed", EventPropertyMappingKind.Set, "NewName");
 

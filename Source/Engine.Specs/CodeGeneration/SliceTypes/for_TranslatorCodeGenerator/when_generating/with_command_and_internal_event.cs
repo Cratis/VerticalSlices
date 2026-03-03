@@ -22,10 +22,15 @@ public class with_command_and_internal_event : given.a_slice_type_code_generator
     {
         _generator = new TranslatorCodeGenerator();
         var externalEvent = new EventType("ExternalOrderPlaced", "External source event", [], EventKind.External);
-        var internalEvent = new EventType("OrderImported", "Translated internal event",
+        var internalEvent = new EventType(
+            "OrderImported",
+            "Translated internal event",
             [new Property("OrderId", "string"), new Property("ExternalRef", "string")]);
-        var command = new Command("ImportOrder", "Imports an external order",
-            [new Property("ExternalRef", "string")], "OrderId");
+        var command = new Command(
+            "ImportOrder",
+            "Imports an external order",
+            [new Property("ExternalRef", "string")],
+            "OrderId");
         _slice = new VerticalSlice("ImportOrder", VerticalSliceType.Translator, null, null, [command], [], [externalEvent, internalEvent]);
         _eventFile = new RenderedArtifact("Test/OrderImported.cs", "// event");
         _commandFile = new RenderedArtifact("Test/ImportOrder.cs", "// command");

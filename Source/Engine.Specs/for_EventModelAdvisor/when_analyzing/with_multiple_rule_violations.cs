@@ -18,8 +18,8 @@ public class with_multiple_rule_violations : Specification
         _modules = [new Module("Orders", [], [new Feature("Ordering", [], [], [slice])])];
     }
 
-    void Because() => _result = new EventModelAdvisor().Analyze(_modules);
+    void Because() => _result = new EventModelAdvisor(new InstancesOf<IEventModelRule>(AppTypes.Instance, new ActivatorServiceProvider())).Analyze(_modules);
 
     [Fact] void should_return_recommendations() => _result.ShouldNotBeEmpty();
-    [Fact] void should_order_by_severity_descending() => _result.First().Severity.ShouldBeGreaterThanOrEqual(_result.Last().Severity);
+    [Fact] void should_order_by_severity_descending() => _result[0].Severity.ShouldBeGreaterThanOrEqual(_result[^1].Severity);
 }

@@ -1,8 +1,6 @@
 // Copyright (c) Cratis. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using Cratis.VerticalSlices.CodeGeneration;
-
 namespace Cratis.VerticalSlices.for_VerticalSlicesEngine.when_previewing;
 
 /// <summary>
@@ -16,7 +14,7 @@ public class with_feature_level_concepts : given.all_dependencies
 
     void Establish()
     {
-        _engine = new VerticalSlicesEngine(_codeGenerator, _advisor, _logger, _outputResolver, _chronicleResolver);
+        _engine = new VerticalSlicesEngine(_codeGenerator, _advisor, _logger, _loggerFactory);
 
         var concept = new Concept("EmployeeName", "string", "An employee name", []);
         var feature = new Feature("Registration", [concept], [], []);

@@ -19,8 +19,9 @@ public class with_unknown_validation_rule_type : given.a_context
     void Establish()
     {
         _renderer = new ModelBoundConceptRenderer();
+
         // Use an enum value not defined in the switch expression to exercise the _ => null fallthrough
-        var unknownRuleType = (ConceptValidationRuleType)999;
+        const ConceptValidationRuleType unknownRuleType = (ConceptValidationRuleType)999;
         _descriptor = new ConceptDescriptor("CustomValue", "int", "A custom value", [new ConceptValidationRule(unknownRuleType, "42")]);
     }
 

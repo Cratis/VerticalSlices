@@ -3,7 +3,7 @@
 
 using System.Text.Json;
 
-namespace Cratis.VerticalSlices.for_VerticalSlices.when_trying_to_get_from_directory;
+namespace Cratis.VerticalSlices.for_VerticalSlicesConfigStore.when_trying_to_get_from_directory;
 
 public class with_config_file_present : Specification
 {
@@ -19,7 +19,7 @@ public class with_config_file_present : Specification
         File.WriteAllText(Path.Combine(_tempDirectory, VerticalSlices.FileName), json);
     }
 
-    void Because() => _result = VerticalSlices.TryGetFrom(_tempDirectory, out _slices!);
+    void Because() => _result = VerticalSlicesConfigStore.TryGetFrom(_tempDirectory, out _slices!);
 
     void Cleanup()
     {

@@ -8,7 +8,7 @@ namespace Cratis.VerticalSlices.CodeGeneration.Renderers.ModelBound.for_ModelBou
 /// <summary>
 /// When a concept is marked as an event source id, it should inherit from <c>EventSourceId</c>
 /// rather than <c>ConceptAs&lt;T&gt;</c>, use the Chronicle Events namespace, and always use
-/// <c>string</c> as the underlying type regardless of what was specified.
+/// <see langword="string"/> as the underlying type regardless of what was specified.
 /// </summary>
 public class as_event_source_id : given.a_context
 {

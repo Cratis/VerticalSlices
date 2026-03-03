@@ -13,11 +13,14 @@ public class with_duplicate_property_on_command : Specification
 
     void Establish()
     {
-        var command = new Command("PlaceOrder", "Places an order",
-        [
-            new Property("OrderId", "Guid"),
-            new Property("OrderId", "string")
-        ], "OrderId");
+        var command = new Command(
+            "PlaceOrder",
+            "Places an order",
+            [
+                new Property("OrderId", "Guid"),
+                new Property("OrderId", "string")
+            ],
+            "OrderId");
         var slice = new VerticalSlice("PlaceOrder", VerticalSliceType.StateChange, null, null, [command], [], []);
         _modules = [new Module("Orders", [], [new Feature("Ordering", [], [], [slice])])];
     }

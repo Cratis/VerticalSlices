@@ -10,7 +10,7 @@ public class with_no_output_and_no_chronicle : given.a_module_with_a_slice_produ
 {
     VerticalSlicesEngine _engine;
 
-    void Establish() => _engine = new VerticalSlicesEngine(_codeGenerator, _advisor, _logger, _outputResolver, _chronicleResolver);
+    void Establish() => _engine = new VerticalSlicesEngine(_codeGenerator, _advisor, _logger, _loggerFactory);
 
     async Task Because() => await _engine.Process(_modules);
 

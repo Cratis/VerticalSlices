@@ -1,7 +1,9 @@
 // Copyright (c) Cratis. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using Cratis.VerticalSlices.Chronicle;
 using Cratis.VerticalSlices.CodeGeneration;
+using Cratis.VerticalSlices.CodeGeneration.Output;
 
 namespace Cratis.VerticalSlices;
 
@@ -20,11 +22,19 @@ public interface IVerticalSlicesEngine
     /// </summary>
     /// <param name="modules">The modules containing features and vertical slices.</param>
     /// <param name="options">The code generation options that control how output is emitted. Defaults to per-file usings when null.</param>
+    /// <param name="outputOptions">The code output options controlling where generated files are written. Defaults to no-op when null.</param>
+    /// <param name="chronicleOptions">The Chronicle options controlling artifact registration. Defaults to no-op when null.</param>
+    /// <param name="output">Optional direct <see cref="ICodeOutput"/> override; takes precedence over <paramref name="outputOptions"/> when provided.</param>
+    /// <param name="chronicle">Optional direct <see cref="IChronicleRegistration"/> override; takes precedence over <paramref name="chronicleOptions"/> when provided.</param>
     /// <param name="ct">The cancellation token.</param>
     /// <returns>A <see cref="Task{VerticalSlicesResult}"/> representing the asynchronous operation.</returns>
     Task<VerticalSlicesResult> Process(
         IEnumerable<Module> modules,
         CodeGenerationOptions? options = null,
+        CodeOutputOptions? outputOptions = null,
+        ChronicleOptions? chronicleOptions = null,
+        ICodeOutput? output = null,
+        IChronicleRegistration? chronicle = null,
         CancellationToken ct = default);
 
     /// <summary>
