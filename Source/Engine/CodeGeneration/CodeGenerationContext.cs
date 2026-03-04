@@ -24,7 +24,7 @@ public record CodeGenerationContext
         SliceName = sliceName;
         Options = options ?? new();
         Concepts = concepts ?? ConceptScope.Empty;
-        Namespace = BuildNamespace(Options.RootNamespace, moduleName, featurePath);
+        Namespace = BuildNamespace(Options.RootNamespace, moduleName, featurePath, Options.SliceOwnFolder, sliceName);
         RelativePath = BuildRelativePath(Options.SliceOwnFolder, moduleName, featurePath, sliceName);
     }
 
@@ -56,7 +56,9 @@ public record CodeGenerationContext
 
     /// <summary>
     /// Gets the base namespace for generated code.
-    /// Follows Module.Feature.SubFeature hierarchy, excluding the slice name.
+    /// Follows Module.Feature.SubFeature hierarchy.
+    /// When <see cref="CodeGenerationOptions.SliceOwnFolder"/> is <see langword="true"/> and <see cref="SliceName"/> is set,
+    /// the slice name is appended as the final namespace segment to match the folder hierarchy.
     /// When <see cref="CodeGenerationOptions.RootNamespace"/> is set, it is prepended.
     /// </summary>
     public string Namespace { get; init; }
@@ -78,12 +80,13 @@ public record CodeGenerationContext
     public static CodeGenerationContext FromNamespace(string rootNamespace, CodeGenerationOptions? options = null) =>
         new(rootNamespace, FeaturePath.Empty, string.Empty, options);
 
-    static string BuildNamespace(string rootNamespace, string moduleName, FeaturePath featurePath)
+    static string BuildNamespace(string rootNamespace, string moduleName, FeaturePath featurePath, bool sliceOwnFolder = false, string sliceName = "")
     {
         var parts = new List<string>();
         if (!string.IsNullOrWhiteSpace(rootNamespace)) parts.Add(rootNamespace);
         parts.Add(moduleName);
         parts.AddRange(featurePath.Segments.Where(p => !string.IsNullOrWhiteSpace(p)));
+        if (sliceOwnFolder && !string.IsNullOrWhiteSpace(sliceName)) parts.Add(sliceName);
         return string.Join('.', parts.Where(p => !string.IsNullOrWhiteSpace(p)));
     }
 
