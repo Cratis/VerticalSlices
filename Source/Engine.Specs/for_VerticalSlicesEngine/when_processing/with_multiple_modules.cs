@@ -2,7 +2,6 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using Cratis.VerticalSlices.CodeGeneration;
-using Cratis.VerticalSlices.CodeGeneration.Output;
 using Cratis.VerticalSlices.CodeGeneration.Renderers;
 
 namespace Cratis.VerticalSlices.for_VerticalSlicesEngine.when_processing;
@@ -13,10 +12,9 @@ namespace Cratis.VerticalSlices.for_VerticalSlicesEngine.when_processing;
 /// </summary>
 public class with_multiple_modules : given.all_dependencies
 {
-    ICodeOutput _output;
     IEnumerable<Module> _modules;
-    IEnumerable<RenderedArtifact> _capturedFiles;
     VerticalSlicesEngine _engine;
+    VerticalSlicesResult _result;
     RenderedArtifact _module1File;
     RenderedArtifact _module2File;
 
@@ -50,17 +48,12 @@ public class with_multiple_modules : given.all_dependencies
             Arg.Any<ArtifactRenderSet>())
         .Returns([_module2File]);
 
-        _output = Substitute.For<ICodeOutput>();
-        _output
-            .Write(Arg.Do<IEnumerable<RenderedArtifact>>(files => _capturedFiles = files.ToList()), Arg.Any<CancellationToken>())
-            .Returns(Task.CompletedTask);
-
         _engine = new VerticalSlicesEngine(_codeGenerator, _advisor, _logger, _loggerFactory);
     }
 
-    async Task Because() => await _engine.Process(_modules, output: _output);
+    async Task Because() => _result = await _engine.Process(_modules);
 
-    [Fact] void should_include_file_from_first_module() => _capturedFiles.ShouldContain(_module1File);
-    [Fact] void should_include_file_from_second_module() => _capturedFiles.ShouldContain(_module2File);
-    [Fact] void should_write_two_files_in_total() => _capturedFiles.Count().ShouldEqual(2);
+    [Fact] void should_include_file_from_first_module() => _result.Artifacts.ShouldContain(_module1File);
+    [Fact] void should_include_file_from_second_module() => _result.Artifacts.ShouldContain(_module2File);
+    [Fact] void should_collect_two_files_in_total() => _result.Artifacts.Count.ShouldEqual(2);
 }

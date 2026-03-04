@@ -16,16 +16,15 @@ public interface IVerticalSlicesEngine
     /// <summary>
     /// Analyzes all vertical slices, generates code, writes output, and registers artifacts
     /// with the configured Chronicle instance.
-    /// Returns a <see cref="VerticalSlicesResult"/> containing the full advisory findings and
-    /// the artifacts that were written. When <see cref="VerticalSlicesResult.HasErrors"/> is
-    /// true, code generation was skipped and <see cref="VerticalSlicesResult.Artifacts"/> is empty.
+    /// Returns a <see cref="VerticalSlicesResult"/> containing the full advisory findings,
+    /// the generated artifacts, and the event/read-model descriptors collected for Chronicle.
+    /// When <see cref="VerticalSlicesResult.HasErrors"/> is true, code generation was skipped
+    /// and <see cref="VerticalSlicesResult.Artifacts"/> is empty.
     /// </summary>
     /// <param name="modules">The modules containing features and vertical slices.</param>
     /// <param name="options">The code generation options that control how output is emitted. Defaults to per-file usings when null.</param>
     /// <param name="outputOptions">The code output options controlling where generated files are written. Defaults to no-op when null.</param>
     /// <param name="chronicleOptions">The Chronicle options controlling artifact registration. Defaults to no-op when null.</param>
-    /// <param name="output">Optional direct <see cref="ICodeOutput"/> override; takes precedence over <paramref name="outputOptions"/> when provided.</param>
-    /// <param name="chronicle">Optional direct <see cref="IChronicleRegistration"/> override; takes precedence over <paramref name="chronicleOptions"/> when provided.</param>
     /// <param name="ct">The cancellation token.</param>
     /// <returns>A <see cref="Task{VerticalSlicesResult}"/> representing the asynchronous operation.</returns>
     Task<VerticalSlicesResult> Process(
@@ -33,8 +32,6 @@ public interface IVerticalSlicesEngine
         CodeGenerationOptions? options = null,
         CodeOutputOptions? outputOptions = null,
         ChronicleOptions? chronicleOptions = null,
-        ICodeOutput? output = null,
-        IChronicleRegistration? chronicle = null,
         CancellationToken ct = default);
 
     /// <summary>

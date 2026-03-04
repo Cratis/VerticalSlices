@@ -31,8 +31,6 @@ public partial class VerticalSlicesEngine(
         CodeGenerationOptions? options = null,
         CodeOutputOptions? outputOptions = null,
         ChronicleOptions? chronicleOptions = null,
-        ICodeOutput? output = null,
-        IChronicleRegistration? chronicle = null,
         CancellationToken ct = default)
     {
         var moduleList = modules.ToList();
@@ -46,26 +44,26 @@ public partial class VerticalSlicesEngine(
         var renderSet = ArtifactRenderSet.From(resolvedOptions);
         var collected = CollectFromModules(moduleList, renderSet, resolvedOptions);
 
-        output ??= ResolveOutput(outputOptions ?? new());
-        chronicle ??= ResolveChronicle(chronicleOptions ?? new());
+        var resolvedOutput = ResolveOutput(outputOptions ?? new());
+        var resolvedChronicle = ResolveChronicle(chronicleOptions ?? new());
 
         if (collected.Artifacts.Count > 0)
         {
             LogWritingFiles(collected.Artifacts.Count);
-            await output.Write(collected.Artifacts, ct);
+            await resolvedOutput.Write(collected.Artifacts, ct);
         }
 
         if (collected.EventDescriptors.Count > 0)
         {
             LogRegisteringEventTypes(collected.EventDescriptors.Count);
-            await chronicle.RegisterEventTypes(collected.EventDescriptors, ct);
+            await resolvedChronicle.RegisterEventTypes(collected.EventDescriptors, ct);
         }
 
         if (collected.ReadModelDescriptors.Count > 0)
         {
             LogRegisteringProjections(collected.ReadModelDescriptors.Count);
-            await chronicle.RegisterProjections(collected.ReadModelDescriptors, ct);
-            await chronicle.RegisterReadModelTypes(collected.ReadModelDescriptors, ct);
+            await resolvedChronicle.RegisterProjections(collected.ReadModelDescriptors, ct);
+            await resolvedChronicle.RegisterReadModelTypes(collected.ReadModelDescriptors, ct);
         }
 
         return new VerticalSlicesResult(recommendations, collected.Artifacts);
@@ -83,7 +81,8 @@ public partial class VerticalSlicesEngine(
 
         var resolvedOptions = options ?? new();
         var renderSet = ArtifactRenderSet.From(resolvedOptions);
-        return new VerticalSlicesResult(recommendations, CollectFromModules(moduleList, renderSet, resolvedOptions).Artifacts);
+        var collected = CollectFromModules(moduleList, renderSet, resolvedOptions);
+        return new VerticalSlicesResult(recommendations, collected.Artifacts);
     }
 
     /// <inheritdoc/>

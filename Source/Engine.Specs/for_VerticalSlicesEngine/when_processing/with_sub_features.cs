@@ -2,7 +2,6 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using Cratis.VerticalSlices.CodeGeneration;
-using Cratis.VerticalSlices.CodeGeneration.Output;
 using Cratis.VerticalSlices.CodeGeneration.Renderers;
 
 namespace Cratis.VerticalSlices.for_VerticalSlicesEngine.when_processing;
@@ -13,14 +12,13 @@ namespace Cratis.VerticalSlices.for_VerticalSlicesEngine.when_processing;
 /// </summary>
 public class with_sub_features : given.all_dependencies
 {
-    ICodeOutput _output;
     VerticalSlicesEngine _engine;
+    VerticalSlicesResult _result;
     IEnumerable<Module> _modules;
     RenderedArtifact _subFeatureFile;
 
     void Establish()
     {
-        _output = Substitute.For<ICodeOutput>();
         _engine = new VerticalSlicesEngine(_codeGenerator, _advisor, _logger, _loggerFactory);
 
         _subFeatureFile = new RenderedArtifact("Orders/Ordering/PlaceOrder/OrderPlaced.cs", "// generated");
@@ -37,14 +35,10 @@ public class with_sub_features : given.all_dependencies
             .Returns([_subFeatureFile]);
     }
 
-    async Task Because() => await _engine.Process(_modules, output: _output);
+    async Task Because() => _result = await _engine.Process(_modules);
 
     [Fact] void should_call_code_generator_for_sub_feature_slice() =>
         _codeGenerator.Received(1).Generate(Arg.Any<VerticalSlice>(), Arg.Any<CodeGenerationContext>(), Arg.Any<ArtifactRenderSet>());
 
-    [Fact] void should_write_sub_feature_files_to_output() =>
-        _output.Received(1).Write(
-            Arg.Is<IEnumerable<RenderedArtifact>>(files =>
-                files.Contains(_subFeatureFile)),
-            Arg.Any<CancellationToken>());
+    [Fact] void should_include_sub_feature_file_in_result() => _result.Artifacts.ShouldContain(_subFeatureFile);
 }
