@@ -1,76 +1,184 @@
 // Copyright (c) Cratis. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using Cratis.VerticalSlices.Chronicle;
+using Cratis.VerticalSlices.CodeGeneration;
+using Cratis.VerticalSlices.CodeGeneration.Descriptors;
+using Cratis.VerticalSlices.CodeGeneration.Output;
+using Cratis.VerticalSlices.CodeGeneration.Renderers;
+using Cratis.VerticalSlices.EventModelAdvisory;
 using Microsoft.Extensions.Logging;
 
 namespace Cratis.VerticalSlices;
 
 /// <summary>
-/// Represents an engine for setting up vertical slices with Chronicle.
+/// Represents an engine for processing vertical slices — generating code, writing output,
+/// and registering artifacts with Chronicle.
 /// </summary>
+/// <param name="codeGenerator">The code generator for producing files from vertical slices.</param>
+/// <param name="advisor">The event model advisor for analyzing modules before code generation.</param>
 /// <param name="logger">The logger.</param>
-public partial class VerticalSlicesEngine(ILogger<VerticalSlicesEngine> logger) : IVerticalSlicesEngine
+/// <param name="loggerFactory">Factory used to create loggers for output and Chronicle implementations.</param>
+public partial class VerticalSlicesEngine(
+    IVerticalSliceCodeGenerator codeGenerator,
+    IEventModelAdvisor advisor,
+    ILogger<VerticalSlicesEngine> logger,
+    ILoggerFactory loggerFactory) : IVerticalSlicesEngine
 {
     /// <inheritdoc/>
-    public async Task Setup(IEnumerable<Feature> features)
+    public async Task<VerticalSlicesResult> Process(
+        IEnumerable<Module> modules,
+        CodeGenerationOptions? options = null,
+        CodeOutputOptions? outputOptions = null,
+        ChronicleOptions? chronicleOptions = null,
+        CancellationToken ct = default)
     {
-        foreach (var feature in features)
+        var moduleList = modules.ToList();
+        var recommendations = advisor.Analyze(moduleList);
+        if (recommendations.Any(r => r.Severity == EventModelRecommendationSeverity.Error))
         {
-            await SetupFeature(feature);
-        }
-    }
-
-    async Task SetupFeature(Feature feature)
-    {
-        LogSettingUpFeature(feature.Name);
-
-        foreach (var slice in feature.VerticalSlices)
-        {
-            await SetupVerticalSlice(slice);
+            return new VerticalSlicesResult(recommendations, []);
         }
 
-        foreach (var subFeature in feature.Features)
-        {
-            await SetupFeature(subFeature);
-        }
-    }
+        var resolvedOptions = options ?? new();
+        var renderSet = ArtifactRenderSet.From(resolvedOptions);
+        var collected = CollectFromModules(moduleList, renderSet, resolvedOptions);
 
-    async Task SetupVerticalSlice(VerticalSlice slice)
-    {
-        LogSettingUpVerticalSlice(slice.Name);
+        var resolvedOutput = ResolveOutput(outputOptions ?? new());
+        var resolvedChronicle = ResolveChronicle(chronicleOptions ?? new());
 
-        foreach (var eventType in slice.Events)
+        if (collected.Artifacts.Count > 0)
         {
-            await SetupEventType(eventType);
+            LogWritingFiles(collected.Artifacts.Count);
+            await resolvedOutput.Write(collected.Artifacts, ct);
         }
 
-        foreach (var readModel in slice.ReadModels)
+        if (collected.EventDescriptors.Count > 0)
         {
-            await SetupProjection(slice, readModel);
+            LogRegisteringEventTypes(collected.EventDescriptors.Count);
+            await resolvedChronicle.RegisterEventTypes(collected.EventDescriptors, ct);
         }
+
+        if (collected.ReadModelDescriptors.Count > 0)
+        {
+            LogRegisteringProjections(collected.ReadModelDescriptors.Count);
+            await resolvedChronicle.RegisterProjections(collected.ReadModelDescriptors, ct);
+            await resolvedChronicle.RegisterReadModelTypes(collected.ReadModelDescriptors, ct);
+        }
+
+        return new VerticalSlicesResult(recommendations, collected.Artifacts);
     }
 
-    Task SetupEventType(EventType eventType)
+    /// <inheritdoc/>
+    public VerticalSlicesResult Preview(IEnumerable<Module> modules, CodeGenerationOptions? options = null)
     {
-        LogRegisteringEventType(eventType.Name);
-        return Task.CompletedTask;
+        var moduleList = modules.ToList();
+        var recommendations = advisor.Analyze(moduleList);
+        if (recommendations.Any(r => r.Severity == EventModelRecommendationSeverity.Error))
+        {
+            return new VerticalSlicesResult(recommendations, []);
+        }
+
+        var resolvedOptions = options ?? new();
+        var renderSet = ArtifactRenderSet.From(resolvedOptions);
+        var collected = CollectFromModules(moduleList, renderSet, resolvedOptions);
+        return new VerticalSlicesResult(recommendations, collected.Artifacts);
     }
 
-    Task SetupProjection(VerticalSlice slice, ReadModel readModel)
+    /// <inheritdoc/>
+    public IEnumerable<RenderedArtifact> PreviewSlice(
+        VerticalSlice slice,
+        string moduleName,
+        FeaturePath featurePath,
+        ConceptScope? conceptScope = null,
+        CodeGenerationOptions? options = null)
     {
-        LogSettingUpProjection(readModel.Name, slice.Name);
-        return Task.CompletedTask;
+        var resolvedOptions = options ?? new();
+        var renderSet = ArtifactRenderSet.From(resolvedOptions);
+        var context = new CodeGenerationContext(moduleName, featurePath, slice.Name, resolvedOptions, conceptScope ?? ConceptScope.Empty);
+
+        return codeGenerator.Generate(slice, context, renderSet);
     }
 
-    [LoggerMessage(LogLevel.Information, "Setting up feature {FeatureName}")]
-    partial void LogSettingUpFeature(string featureName);
+    CollectedArtifacts CollectFromModules(IEnumerable<Module> modules, ArtifactRenderSet renderSet, CodeGenerationOptions options)
+    {
+        var artifacts = new List<RenderedArtifact>();
+        var eventDescriptors = new List<EventTypeDescriptor>();
+        var readModelDescriptors = new List<ReadModelDescriptor>();
 
-    [LoggerMessage(LogLevel.Information, "Setting up vertical slice {SliceName}")]
-    partial void LogSettingUpVerticalSlice(string sliceName);
+        foreach (var module in modules)
+        {
+            var moduleContext = new CodeGenerationContext(module.Name, FeaturePath.Empty, string.Empty, options);
+            var moduleConceptScope = ConceptScope.Empty.With(module.Concepts, moduleContext.Namespace);
 
-    [LoggerMessage(LogLevel.Information, "Registering event type {EventTypeName}")]
-    partial void LogRegisteringEventType(string eventTypeName);
+            foreach (var concept in module.Concepts)
+            {
+                artifacts.AddRange(renderSet.Concept.Render(ConceptDescriptor.FromConcept(concept), moduleContext));
+            }
 
-    [LoggerMessage(LogLevel.Information, "Setting up projection for read model {ReadModelName} in slice {SliceName}")]
-    partial void LogSettingUpProjection(string readModelName, string sliceName);
+            foreach (var (moduleName, path, scope, feature) in module.Features.FlattenFeatures(module.Name, options.RootNamespace, moduleConceptScope))
+            {
+                LogProcessingFeature(feature.Name);
+
+                var featureContext = new CodeGenerationContext(moduleName, path, string.Empty, options);
+
+                foreach (var concept in feature.Concepts)
+                {
+                    artifacts.AddRange(renderSet.Concept.Render(ConceptDescriptor.FromConcept(concept), featureContext));
+                }
+
+                foreach (var slice in feature.VerticalSlices)
+                {
+                    var context = new CodeGenerationContext(moduleName, path, slice.Name, options, scope);
+                    artifacts.AddRange(codeGenerator.Generate(slice, context, renderSet));
+
+                    foreach (var eventType in slice.Events.Where(e => e.Kind == EventKind.Internal))
+                    {
+                        eventDescriptors.Add(EventTypeDescriptor.FromEventType(eventType, scope));
+                    }
+
+                    foreach (var readModel in slice.ReadModels)
+                    {
+                        readModelDescriptors.Add(ReadModelDescriptor.FromReadModel(readModel, slice.Events, slice.Screen));
+                    }
+                }
+            }
+        }
+
+        return new CollectedArtifacts(artifacts, eventDescriptors, readModelDescriptors);
+    }
+
+    [LoggerMessage(LogLevel.Information, "Processing feature {FeatureName}")]
+    partial void LogProcessingFeature(string featureName);
+
+    [LoggerMessage(LogLevel.Information, "Writing {FileCount} generated files to output")]
+    partial void LogWritingFiles(int fileCount);
+
+    [LoggerMessage(LogLevel.Information, "Registering {Count} event types with Chronicle")]
+    partial void LogRegisteringEventTypes(int count);
+
+    [LoggerMessage(LogLevel.Information, "Registering {Count} projections and read model types with Chronicle")]
+    partial void LogRegisteringProjections(int count);
+
+    ICodeOutput ResolveOutput(CodeOutputOptions options) => options.Target switch
+    {
+        CodeOutputTarget.LocalFileSystem => new LocalFileSystemOutput(options.OutputRoot, loggerFactory.CreateLogger<LocalFileSystemOutput>()),
+        CodeOutputTarget.InMemory => new InMemoryOutput(),
+        _ => new NoOpCodeOutput()
+    };
+
+    IChronicleRegistration ResolveChronicle(ChronicleOptions options)
+    {
+        if (options.Target == ChronicleTarget.Http && options.HttpOptions is not null)
+        {
+#pragma warning disable CA2000 // HttpClient lifetime is scoped to the duration of the Process call
+            return new ChronicleHttpRegistration(
+                new HttpClient { BaseAddress = new Uri(options.HttpOptions.BaseUrl) },
+                options.HttpOptions,
+                loggerFactory.CreateLogger<ChronicleHttpRegistration>());
+#pragma warning restore CA2000
+        }
+
+        return new NoOpChronicleRegistration();
+    }
 }

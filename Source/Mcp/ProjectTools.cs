@@ -28,7 +28,7 @@ public static class ProjectTools
         var roots = await server.RequestRootsAsync(new ListRootsRequestParams(), ct);
         var root = roots.Roots?[0]?.Uri ?? throw new McpException("No roots available from client.");
         var rootPath = new Uri(root).LocalPath;
-        if (VerticalSlices.TryGetFrom(rootPath, out var configuration))
+        if (VerticalSlicesConfigStore.TryGetFrom(rootPath, out var configuration))
         {
             return configuration.ProjectFile;
         }
@@ -63,7 +63,7 @@ public static class ProjectTools
             throw new McpException("Selection cancelled.");
 
         var projectFile = project.GetString() ?? throw new McpException("No project selected.");
-        VerticalSlices.SetCurrentProject(rootPath, projectFile);
+        VerticalSlicesConfigStore.SetCurrentProject(rootPath, projectFile);
         return projectFile;
     }
 }
