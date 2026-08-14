@@ -23,7 +23,7 @@ public static class FeatureTools
     /// <returns>The features with all their details.</returns>
     /// <exception cref="McpException">Thrown when the assembly cannot be loaded.</exception>
     [McpServerTool(ReadOnly = true), Description("Gets all the features in the application.")]
-    public static async Task<IEnumerable<Feature>> GetFeatures(IMcpServer server, CancellationToken ct)
+    public static async Task<IEnumerable<Feature>> GetFeatures(McpServer server, CancellationToken ct)
     {
         var roots = await server.RequestRootsAsync(new ListRootsRequestParams(), ct);
         var root = roots.Roots?[0]?.Uri ?? throw new McpException("No roots available from client.");

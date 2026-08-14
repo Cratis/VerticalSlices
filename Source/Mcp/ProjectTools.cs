@@ -23,7 +23,7 @@ public static class ProjectTools
     /// <returns>The path to the active project file.</returns>
     /// <exception cref="McpException">Thrown when no project files are found or selection is cancelled.</exception>
     [McpServerTool, Description("Set the active project by selecting a .csproj file from the workspace.")]
-    public static async Task<string> SetActiveProject(IMcpServer server, CancellationToken ct)
+    public static async Task<string> SetActiveProject(McpServer server, CancellationToken ct)
     {
         var roots = await server.RequestRootsAsync(new ListRootsRequestParams(), ct);
         var root = roots.Roots?[0]?.Uri ?? throw new McpException("No roots available from client.");
@@ -42,22 +42,22 @@ public static class ProjectTools
         {
             Properties =
             {
-                ["project"] = new EnumSchema
+                ["project"] = new TitledSingleSelectEnumSchema
                 {
                     Title = "Select project",
                     Description = "Choose the project that holds the vertical slices.",
-                    Enum = relativeProjectFiles,
-                    EnumNames = relativeProjectFiles.Select(p => Path.GetFileName(p)).ToArray(),
+                    OneOf = [.. relativeProjectFiles.Select(p => new EnumSchemaOption { Const = p, Title = Path.GetFileName(p) })],
                 },
             },
             Required = ["project"]
         };
 
-        var response = await server.ElicitAsync(new ElicitRequestParams
+        var elicitRequest = new ElicitRequestParams
         {
             Message = "Select project file to use as active project",
             RequestedSchema = schema,
-        });
+        };
+        var response = await server.ElicitAsync(elicitRequest, ct);
 
         if (response.Action != "accept" || response.Content is null || !response.Content.TryGetValue("project", out var project))
             throw new McpException("Selection cancelled.");
